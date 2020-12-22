@@ -8,7 +8,6 @@ import {
     Grid
 }
 from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from './Drawer';
 import './Navbar.css';
 
