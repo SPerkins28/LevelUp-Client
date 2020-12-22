@@ -56,7 +56,7 @@ class SideDrawer extends Component<Props> {
         ) {
           return;
         }
-        this.setState({state: this.state, [anchor]: open });
+        this.setState({ [anchor]: open });
       };
 
     list = (anchor: Anchor) => (

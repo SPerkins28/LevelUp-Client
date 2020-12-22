@@ -75,8 +75,9 @@ class SearchBar extends Component<Props, FetchState> {
         const { classes } = this.props;
           return(
             <>
-            <Grid item xs={12} >
-                <Paper component="form" className={classes.root} id='searchBar'>
+            <Grid item xs={12} id='searchBar'>
+                <h1>Level Up</h1>
+                <Paper component="form" className={classes.root} id='searchBarInput'>
                     <InputBase
                         className={classes.input}
                         placeholder="Game Name"

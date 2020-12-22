@@ -1,18 +1,26 @@
+@font-face {
+    font-family: 'gameOver';
+    src: url('../../assets/fonts/rainyhearts.ttf');
+}
+
+h1 {
+    font-family: 'gameOver';
+    font-size: 7em;
+    margin: .1em 0;
+    color: white;
+    text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,black 0px 0px 3.5px, black 0px 0px 3.5px,black 0px 0px 3.5px;
+}
+
+#searchBarInput {
+    display: flex;
+    justify-content: center;
+    opacity: 40%;
+    margin-top: 1em;
+}
+
 #searchBar {
     display: flex;
-    justify-content: center;
-    opacity: 60%;
-}
-
-.MuiContainer-root {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: none;
-}
-
-.MuiGrid-root {
-    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-right: none;

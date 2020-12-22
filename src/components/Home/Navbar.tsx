@@ -4,11 +4,12 @@ import {
     AppBar,
     Toolbar,
     IconButton,
+    Button,
     Grid
 }
 from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-// import Drawer from './Drawer';
+import Drawer from './Drawer';
 import './Navbar.css';
 
 const styles = (theme: any) => createStyles ({
@@ -34,14 +35,17 @@ class Navbar extends Component<Props> {
           <AppBar position="fixed">
             <Toolbar>
               <Grid item xs={6} id="drawerButton">
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <MenuIcon />
-              </IconButton>
+                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                  <Drawer />
+                </IconButton>
               </Grid>
               <Grid item xs={6} id="title">
-                <h2>
-                  <strong>Level Up</strong>
-                </h2>
+                <Button id="signupBut">
+                  <strong>Sign Up</strong>
+                </Button>
+                <Button id="loginBut">
+                  <strong>Login</strong>
+                </Button>
               </Grid>
             </Toolbar>
           </AppBar>
