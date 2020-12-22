@@ -49,7 +49,9 @@ class SearchBar extends Component<Props, FetchState> {
     fetchResults = () => {
         const baseURL = 'https://api.rawg.io/api/games/';
         const key = '7a9b89045e734eec9136810c89a04da4';
-        let URL = `${baseURL}${this.state.searchTerm}?key=${key}`;
+        let searchString = `${this.state.searchTerm}`;
+        searchString = searchString.replace(/\s+/g, '-')
+        let URL = `${baseURL}${searchString}?key=${key}`;
 
         fetch(URL)
             .then((res) => res.json())
