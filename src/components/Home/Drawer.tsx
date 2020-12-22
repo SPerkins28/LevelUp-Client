@@ -8,10 +8,7 @@ import {
     Divider,
     ListItem,
     ListItemIcon,
-    ListItemText,
-    AppBar,
-    Button,
-    Toolbar
+    ListItemText
 } from '@material-ui/core';
 import {
     AccountBox,
@@ -110,11 +107,8 @@ class SideDrawer extends Component<Props> {
       );
 
     render(){
-        const { classes } = this.props;
         return(
-            <div className={classes.root}>
-                <AppBar position="fixed">
-                    <Toolbar>
+            <div>
                     {(['left'] as Anchor[]).map((anchor: any) => (
                         <React.Fragment key={anchor}>
                         <IconButton onClick={this.toggleDrawer(anchor, true)}>
@@ -123,14 +117,8 @@ class SideDrawer extends Component<Props> {
                         <Drawer id="MuiDrawer-paper" anchor={anchor} open={anchor} onClose={this.toggleDrawer(anchor, false)}>
                             {this.list(anchor)}
                         </Drawer>
-                        <h2>
-                            <strong>Level Up</strong>
-                        </h2>
-                        <Button color="inherit">Login</Button>
                         </React.Fragment>
                     ))}
-                    </Toolbar>
-                </AppBar>
             </div>
         )
     }

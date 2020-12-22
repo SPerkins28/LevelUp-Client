@@ -3,11 +3,12 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import {
     AppBar,
     Toolbar,
-    Button,
-    IconButton
+    IconButton,
+    Grid
 }
 from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+// import Drawer from './Drawer';
 import './Navbar.css';
 
 const styles = (theme: any) => createStyles ({
@@ -32,13 +33,16 @@ class Navbar extends Component<Props> {
         <div className={classes.root}>
           <AppBar position="fixed">
             <Toolbar>
+              <Grid item xs={6} id="drawerButton">
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                 <MenuIcon />
               </IconButton>
-              <h2>
-                <strong>Level Up</strong>
-              </h2>
-              <Button color="inherit">Login</Button>
+              </Grid>
+              <Grid item xs={6} id="title">
+                <h2>
+                  <strong>Level Up</strong>
+                </h2>
+              </Grid>
             </Toolbar>
           </AppBar>
         </div>

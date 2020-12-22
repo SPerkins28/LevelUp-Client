@@ -1,0 +1,19 @@
+#searchBar {
+    display: flex;
+    justify-content: center;
+    opacity: 60%;
+}
+
+.MuiContainer-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: none;
+}
+
+.MuiGrid-root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: none;
+}
