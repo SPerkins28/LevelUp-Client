@@ -30,6 +30,7 @@ interface Props extends WithStyles<typeof styles> {
   onClose: () => void;
   open: boolean;
   results: any;
+  token: string | null,
 }
 
 interface State {
@@ -86,7 +87,7 @@ class MoreInfo extends Component<Props, State> {
                         </DialogContent>
                         <DialogActions id='moreInfoButtons'>
                         <Button id='reviewsB'>
-                            <ReviewsByGame results={this.state.results}/> 
+                            <ReviewsByGame token={this.props.token}results={this.state.results}/> 
                         </Button>
                         <Button onClick={this.handleClose} id='wtpB'>
                             Add To Want To Play

@@ -22,6 +22,7 @@ const styles = createStyles({
 
 interface Props extends WithStyles<typeof styles> {
     results: any,
+    token: string | null,
 }
 
 interface State {
@@ -57,7 +58,7 @@ class Games extends Component<Props, State> {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <MoreInfo results={this.state.results} open={this.state.openMoreInfo} onClose={() => this.setState({openMoreInfo: false})}/>
+                            <MoreInfo token={this.props.token} results={this.state.results} open={this.state.openMoreInfo} onClose={() => this.setState({openMoreInfo: false})}/>
                         </CardActions>
                     </Card>
                 </Grid>

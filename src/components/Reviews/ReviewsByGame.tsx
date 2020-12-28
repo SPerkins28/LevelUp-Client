@@ -9,9 +9,11 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Rating from "@material-ui/lab/Rating";
 import './ReviewsByGame.css';
+import ReviewCreate from "./Modals/ReviewCreate";
 
 interface Props {
     results: any,
+    token: string | null,
 }
 
 interface State {
@@ -20,6 +22,10 @@ interface State {
     myRef: any;
     results: any,
     reviews: any,
+    title: string,
+    date: string,
+    entry: string,
+    rating: number,
 }
 
 class ReviewsByGame extends Component<Props, State> {
@@ -31,6 +37,10 @@ class ReviewsByGame extends Component<Props, State> {
       myRef: React.createRef(),
       results: this.props.results,
       reviews: [],
+      title: '',
+      date: '',
+      entry: '',
+      rating: 0,
     };
   }
 
@@ -52,6 +62,19 @@ class ReviewsByGame extends Component<Props, State> {
       open: false,
     });
   };
+
+  // updateReview = (event: any) => {
+  //   event.preventDefault();
+  //   fetch('http://localhost:4321/review/', {
+  //     method: 'PUT',
+  //     body: JSON.stringify({
+  //       title: this.state.title,
+  //       date: this.state.date,
+  //       entry: this.state.entry,
+  //       rating: this.state.rating,
+  //     })
+  //   })
+  // }
 
   componentDidMount = () => {
     const gameId = this.state.results.id
@@ -79,10 +102,8 @@ class ReviewsByGame extends Component<Props, State> {
           scroll={this.state.scroll}
         >
           <DialogTitle id="reviewHead"><strong>Reviews</strong></DialogTitle>
-          <DialogContent dividers={this.state.scroll === "paper"}>
+          <DialogContent dividers={this.state.scroll === "paper"} id="dialogBody">
             <DialogContentText
-              id="dialogBody"
-            //   ref={descriptionElementRef}
               tabIndex={-1}
             >
               {this.state.reviews.map((review: any) => {
@@ -92,16 +113,16 @@ class ReviewsByGame extends Component<Props, State> {
                       <Typography id="reviewTitle"><strong>{review.title}</strong></Typography>
                     </Box>
                     <Box component="fieldset" mb={3} borderColor="transparent" id="usernameBox">
-                      <Typography id="entryText">{review.user.username}</Typography>
+                      <Typography id="usernameText">{review.user.username}</Typography>
                     </Box>
                     <Box component="fieldset" mb={3} borderColor="transparent" id="entryBox"> 
                       <Typography id="entryText">{review.entry}</Typography>
                     </Box>
                     <Box component="fieldset" mb={3} borderColor="transparent" id="dateBox"> 
-                      <Typography id="entryText">{new Date(review.createdAt).toLocaleDateString()}</Typography>
+                      <Typography id="dateText">{new Date(review.createdAt).toLocaleDateString()}</Typography>
                     </Box>
                     <Box component="fieldset" mb={3} borderColor="transparent" id="ratingReadOnly">
-                      <Rating name="read-only" value={review.rating} readOnly />
+                      <Rating id="rating" defaultValue={review.rating} readOnly />
                     </Box>
                     </React.Fragment>
                   )
@@ -110,11 +131,11 @@ class ReviewsByGame extends Component<Props, State> {
           </DialogContent>
           <DialogActions id='reviewButtons'>
             <Button onClick={this.handleBack} id='reviewBack'>
-              Back
+              <strong>Back</strong>
             </Button>
             {/* Link to review create modal & maybe add button for add to wtp or library */}
-            <Button onClick={this.handleClose} id='addReview'> 
-              Add Review 
+            <Button  id='addReview'> 
+              <ReviewCreate token={this.props.token} results={this.state.results} />
             </Button>
           </DialogActions>
         </Dialog>

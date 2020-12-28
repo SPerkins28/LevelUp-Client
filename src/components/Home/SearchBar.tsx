@@ -37,7 +37,9 @@ const styles = (theme: any) =>
     },
   });
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  token: string | null,
+}
 
 class SearchBar extends Component<Props, FetchState> {
   constructor(props: any) {
@@ -94,7 +96,7 @@ class SearchBar extends Component<Props, FetchState> {
             </IconButton>
           </Paper>
         </Grid>
-        {this.state.results.name && <Games results={this.state.results}/>}
+        {this.state.results.name && <Games token={this.props.token} results={this.state.results}/>}
       </Grid>
     );
   }

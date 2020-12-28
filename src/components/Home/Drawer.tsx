@@ -32,7 +32,9 @@ const styles = (theme: any) =>
 
 type Anchor = "left";
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  token: string | null,
+}
 
 interface State {
   left: boolean;
@@ -78,36 +80,30 @@ class SideDrawer extends Component<Props, State> {
       </List>
       <Divider />
       <List>
-        {["My Account"].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button>
             <ListItemIcon>
-              {index % 2 === 0 ? <AccountBox /> : <AccountBox />}
+              <AccountBox />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary='My Account' />
           </ListItem>
-        ))}
       </List>
       <Divider />
       <List>
-        {["Want To Play"].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button>
             <ListItemIcon>
-              {index % 2 === 0 ? <PlaylistPlay /> : <PlaylistPlay />}
+              <PlaylistPlay />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary='Want To Play' />
           </ListItem>
-        ))}
       </List>
       <Divider />
       <List>
-        {["Library"].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button>
             <ListItemIcon>
-              {index % 2 === 0 ? <Games /> : <Games />}
+              <Games />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary='Library' />
           </ListItem>
-        ))}
       </List>
     </div>
   );

@@ -101,7 +101,7 @@ class Navbar extends Component<Props, State> {
             <Toolbar>
               <Grid item xs={6} id="drawerButton">
                 <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                  <Drawer />
+                  <Drawer token={this.props.token} />
                 </IconButton>
               </Grid>
               <Grid item xs={6} id="title">

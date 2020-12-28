@@ -44,7 +44,7 @@ class App extends Component<{}, State> {
           <Navbar token={this.state.token} clickLogout={this.clearToken} updateToken={this.updateToken} />
         </header>
         <body className="App-body">
-          <SearchBar />
+          <SearchBar token={this.state.token}/>
         </body>
       </div>
     );

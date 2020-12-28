@@ -9,8 +9,7 @@
 
 #dialogBody {
     display: flex;
-    justify-content: space-around;
-    color: white;
+    flex-direction: column;
 }
 
 .MuiTypography-h6 {
@@ -19,14 +18,18 @@
     color: white;
 }
 
+#reviewTitle, #usernameText, #entryText, #dateText {
+    color: white;
+}
+
 #reviewBack {
-    font-family: 'gameOver' !important;
+    font-family: 'gameOver';
     font-size: 20px;
     color: white;
 }
 
 #addReview {
-    font-family: 'gameOver' !important;
+    font-family: 'gameOver';
     font-size: 20px;
     color: white;
 }
