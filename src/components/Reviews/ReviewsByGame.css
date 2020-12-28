@@ -1,0 +1,37 @@
+@font-face {
+    font-family: 'gameOver';
+    src: url('../../assets/fonts/rainyhearts.ttf');
+}
+
+.MuiDialog-paperWidthSm {
+    max-width: 900px !important;
+}
+
+#dialogBody {
+    display: flex;
+    justify-content: space-around;
+    color: white;
+}
+
+.MuiTypography-h6 {
+    font-family: 'gameOver' !important;
+    font-size: 20px;
+    color: white;
+}
+
+#reviewBack {
+    font-family: 'gameOver' !important;
+    font-size: 20px;
+    color: white;
+}
+
+#addReview {
+    font-family: 'gameOver' !important;
+    font-size: 20px;
+    color: white;
+}
+
+#reviewButtons {
+    display: flex;
+    justify-content: space-around;
+}

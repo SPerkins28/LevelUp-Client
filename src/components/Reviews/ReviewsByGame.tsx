@@ -8,6 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Rating from "@material-ui/lab/Rating";
+import './ReviewsByGame.css';
 
 interface Props {
     results: any,
@@ -76,38 +77,43 @@ class ReviewsByGame extends Component<Props, State> {
           open={this.state.open}
           onClose={this.handleClose}
           scroll={this.state.scroll}
-          aria-labelledby="scroll-dialog-title"
-          aria-describedby="scroll-dialog-description"
         >
-          <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="reviewHead"><strong>Reviews</strong></DialogTitle>
           <DialogContent dividers={this.state.scroll === "paper"}>
             <DialogContentText
-              id="scroll-dialog-description"
+              id="dialogBody"
             //   ref={descriptionElementRef}
               tabIndex={-1}
             >
               {this.state.reviews.map((review: any) => {
                   return (
                     <React.Fragment key={review.id}>
-                    <Typography variant="h6" id="reviewTitle"><strong>{review.title}</strong></Typography>
-                    <Typography id="entryText">{review.user.username}</Typography>
-                    <Typography id="entryText">{review.entry}</Typography>
-                    <Typography id="entryText">{new Date(review.createdAt).toLocaleDateString()}</Typography>
+                    <Box component="fieldset" mb={3} borderColor="transparent" id="titleBox">
+                      <Typography id="reviewTitle"><strong>{review.title}</strong></Typography>
+                    </Box>
+                    <Box component="fieldset" mb={3} borderColor="transparent" id="usernameBox">
+                      <Typography id="entryText">{review.user.username}</Typography>
+                    </Box>
+                    <Box component="fieldset" mb={3} borderColor="transparent" id="entryBox"> 
+                      <Typography id="entryText">{review.entry}</Typography>
+                    </Box>
+                    <Box component="fieldset" mb={3} borderColor="transparent" id="dateBox"> 
+                      <Typography id="entryText">{new Date(review.createdAt).toLocaleDateString()}</Typography>
+                    </Box>
                     <Box component="fieldset" mb={3} borderColor="transparent" id="ratingReadOnly">
                       <Rating name="read-only" value={review.rating} readOnly />
                     </Box>
-                    <hr/>
                     </React.Fragment>
                   )
               })}
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleBack} color="primary">
+          <DialogActions id='reviewButtons'>
+            <Button onClick={this.handleBack} id='reviewBack'>
               Back
             </Button>
             {/* Link to review create modal & maybe add button for add to wtp or library */}
-            <Button onClick={this.handleClose} color="primary"> 
+            <Button onClick={this.handleClose} id='addReview'> 
               Add Review 
             </Button>
           </DialogActions>

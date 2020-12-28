@@ -7,6 +7,7 @@ import {
     DialogContent,
     DialogTitle,
 } from '@material-ui/core';
+import './LoginPopUp.css'
 
 interface Props {
     openSnackBar: (severity: 'success' | 'error', message: string) => void,
@@ -70,7 +71,7 @@ class LoginPopUp extends Component<Props, State> {
                    <strong>Login</strong>
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle id="form-dialog-title">Login</DialogTitle>
+                    <DialogTitle id="loginTitle"><strong>Login</strong></DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -79,6 +80,9 @@ class LoginPopUp extends Component<Props, State> {
                             type='text'
                             fullWidth
                             onChange={(e) => this.setState({username: e.target.value})}
+                            InputLabelProps={{
+                                className: 'loginFields'
+                            }}
                         />
                         <TextField
                             autoFocus
@@ -87,14 +91,17 @@ class LoginPopUp extends Component<Props, State> {
                             type="password"
                             fullWidth
                             onChange={(e) => this.setState({password: e.target.value})}
+                            InputLabelProps={{
+                                className: 'loginFields'
+                            }}
                         />
                     </DialogContent>
-                    <DialogActions>
-                    <Button onClick={this.handleClose}>
-                        Cancel
+                    <DialogActions id='loginButtons'>
+                    <Button onClick={this.handleClose} id='cancelButton'>
+                       <strong>Cancel</strong>
                     </Button>
-                    <Button onClick={this.handleSubmit}>
-                        Login
+                    <Button onClick={this.handleSubmit} id='loginButton'>
+                    <strong>Login</strong>
                     </Button>
                 </DialogActions>
                 </Dialog>

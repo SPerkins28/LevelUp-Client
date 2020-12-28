@@ -8,3 +8,22 @@
     font-size: 20px;
     color: white;
 }
+
+#dialogTitle {
+    font-family: 'gameOver';
+    font-size: 20px;
+}
+
+.signupFields {
+    color: white !important;
+}
+
+#signupButtons {
+    display: flex;
+    justify-content: space-around;
+}
+
+#signupButton, #cancelButton {
+    font-family: 'gameOver';
+    font-size: 20px;
+}
