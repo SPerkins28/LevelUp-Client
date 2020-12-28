@@ -29,4 +29,10 @@
     font-family: 'gameOver';
     font-size: 20px;
     color: white;
- }
+}
+
+#logoutBut {
+    font-family: 'gameOver';
+    font-size: 20px;
+    color: white;
+}

@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'gameOver';
+    src: url('../../assets/fonts/rainyhearts.ttf');
+}
+
+#signupBut {
+    font-family: 'gameOver';
+    font-size: 20px;
+    color: white;
+}
