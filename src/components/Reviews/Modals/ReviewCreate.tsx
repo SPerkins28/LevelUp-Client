@@ -121,7 +121,7 @@ class ReviewCreate extends Component<Props, State> {
         </Button>
         <Dialog open={this.state.open} onClose={this.handleCloseReviewCreate}>
           <DialogTitle id="dialogTitle">
-            <strong>Leave a Review</strong>
+            <strong>ADD A REVIEW</strong>
           </DialogTitle>
           <DialogContent id="signupForm">
             <TextField

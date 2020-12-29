@@ -5,6 +5,8 @@ import SearchBar from './components/Home/SearchBar';
 
 interface State {
   token: string | null,
+  results: any
+  searchTerm: string,
 }
 
 class App extends Component<{}, State> {
@@ -12,6 +14,8 @@ class App extends Component<{}, State> {
     super(props)
     this.state=({
       token: '',
+      results: {},
+      searchTerm: ''
     })
   }
 
@@ -30,10 +34,25 @@ class App extends Component<{}, State> {
     })
   }
 
+  setResults = (results: any) => {
+    this.setState({
+      results: results,
+      searchTerm: ''
+    })
+  }
+
+  setSearchTerm = (searchTerm: string) => {
+    this.setState({
+      searchTerm: searchTerm,
+    })
+  }
+
   clearToken = () => {
     localStorage.clear();
     this.setState({
-      token: ''
+      token: '',
+      results: {},
+      searchTerm: '',
     })
   }
 
@@ -44,7 +63,7 @@ class App extends Component<{}, State> {
           <Navbar token={this.state.token} clickLogout={this.clearToken} updateToken={this.updateToken} />
         </header>
         <body className="App-body">
-          <SearchBar token={this.state.token}/>
+          <SearchBar searchTerm={this.state.searchTerm} setSearchTerm={this.setSearchTerm} results={this.state.results} setResults={this.setResults} token={this.state.token}/>
         </body>
       </div>
     );

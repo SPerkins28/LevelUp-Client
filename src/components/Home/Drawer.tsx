@@ -71,17 +71,17 @@ class SideDrawer extends Component<Props, State> {
       onKeyDown={this.toggleDrawer(anchor, false)}
     >
       <List>
-        {["Home"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <Home /> : <Home />}</ListItemIcon>
-            <ListItemText primary={text} />
+          <ListItem button>
+            <ListItemIcon className='drawerIcons'>
+            <Home />
+            </ListItemIcon>
+            <ListItemText primary='Home' />
           </ListItem>
-        ))}
       </List>
       <Divider />
       <List>
           <ListItem button>
-            <ListItemIcon>
+            <ListItemIcon className='drawerIcons'>
               <AccountBox />
             </ListItemIcon>
             <ListItemText primary='My Account' />
@@ -90,7 +90,7 @@ class SideDrawer extends Component<Props, State> {
       <Divider />
       <List>
           <ListItem button>
-            <ListItemIcon>
+            <ListItemIcon className='drawerIcons'>
               <PlaylistPlay />
             </ListItemIcon>
             <ListItemText primary='Want To Play' />
@@ -99,7 +99,7 @@ class SideDrawer extends Component<Props, State> {
       <Divider />
       <List>
           <ListItem button>
-            <ListItemIcon>
+            <ListItemIcon className='drawerIcons'>
               <Games />
             </ListItemIcon>
             <ListItemText primary='Library' />
@@ -113,7 +113,7 @@ class SideDrawer extends Component<Props, State> {
       <div>
         {(["left"] as Anchor[]).map((anchor: any) => (
           <React.Fragment key={anchor}>
-            <IconButton onClick={this.toggleDrawer(anchor, true)}>
+            <IconButton onClick={this.toggleDrawer(anchor, true)} className='drawerIcons'>
               <MenuIcon />
             </IconButton>
             <SwipeableDrawer

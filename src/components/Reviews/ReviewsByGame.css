@@ -7,9 +7,10 @@
     max-width: 900px !important;
 }
 
-#dialogBody {
+#titleBox {
     display: flex;
-    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 1em;
 }
 
 .MuiTypography-h6 {
@@ -18,8 +19,13 @@
     color: white;
 }
 
-#reviewTitle, #usernameText, #entryText, #dateText {
+#reviewTitle, #usernameText, #dateText {
     color: white;
+}
+
+#entryText {
+    color: white;
+    max-width: 250px;
 }
 
 #reviewBack {

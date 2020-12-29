@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Rating from "@material-ui/lab/Rating";
 import './ReviewsByGame.css';
 import ReviewCreate from "./Modals/ReviewCreate";
@@ -14,6 +14,8 @@ import ReviewCreate from "./Modals/ReviewCreate";
 interface Props {
     results: any,
     token: string | null,
+    open: boolean,
+    onClose: () => void
 }
 
 interface State {
@@ -101,7 +103,7 @@ class ReviewsByGame extends Component<Props, State> {
           onClose={this.handleClose}
           scroll={this.state.scroll}
         >
-          <DialogTitle id="reviewHead"><strong>Reviews</strong></DialogTitle>
+          <DialogTitle id="reviewHead"><strong>REVIEWS</strong></DialogTitle>
           <DialogContent dividers={this.state.scroll === "paper"} id="dialogBody">
             <DialogContentText
               tabIndex={-1}
@@ -109,21 +111,31 @@ class ReviewsByGame extends Component<Props, State> {
               {this.state.reviews.map((review: any) => {
                   return (
                     <React.Fragment key={review.id}>
-                    <Box component="fieldset" mb={3} borderColor="transparent" id="titleBox">
+                    <Grid container spacing={2} id="titleBox">
+                      <Grid item xs={2}>
                       <Typography id="reviewTitle"><strong>{review.title}</strong></Typography>
-                    </Box>
-                    <Box component="fieldset" mb={3} borderColor="transparent" id="usernameBox">
+                      </Grid>
+                      <Grid item xs={2}>
                       <Typography id="usernameText">{review.user.username}</Typography>
-                    </Box>
-                    <Box component="fieldset" mb={3} borderColor="transparent" id="entryBox"> 
+                      </Grid>
+                      <Grid item xs={3}>
                       <Typography id="entryText">{review.entry}</Typography>
-                    </Box>
-                    <Box component="fieldset" mb={3} borderColor="transparent" id="dateBox"> 
+                      </Grid>
+                      <Grid item xs={2}> 
                       <Typography id="dateText">{new Date(review.createdAt).toLocaleDateString()}</Typography>
-                    </Box>
-                    <Box component="fieldset" mb={3} borderColor="transparent" id="ratingReadOnly">
+                      </Grid>
+                      <Grid item xs={2}>
                       <Rating id="rating" defaultValue={review.rating} readOnly />
-                    </Box>
+                      </Grid>
+                      <Grid item xs={1}>
+                        <Button>
+                          Update
+                        </Button>
+                        <Button>
+                          Delete
+                        </Button>
+                      </Grid>
+                    </Grid>
                     </React.Fragment>
                   )
               })}

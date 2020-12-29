@@ -8,6 +8,6 @@
     color: white !important;
 }
 
-.MuiSvgIcon-root {
-    color: white;
+.drawerIcons .MuiSvgIcon-root {
+    color: white
 }
