@@ -83,9 +83,14 @@ class ReviewsByGame extends Component<Props, State> {
     })
       .then((res: any) => res.json())
       .then((reviews: any) => {
-        this.setState({
+        if (!reviews) {
+          this.handleOpenSnackBar("error", reviews.message);
+        } else {
+          const message = reviews.message;
+          this.handleOpenSnackBar("success", message);
+          this.setState({
           reviews: reviews.reviews,
-        });
+        })};
       });
   }
 
