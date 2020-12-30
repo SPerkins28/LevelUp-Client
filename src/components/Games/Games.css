@@ -12,13 +12,13 @@
 }
 
 .MuiCardContent-root {
-    padding: 0;
+    padding: .5em !important;
     margin-bottom: 0;
     background-color: #343434;
 }
 
 #gameName {
-    padding: 0;
+    padding: .1em;
     margin-bottom: 0;
     font-size: 1.5em;
     color: white;

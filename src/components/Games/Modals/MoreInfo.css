@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'gameOver';
+    src: url('../../../assets/fonts/rainyhearts.ttf');
+}
+
 #customized-dialog-title {
     text-decoration: underline;
     display: flex;
@@ -25,14 +30,20 @@
 
 #reviewsB {
     margin-left: 1.75em;
+    font-family: 'gameOver';
+    font-size: 16px;
 }
 
 #wtpB {
+    font-family: 'gameOver';
     white-space: normal;
     max-width: 125px;
+    font-size: 16px;
 }
 
 #libraryB {
+    font-family: 'gameOver';
     white-space: normal;
     max-width: 125px;
+    font-size: 16px;
 }

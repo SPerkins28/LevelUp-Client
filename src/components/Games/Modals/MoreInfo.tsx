@@ -31,6 +31,7 @@ interface Props extends WithStyles<typeof styles> {
   results: any;
   token: string | null;
   openReviews: () => void;
+  handleClose: () => void;
 }
 
 interface State {
@@ -45,12 +46,17 @@ class MoreInfo extends Component<Props, State> {
         })
     }
 
+    toggleViews = () => {
+        this.props.openReviews();
+        this.props.onClose();
+    }
+
     render(){
         return(
             <div>
                  <Dialog onClose={this.props.onClose} aria-labelledby="customized-dialog-title" open={this.props.open}>
                         <DialogTitle id="customized-dialog-title">
-                            {this.state.results.name}
+                            <strong>{this.state.results.name}</strong>
                         </DialogTitle>
                             <Grid id='infoBar'>
                                 <Typography gutterBottom>
@@ -69,14 +75,14 @@ class MoreInfo extends Component<Props, State> {
                         </Typography>
                         </DialogContent>
                         <DialogActions id='moreInfoButtons'>
-                        <Button onClick={() => this.props.openReviews()} id='reviewsB'>
-                            REVIEWS
+                        <Button onClick={() => this.toggleViews()} id='reviewsB'>
+                            <strong>Reviews</strong>
                         </Button>
                         <Button onClick={this.props.onClose} id='wtpB'>
-                            Add To Want To Play
+                            <strong>Add To Want To Play</strong>
                         </Button>
                         <Button onClick={this.props.onClose} id='libraryB'>
-                            Add To Library
+                            <strong>Add To Library</strong>
                         </Button>
                         </DialogActions>
                 </Dialog>

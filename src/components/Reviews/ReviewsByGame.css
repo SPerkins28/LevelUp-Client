@@ -44,3 +44,12 @@
     display: flex;
     justify-content: space-around;
 }
+
+#rating {
+    padding-left: 0;
+}
+
+#reviewActions {
+    padding-top: 0;
+    padding-left: 0;
+}

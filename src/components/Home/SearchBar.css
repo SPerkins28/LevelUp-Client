@@ -11,6 +11,10 @@ h1 {
     text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,black 0px 0px 3.5px, black 0px 0px 3.5px,black 0px 0px 3.5px;
 }
 
+#searchTerm {
+    color: black !important;
+}
+
 #searchBarInput {
     display: flex;
     justify-content: center;
