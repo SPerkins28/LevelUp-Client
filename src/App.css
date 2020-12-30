@@ -1,12 +1,12 @@
 .App {
   text-align: center;
   -webkit-font-smoothing: antialiased;
-}
-
-body {
   background: url('./assets/controllerbackground.jpg');
   object-fit: cover;
   min-height: auto;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .App-header {
@@ -15,10 +15,4 @@ body {
   align-items: center; */
   justify-content: center;
   
-}
-
-.App-body{
-  display: flex;
-  justify-content: center;
-  min-height: 100vh;
 }
