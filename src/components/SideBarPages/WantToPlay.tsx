@@ -34,6 +34,7 @@ interface State {
   responseMessage: string;
   severity: "success" | "error";
   openRemoveWTP: boolean;
+  userWTP: any
 }
 
 class WantToPlay extends Component<Props, State> {
@@ -45,6 +46,7 @@ class WantToPlay extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveWTP: false,
+      userWTP: {}
     };
   }
 
@@ -155,7 +157,7 @@ class WantToPlay extends Component<Props, State> {
                         )}
                       </strong>
                     </Button>
-                    <Button fullWidth={true} onClick={() => this.setState({openRemoveWTP: true})} id="remove">
+                    <Button fullWidth={true} onClick={() => this.setState({openRemoveWTP: true, userWTP: userWTP})} id="remove">
                       <strong>Remove from list</strong>
                     </Button>
                   </CardActions>
@@ -182,6 +184,7 @@ class WantToPlay extends Component<Props, State> {
           token={this.props.token}
           open={this.state.openRemoveWTP}
           onClose={() => this.setState({ openRemoveWTP: false })}
+          game={this.state.userWTP}
         />
       </Grid>
     );

@@ -11,6 +11,7 @@ interface Props {
     token: string | null;
     open: boolean;
     onClose: () => void;
+    game: any;
 }
 
 interface State {
@@ -31,10 +32,16 @@ class WantToPlayDelete extends Component<Props, State> {
         })
     }
 
+    handleClose = () => {
+        this.setState({
+            open: false,
+        })
+    }
+
     removeWTP = (event: any, game: any) => {
         event.preventDefault();
         const wtpId = game.id;
-        fetch(`https://localhost:4321/wanttoplay/delete/${wtpId}`, {
+        fetch(`http://localhost:4321/wanttoplay/delete/${wtpId}`, {
           method: "DELETE",
           headers: new Headers({
             "Content-Type": "application/json",
@@ -48,15 +55,11 @@ class WantToPlayDelete extends Component<Props, State> {
             } else {
               const message = data.message;
               this.props.handleOpenSnackBar("success", message);
+              this.props.onClose();
             }
           });
       };
 
-    handleClose = () => {
-        this.setState({
-            open: false,
-        })
-    }
 
     render() {
         return (
@@ -70,14 +73,14 @@ class WantToPlayDelete extends Component<Props, State> {
               <DialogTitle id="alertTitle"><strong>Are you sure?</strong></DialogTitle>
               <DialogContent>
                 <DialogContentText id="alertNotice">
-                  Are you sure you want to remove this game from your Want To Play List?
+                  {`Are you sure you want to remove ${this.props.game.title} from your Want To Play List?`}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.props.onClose} id="backButton">
                   <strong>Cancel</strong>
                 </Button>
-                <Button onClick={() => this.removeWTP} id="deleteButton" autoFocus>
+                <Button onClick={(event) => this.removeWTP(event, this.props.game)} id="deleteButton" autoFocus>
                   <strong>Delete</strong>
                 </Button>
               </DialogActions>
