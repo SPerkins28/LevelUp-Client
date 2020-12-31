@@ -97,7 +97,7 @@ class App extends Component<{}, State> {
               <WantToPlay token={this.state.token} />
             </Route>
             <Route exact path="/library">
-              <Library />
+              <Library token={this.state.token} />
             </Route>
           </Switch>
         </Router>
