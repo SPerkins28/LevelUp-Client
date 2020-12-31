@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
-import LibraryDelete from "./WantToPlayDelete";
+import LibraryDelete from "./LibraryDelete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./Library.css";
 
