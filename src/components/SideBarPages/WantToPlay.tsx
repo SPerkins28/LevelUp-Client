@@ -12,17 +12,25 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import WantToPlayDelete from "./WantToPlayDelete";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import "./WantToPlay.css";
 
-const styles = createStyles({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 275,
-    width: 300,
-  },
-});
+const styles = (theme: any) =>
+  createStyles({
+    root: {
+      maxWidth: 345,
+    },
+    media: {
+      height: 275,
+      width: 300,
+    },
+    rootProgress: {
+      display: "flex",
+      "& > * + *": {
+        marginLeft: theme.spacing(2),
+      },
+    },
+  });
 
 interface Props extends WithStyles<typeof styles> {
   token: string | null;
@@ -34,7 +42,7 @@ interface State {
   responseMessage: string;
   severity: "success" | "error";
   openRemoveWTP: boolean;
-  userWTP: any
+  userWTP: any;
 }
 
 class WantToPlay extends Component<Props, State> {
@@ -46,7 +54,7 @@ class WantToPlay extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveWTP: false,
-      userWTP: {}
+      userWTP: {},
     };
   }
 
@@ -69,7 +77,6 @@ class WantToPlay extends Component<Props, State> {
 
   fetchWTP = () => {
     const userId = localStorage.getItem("userId");
-    console.log(userId);
     fetch(`http://localhost:4321/wanttoplay/${userId}`, {
       method: "GET",
       headers: new Headers({
@@ -82,12 +89,13 @@ class WantToPlay extends Component<Props, State> {
         if (!userWantToPlay) {
           this.handleOpenSnackBar("error", userWantToPlay.message);
         } else {
-          const message = userWantToPlay.message;
-          this.handleOpenSnackBar("success", message);
           this.setState({
             userWantToPlay: userWantToPlay.userWantToPlay,
           });
+          const message = userWantToPlay.message;
+          this.handleOpenSnackBar("success", message);
         }
+        console.log(userWantToPlay.userWantToPlay);
       });
   };
 
@@ -105,11 +113,14 @@ class WantToPlay extends Component<Props, State> {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (!data.updated) {
-          this.handleOpenSnackBar("error", data.message);
+      .then((userWantToPlay) => {
+        if (!userWantToPlay.updated) {
+          this.handleOpenSnackBar("error", userWantToPlay.message);
         } else {
-          const message = data.message;
+          this.setState({
+            userWantToPlay: userWantToPlay.userWantToPlay,
+          });
+          const message = userWantToPlay.message;
           this.handleOpenSnackBar("success", message);
         }
       });
@@ -121,72 +132,92 @@ class WantToPlay extends Component<Props, State> {
   };
 
   render() {
+    console.log(this.state.userWantToPlay);
     const { classes } = this.props;
     return (
-      <Grid container justify="space-evenly">
-        {this.state.userWantToPlay.length &&
-          this.state.userWantToPlay.map((userWTP: any, index: number) => {
-            return (
-              <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
-                <Card className={classes.root}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={userWTP.gameImg}
-                      title={"Game Image"}
-                    />
-                    <CardContent>
-                      <Typography variant="h6" component="h2" id="wtpGameName">
-                        <strong>{userWTP.title}</strong>
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions id="wtpActions">
-                    <Button
-                      fullWidth={true}
-                      id="played"
-                      onClick={(event) => this.updateWTP(event, userWTP)}
-                    >
-                      <strong>
-                        {userWTP.played ? (
-                          <span id="playedIndicator">
-                            Played <CheckIcon id="check" />
-                          </span>
-                        ) : (
-                          "Played?"
-                        )}
-                      </strong>
-                    </Button>
-                    <Button fullWidth={true} onClick={() => this.setState({openRemoveWTP: true, userWTP: userWTP})} id="remove">
-                      <strong>Remove from list</strong>
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            );
-          })}
-        <Snackbar
-          open={this.state.openSnackBar}
-          autoHideDuration={4000}
-          onClose={this.handleCloseSnackBar}
-        >
-          <Alert
+      <>
+        <Grid container justify="space-evenly">
+          {setTimeout(this.state.userWantToPlay.length, 800) &&
+            this.state.userWantToPlay.map((userWTP: any, index: number) => {
+              return (
+                <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
+                  <Card className={classes.root}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={userWTP.gameImg}
+                        title={"Game Image"}
+                      />
+                      <CardContent>
+                        <Typography
+                          variant="h6"
+                          component="h2"
+                          id="wtpGameName"
+                        >
+                          <strong>{userWTP.title}</strong>
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions id="wtpActions">
+                      <Button
+                        fullWidth={true}
+                        id="played"
+                        onClick={(event) => this.updateWTP(event, userWTP)}
+                      >
+                        <strong>
+                          {userWTP.played ? (
+                            <span id="playedIndicator">
+                              Played <CheckIcon id="check" />
+                            </span>
+                          ) : (
+                            "Not Played"
+                          )}
+                        </strong>
+                      </Button>
+                      <Button
+                        fullWidth={true}
+                        onClick={() =>
+                          this.setState({
+                            openRemoveWTP: true,
+                            userWTP: userWTP,
+                          })
+                        }
+                        id="remove"
+                      >
+                        <strong>Remove from list</strong>
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
+        </Grid>
+        {this.state.openSnackBar && (
+          <Snackbar
+            open={this.state.openSnackBar}
+            autoHideDuration={4000}
             onClose={this.handleCloseSnackBar}
-            elevation={6}
-            severity={this.state.severity}
-            variant="filled"
           >
-            {this.state.responseMessage}
-          </Alert>
-        </Snackbar>
-        <WantToPlayDelete
-          handleOpenSnackBar={this.handleOpenSnackBar}
-          token={this.props.token}
-          open={this.state.openRemoveWTP}
-          onClose={() => this.setState({ openRemoveWTP: false })}
-          game={this.state.userWTP}
-        />
-      </Grid>
+            <Alert
+              onClose={this.handleCloseSnackBar}
+              elevation={6}
+              severity={this.state.severity}
+              variant="filled"
+            >
+              {this.state.responseMessage}
+            </Alert>
+          </Snackbar>
+        )}
+        {this.state.openRemoveWTP && (
+          <WantToPlayDelete
+            handleOpenSnackBar={this.handleOpenSnackBar}
+            token={this.props.token}
+            open={this.state.openRemoveWTP}
+            onClose={() => this.setState({ openRemoveWTP: false })}
+            game={this.state.userWTP}
+          />
+        )}
+      </>
     );
   }
 }
