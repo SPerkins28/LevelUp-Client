@@ -53,17 +53,17 @@ class Games extends Component<Props, State> {
               <CardContent>
                 <Typography
                   gutterBottom
-                  variant="h5"
+                  variant="h6"
                   component="h2"
                   id="gameName"
                 >
-                  {this.state.results.name}
+                  <strong>{this.state.results.name}</strong>
                 </Typography>
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button onClick={() => this.props.openMoreInfo()}>
-                More Info
+              <Button onClick={() => this.props.openMoreInfo()} id='moreInfo'>
+                <strong>More Info</strong>
               </Button>
             </CardActions>
           </Card>

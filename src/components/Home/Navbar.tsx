@@ -21,12 +21,13 @@ const styles = (theme: any) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    // toolbar: theme.mixins.toolbar,
   });
 
 interface Props extends WithStyles<typeof styles> {
   token: string | null;
   clickLogout: () => void;
-  updateToken: (newToken: string) => void;
+  updateToken: (newToken: string, userId: number, role: 'user' | 'admin') => void;
 }
 
 interface State {

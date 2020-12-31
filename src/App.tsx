@@ -7,10 +7,13 @@ import Library from "./components/SideBarPages/Library";
 import WantToPlay from "./components/SideBarPages/WantToPlay";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+
 interface State {
   token: string | null;
   results: any;
   searchTerm: string;
+  userId: number;
+  role: 'user' | 'admin';
 }
 
 class App extends Component<{}, State> {
@@ -20,6 +23,8 @@ class App extends Component<{}, State> {
       token: "",
       results: {},
       searchTerm: "",
+      userId: 0,
+      role: 'user',
     };
   }
 
@@ -31,10 +36,14 @@ class App extends Component<{}, State> {
     }
   };
 
-  updateToken = (newToken: string) => {
+  updateToken = (newToken: string, userId: number, role: 'user' | 'admin') => {
     localStorage.setItem("token", newToken);
+    localStorage.setItem("userId", String(userId));
+    localStorage.setItem("role", role);
     this.setState({
       token: newToken,
+      userId: userId,
+      role: role,
     });
   };
 

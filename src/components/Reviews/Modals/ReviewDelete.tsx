@@ -74,7 +74,7 @@ class ReviewDelete extends Component<Props, State> {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alertTitle"><strong>Are you sure you?</strong></DialogTitle>
+          <DialogTitle id="alertTitle"><strong>Are you sure?</strong></DialogTitle>
           <DialogContent>
             <DialogContentText id="alertNotice">
               Are you sure you want to delete this review?

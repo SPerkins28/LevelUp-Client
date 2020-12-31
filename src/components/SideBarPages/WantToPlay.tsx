@@ -8,6 +8,11 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import CheckIcon from "@material-ui/icons/Check";
+import WantToPlayDelete from "./WantToPlayDelete";
+import "./WantToPlay.css";
 
 const styles = createStyles({
   root: {
@@ -28,6 +33,7 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
+  openRemoveWTP: boolean;
 }
 
 class WantToPlay extends Component<Props, State> {
@@ -38,6 +44,7 @@ class WantToPlay extends Component<Props, State> {
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
+      openRemoveWTP: false,
     };
   }
 
@@ -59,13 +66,13 @@ class WantToPlay extends Component<Props, State> {
   };
 
   fetchWTP = () => {
-    // const userId = this.props.token;
-    console.log(this.props.token)
-    fetch(`http://localhost:4321/wanttoplay/${1}`, {
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+    fetch(`http://localhost:4321/wanttoplay/${userId}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
-        "Authorization": `${this.props.token}`,
+        Authorization: `${this.props.token}`,
       }),
     })
       .then((res: any) => res.json())
@@ -76,10 +83,35 @@ class WantToPlay extends Component<Props, State> {
           const message = userWantToPlay.message;
           this.handleOpenSnackBar("success", message);
           this.setState({
-            userWantToPlay: userWantToPlay,
+            userWantToPlay: userWantToPlay.userWantToPlay,
           });
         }
       });
+  };
+
+  updateWTP = (event: any, game: any) => {
+    event.preventDefault();
+    const wtpId = game.id;
+    const played = game.played;
+    console.log(wtpId);
+    fetch(`http://localhost:4321/wanttoplay/${wtpId}`, {
+      method: "PUT",
+      body: JSON.stringify({ played: !played }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: `${this.props.token}`,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.updated) {
+          this.handleOpenSnackBar("error", data.message);
+        } else {
+          const message = data.message;
+          this.handleOpenSnackBar("success", message);
+        }
+      });
+    this.fetchWTP();
   };
 
   componentDidMount = () => {
@@ -89,34 +121,68 @@ class WantToPlay extends Component<Props, State> {
   render() {
     const { classes } = this.props;
     return (
-      <Grid container>
-        <Grid item xs={4} id="wtpresults">
-          {this.state.userWantToPlay.length && this.state.userWantToPlay.map((userWTP: any) => (
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image={userWTP.gameImg}
-                  title={"Game Image"}
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="h2"
-                    id="wtpGameName"
-                  >
-                    {userWTP.title}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button>Played?</Button>
-                <Button>Remove from list</Button>
-              </CardActions>
-            </Card>
-          ))}
-        </Grid>
+      <Grid container justify="space-evenly">
+        {this.state.userWantToPlay.length &&
+          this.state.userWantToPlay.map((userWTP: any, index: number) => {
+            return (
+              <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
+                <Card className={classes.root}>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={userWTP.gameImg}
+                      title={"Game Image"}
+                    />
+                    <CardContent>
+                      <Typography variant="h6" component="h2" id="wtpGameName">
+                        <strong>{userWTP.title}</strong>
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions id="wtpActions">
+                    <Button
+                      fullWidth={true}
+                      id="played"
+                      onClick={(event) => this.updateWTP(event, userWTP)}
+                    >
+                      <strong>
+                        {userWTP.played ? (
+                          <span id="playedIndicator">
+                            Played <CheckIcon id="check" />
+                          </span>
+                        ) : (
+                          "Played?"
+                        )}
+                      </strong>
+                    </Button>
+                    <Button fullWidth={true} onClick={() => this.setState({openRemoveWTP: true})} id="remove">
+                      <strong>Remove from list</strong>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            );
+          })}
+        <Snackbar
+          open={this.state.openSnackBar}
+          autoHideDuration={4000}
+          onClose={this.handleCloseSnackBar}
+        >
+          <Alert
+            onClose={this.handleCloseSnackBar}
+            elevation={6}
+            severity={this.state.severity}
+            variant="filled"
+          >
+            {this.state.responseMessage}
+          </Alert>
+        </Snackbar>
+        <WantToPlayDelete
+          handleOpenSnackBar={this.handleOpenSnackBar}
+          token={this.props.token}
+          open={this.state.openRemoveWTP}
+          onClose={() => this.setState({ openRemoveWTP: false })}
+        />
       </Grid>
     );
   }

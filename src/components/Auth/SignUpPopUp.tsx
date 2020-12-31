@@ -11,7 +11,7 @@ import "./SignUpPopUp.css";
 
 interface Props {
   openSnackBar: (severity: "success" | "error", message: string) => void;
-  updateToken: (newToken: string) => void;
+  updateToken: (newToken: string, userId: number, role: 'user' | 'admin') => void;
 }
 
 interface State {
@@ -70,7 +70,7 @@ class SignUpPopUp extends Component<Props, State> {
         } else {
           const message = data.message;
           this.props.openSnackBar("success", message);
-          this.props.updateToken(data.sessionToken);
+          this.props.updateToken(data.sessionToken, data.userId, data.role);
           this.handleClose();
         }
       });
