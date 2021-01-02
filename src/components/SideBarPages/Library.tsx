@@ -12,7 +12,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import LibraryDelete from "./LibraryDelete";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import "./Library.css";
 
 const styles = (theme: any) =>
@@ -42,7 +41,7 @@ interface State {
   responseMessage: string;
   severity: "success" | "error";
   openRemoveLibrary: boolean;
-  userWTP: any;
+  game: any;
 }
 
 class Library extends Component<Props, State> {
@@ -54,7 +53,7 @@ class Library extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveLibrary: false,
-      userWTP: {},
+      game: {},
     };
   }
 
@@ -95,7 +94,6 @@ class Library extends Component<Props, State> {
           const message = userLibrary.message;
           this.handleOpenSnackBar("success", message);
         }
-        console.log(userLibrary.userLibrary);
       });
   };
 
@@ -114,11 +112,11 @@ class Library extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((userLibrary) => {
-        if (!userLibrary.updated) {
+        if (!userLibrary.updatedList) {
           this.handleOpenSnackBar("error", userLibrary.message);
         } else {
           this.setState({
-            userLibrary: userLibrary.userLibrary,
+            userLibrary: userLibrary.updatedList,
           });
           const message = userLibrary.message;
           this.handleOpenSnackBar("success", message);
@@ -137,7 +135,7 @@ class Library extends Component<Props, State> {
     return (
       <>
         <Grid container justify="space-evenly">
-          {this.state.userLibrary.length &&
+          {setTimeout(this.state.userLibrary.length, 800) &&
             this.state.userLibrary.map((userLibrary: any, index: number) => {
               return (
                 <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
@@ -165,12 +163,12 @@ class Library extends Component<Props, State> {
                         onClick={(event) => this.updateLibrary(event, userLibrary)}
                       >
                         <strong>
-                          {userLibrary.played ? (
+                          {userLibrary.finished ? (
                             <span id="playedIndicator">
-                              Finished <CheckIcon id="check" />
+                              Completed <CheckIcon id="check" />
                             </span>
                           ) : (
-                            "Not Finished"
+                            "Not Completed"
                           )}
                         </strong>
                       </Button>
@@ -179,7 +177,7 @@ class Library extends Component<Props, State> {
                         onClick={() =>
                           this.setState({
                             openRemoveLibrary: true,
-                            userLibrary: userLibrary,
+                            game: userLibrary,
                           })
                         }
                         id="remove"

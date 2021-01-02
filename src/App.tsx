@@ -20,7 +20,7 @@ class App extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      token: "",
+      token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
       results: {},
       searchTerm: "",
       userId: 0,
@@ -28,13 +28,13 @@ class App extends Component<{}, State> {
     };
   }
 
-  componentDidMount = () => {
-    if (localStorage.getItem("token")) {
-      this.setState({
-        token: localStorage.getItem("token"),
-      });
-    }
-  };
+  // componentDidMount = () => {
+  //   if (localStorage.getItem("token")) {
+  //     this.setState({
+  //       token: localStorage.getItem("token"),
+  //     });
+  //   }
+  // };
 
   updateToken = (newToken: string, userId: number, role: 'user' | 'admin') => {
     localStorage.setItem("token", newToken);
