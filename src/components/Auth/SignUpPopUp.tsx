@@ -133,11 +133,11 @@ class SignUpPopUp extends Component<Props, State> {
             />
             <TextField
               error={
-                this.state.password.length > 0 && this.state.password.length < 8
+                this.state.password.length > 0 && this.state.password.length < 6
               }
               helperText={
-                this.state.password.length > 0 && this.state.password.length < 8
-                  ? "Password must be 8 characters long"
+                this.state.password.length > 0 && this.state.password.length < 6
+                  ? "Password must be 6 characters long"
                   : null
               }
               autoFocus

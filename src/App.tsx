@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Navbar from "./components/Home/Navbar";
 import SearchBar from "./components/Home/SearchBar";
-import AccountPage from "./components/SideBarPages/AccountPage";
+import MyAccount from "./components/SideBarPages/MyAccount";
 import Library from "./components/SideBarPages/Library";
 import WantToPlay from "./components/SideBarPages/WantToPlay";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -83,7 +83,7 @@ class App extends Component<{}, State> {
               />
             </Route>
             <Route exact path="/myaccount">
-              <AccountPage />
+              <MyAccount token={this.state.token} />
             </Route>
             <Route exact path="/wanttoplay">
               <WantToPlay token={this.state.token} />
