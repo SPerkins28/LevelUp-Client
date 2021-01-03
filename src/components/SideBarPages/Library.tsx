@@ -101,7 +101,6 @@ class Library extends Component<Props, State> {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
-    console.log(gameId);
     fetch(`http://localhost:4321/library/${gameId}`, {
       method: "PUT",
       body: JSON.stringify({ finished: !finished }),
@@ -128,6 +127,12 @@ class Library extends Component<Props, State> {
   componentDidMount = () => {
     this.fetchLibrary();
   };
+
+  setLibrary = (updatedList: any) => {
+    this.setState({
+      userLibrary: updatedList
+    })
+  }
 
   render() {
     console.log(this.state.userLibrary);
@@ -212,7 +217,8 @@ class Library extends Component<Props, State> {
             token={this.props.token}
             open={this.state.openRemoveLibrary}
             onClose={() => this.setState({ openRemoveLibrary: false })}
-            game={this.state.userLibrary}
+            game={this.state.game}
+            setLibrary={this.setLibrary}
           />
         )}
       </>

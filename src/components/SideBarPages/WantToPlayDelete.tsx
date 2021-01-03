@@ -12,6 +12,7 @@ interface Props {
     open: boolean;
     onClose: () => void;
     game: any;
+    setUserWantToPlay: (updatedList: any) => void
 }
 
 interface State {
@@ -50,9 +51,10 @@ class WantToPlayDelete extends Component<Props, State> {
         })
           .then((response) => response.json())
           .then((data) => {
-            if (!data.removedGame) {
+            if (!data.updatedList) {
               this.props.handleOpenSnackBar("error", data.message);
             } else {
+              this.props.setUserWantToPlay(data.updatedList.filter((deletedGame: any) => deletedGame.id !== wtpId));
               const message = data.message;
               this.props.handleOpenSnackBar("success", message);
               this.props.onClose();

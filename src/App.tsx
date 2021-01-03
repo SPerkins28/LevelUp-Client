@@ -28,14 +28,6 @@ class App extends Component<{}, State> {
     };
   }
 
-  // componentDidMount = () => {
-  //   if (localStorage.getItem("token")) {
-  //     this.setState({
-  //       token: localStorage.getItem("token"),
-  //     });
-  //   }
-  // };
-
   updateToken = (newToken: string, userId: number, role: 'user' | 'admin') => {
     localStorage.setItem("token", newToken);
     localStorage.setItem("userId", String(userId));

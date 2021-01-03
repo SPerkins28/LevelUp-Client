@@ -12,6 +12,7 @@ interface Props {
     open: boolean;
     onClose: () => void;
     game: any;
+    setLibrary: (updatedList: any) => void
 }
 
 interface State {
@@ -53,12 +54,13 @@ class LibraryDelete extends Component<Props, State> {
             if (!data.removedGame) {
               this.props.handleOpenSnackBar("error", data.message);
             } else {
+              this.props.setLibrary(data.removedGame.filter((deletedGame: any) => deletedGame.id !== gameId))
               const message = data.message;
               this.props.handleOpenSnackBar("success", message);
               this.props.onClose();
             }
           });
-      };
+    };
 
 
     render() {

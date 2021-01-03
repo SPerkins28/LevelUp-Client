@@ -129,6 +129,12 @@ class WantToPlay extends Component<Props, State> {
     this.fetchWTP();
   };
 
+  setUserWantToPlay = (updatedList: any) => {
+    this.setState({
+      userWantToPlay: updatedList
+    })
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -212,6 +218,7 @@ class WantToPlay extends Component<Props, State> {
             open={this.state.openRemoveWTP}
             onClose={() => this.setState({ openRemoveWTP: false })}
             game={this.state.game}
+            setUserWantToPlay={this.setUserWantToPlay}
           />
         )}
       </>
