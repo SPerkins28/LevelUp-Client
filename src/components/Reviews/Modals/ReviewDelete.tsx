@@ -38,6 +38,8 @@ class ReviewDelete extends Component<Props, State> {
   handleSubmit = (event: any) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
+    const userId = this.props.review.userId;
+    const userRole = localStorage.getItem("role");
     console.log(reviewId);
     fetch(`http://localhost:4321/review/${reviewId}`, {
       method: "DELETE",
@@ -48,7 +50,10 @@ class ReviewDelete extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.deletedReview) {
+        const errorMessage = data.error;
+        if (userId !== localStorage.getItem("userId") || userRole !== "admin") {
+          this.props.handleOpenSnackBar("error", errorMessage);
+        } else if (!data.deletedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
           const message = data.message;

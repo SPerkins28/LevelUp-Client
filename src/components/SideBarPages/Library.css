@@ -33,3 +33,13 @@
   margin-left: 0.2em;
   /* padding-bottom: .2em; */
 }
+
+#libraryMessage {
+  font-family: 'gameOver';
+  color: white;
+  font-size: 5em;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

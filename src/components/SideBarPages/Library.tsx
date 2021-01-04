@@ -6,6 +6,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -76,6 +77,7 @@ class Library extends Component<Props, State> {
 
   fetchLibrary = () => {
     const userId = localStorage.getItem("userId");
+    const token = this.props.token;
     fetch(`http://localhost:4321/library/${userId}`, {
       method: "GET",
       headers: new Headers({
@@ -85,7 +87,9 @@ class Library extends Component<Props, State> {
     })
       .then((res: any) => res.json())
       .then((userLibrary: any) => {
-        if (!userLibrary) {
+        if (!token) {
+          this.handleOpenSnackBar("error", userLibrary.message);
+        }else if (!userLibrary) {
           this.handleOpenSnackBar("error", userLibrary.message);
         } else {
           this.setState({
@@ -101,6 +105,8 @@ class Library extends Component<Props, State> {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
+    const token = this.props.token;
+    console.log(token);
     fetch(`http://localhost:4321/library/${gameId}`, {
       method: "PUT",
       body: JSON.stringify({ finished: !finished }),
@@ -135,68 +141,75 @@ class Library extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.userLibrary);
     const { classes } = this.props;
     return (
       <>
-        <Grid container justify="space-evenly">
-          {setTimeout(this.state.userLibrary.length, 800) &&
-            this.state.userLibrary.map((userLibrary: any, index: number) => {
-              return (
-                <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
-                  <Card className={classes.root}>
-                    <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
-                        image={userLibrary.gameImg}
-                        title={"Game Image"}
-                      />
-                      <CardContent>
-                        <Typography
-                          variant="h6"
-                          component="h2"
-                          id="wtpGameName"
+        {this.props.token ? (
+          <Grid container justify="space-evenly">
+            {setTimeout(this.state.userLibrary.length, 800) &&
+              this.state.userLibrary.map((userLibrary: any, index: number) => {
+                return (
+                  <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
+                    <Card className={classes.root}>
+                      <CardActionArea>
+                        <CardMedia
+                          className={classes.media}
+                          image={userLibrary.gameImg}
+                          title={"Game Image"}
+                        />
+                        <CardContent>
+                          <Typography
+                            variant="h6"
+                            component="h2"
+                            id="wtpGameName"
+                          >
+                            <strong>{userLibrary.title}</strong>
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions id="wtpActions">
+                        <Button
+                          fullWidth={true}
+                          id="played"
+                          onClick={(event) =>
+                            this.updateLibrary(event, userLibrary)
+                          }
                         >
-                          <strong>{userLibrary.title}</strong>
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions id="wtpActions">
-                      <Button
-                        fullWidth={true}
-                        id="played"
-                        onClick={(event) =>
-                          this.updateLibrary(event, userLibrary)
-                        }
-                      >
-                        <strong>
-                          {userLibrary.finished ? (
-                            <span id="playedIndicator">
-                              Completed <CheckIcon id="check" />
-                            </span>
-                          ) : (
-                            "Not Completed"
-                          )}
-                        </strong>
-                      </Button>
-                      <Button
-                        fullWidth={true}
-                        onClick={() =>
-                          this.setState({
-                            openRemoveLibrary: true,
-                            game: userLibrary,
-                          })
-                        }
-                        id="remove"
-                      >
-                        <strong>Remove from library</strong>
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
-        </Grid>
+                          <strong>
+                            {userLibrary.finished ? (
+                              <span id="playedIndicator">
+                                Completed <CheckIcon id="check" />
+                              </span>
+                            ) : (
+                              "Not Completed"
+                            )}
+                          </strong>
+                        </Button>
+                        <Button
+                          fullWidth={true}
+                          onClick={() =>
+                            this.setState({
+                              openRemoveLibrary: true,
+                              game: userLibrary,
+                            })
+                          }
+                          id="remove"
+                        >
+                          <strong>Remove from library</strong>
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                );
+              })}
+          </Grid>
+        ) : (
+          <Paper id="wtpMessage">
+            <strong>
+              Its pretty dark in here...Login or Sign Up to acquire the torch!
+            </strong>
+          </Paper>
+        )}
         {this.state.openSnackBar && (
           <Snackbar
             open={this.state.openSnackBar}
