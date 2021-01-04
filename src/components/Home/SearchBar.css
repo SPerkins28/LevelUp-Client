@@ -1,31 +1,36 @@
 @font-face {
-    font-family: 'gameOver';
-    src: url('../../assets/fonts/rainyhearts.ttf');
+  font-family: "gameOver";
+  src: url("../../assets/fonts/rainyhearts.ttf");
 }
 
 h1 {
-    font-family: 'gameOver';
-    font-size: 7em;
-    margin: .1em 0;
-    color: white;
-    text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,black 0px 0px 3.5px, black 0px 0px 3.5px,black 0px 0px 3.5px;
+  font-family: "gameOver";
+  font-size: 7em;
+  margin: 0.1em 0;
+  color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#searchTerm {
+  color: black !important;
 }
 
 #searchBarInput {
-    display: flex;
-    justify-content: center;
-    opacity: 40%;
-    margin-top: 1em;
+  display: flex;
+  justify-content: center;
+  opacity: 40%;
+  margin-top: 1em;
 }
 
 #searchBar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-right: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: none;
 }
 
 #playIcon {
-    color: #ACACAC;
+  color: #acacac;
 }

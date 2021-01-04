@@ -1,38 +1,49 @@
+@font-face {
+  font-family: "gameOver";
+  src: url("../../../assets/fonts/rainyhearts.ttf");
+}
+
 #customized-dialog-title {
-    text-decoration: underline;
-    display: flex;
-    justify-content: center;
-    margin-right: 1.75em;
-    padding: 1em;
+  text-decoration: underline;
+  display: flex;
+  justify-content: center;
+  margin-right: 1.75em;
+  padding: 1em;
 }
 
 #infoBar {
-    display: flex;
-    justify-content: space-around;
-    padding: 0 1em;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 1em;
 }
 
 .MuiDialog-paper {
-    background-color: #343434 !important;
-    color: white !important;
+  background-color: #343434 !important;
+  color: white !important;
 }
 
 #moreInfoButtons {
-    display: flex;
-    justify-content: space-between;
-    padding: .5em 1em;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em 1em;
 }
 
 #reviewsB {
-    margin-left: 1.75em;
+  margin-left: 1.75em;
+  font-family: "gameOver";
+  font-size: 16px;
 }
 
 #wtpB {
-    white-space: normal;
-    max-width: 125px;
+  font-family: "gameOver";
+  white-space: normal;
+  max-width: 125px;
+  font-size: 16px;
 }
 
 #libraryB {
-    white-space: normal;
-    max-width: 125px;
+  font-family: "gameOver";
+  white-space: normal;
+  max-width: 125px;
+  font-size: 16px;
 }
