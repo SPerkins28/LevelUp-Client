@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'gameOver';
+    src: url('../../assets/fonts/rainyhearts.ttf');
+}
+
+#gameResults {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: none;
+}
+
+.MuiCardContent-root {
+    padding: 0;
+    margin-bottom: 0;
+    background-color: #343434;
+}
+
+#gameName {
+    padding: 0;
+    margin-bottom: 0;
+    font-size: 1.5em;
+    color: white;
+}
+
+.MuiCardActions-root {
+    display: flex;
+    justify-content: center;
+    background-color: #282828;
+}
+
+.MuiButton-label {
+    color: white;
+}

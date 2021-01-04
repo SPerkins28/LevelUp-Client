@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'gameOver';
+    src: url('../../assets/fonts/rainyhearts.ttf');
+}
+
+.MuiToolbar-root {
+    background-color: #282828;
+    font-family: 'gameOver';
+    font-size: 20px;
+}
+
+#drawerButton {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#title {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#signupBut {
+   font-family: 'gameOver';
+   font-size: 20px;
+   color: white;
+}
+
+#loginBut {
+    font-family: 'gameOver';
+    font-size: 20px;
+    color: white;
+ }
