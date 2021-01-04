@@ -7,10 +7,10 @@
     max-width: 900px !important;
 }
 
-#dialogBody {
+#titleBox {
     display: flex;
-    justify-content: space-around;
-    color: white;
+    justify-content: space-evenly;
+    padding: 1em;
 }
 
 .MuiTypography-h6 {
@@ -19,14 +19,23 @@
     color: white;
 }
 
+#reviewTitle, #usernameText, #dateText {
+    color: white;
+}
+
+#entryText {
+    color: white;
+    max-width: 250px;
+}
+
 #reviewBack {
-    font-family: 'gameOver' !important;
+    font-family: 'gameOver';
     font-size: 20px;
     color: white;
 }
 
 #addReview {
-    font-family: 'gameOver' !important;
+    font-family: 'gameOver';
     font-size: 20px;
     color: white;
 }
@@ -34,4 +43,13 @@
 #reviewButtons {
     display: flex;
     justify-content: space-around;
+}
+
+#rating {
+    padding-left: 0;
+}
+
+#reviewActions {
+    padding-top: 0;
+    padding-left: 0;
 }

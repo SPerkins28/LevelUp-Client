@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from "@material-ui/core/Grid";
 import Typography from '@material-ui/core/Typography';
-import MoreInfo from './Modals/MoreInfo';
+import Button from '@material-ui/core/Button';
 import './Games.css';
 
 const styles = createStyles({
@@ -22,11 +22,12 @@ const styles = createStyles({
 
 interface Props extends WithStyles<typeof styles> {
     results: any,
+    token: string | null,
+    openMoreInfo: () => void
 }
 
 interface State {
     results: any;
-    openMoreInfo: boolean
 }
 
 class Games extends Component<Props, State> {
@@ -34,7 +35,6 @@ class Games extends Component<Props, State> {
         super(props)
         this.state=({
             results: this.props.results,
-            openMoreInfo: false,
         })
     }
 
@@ -57,7 +57,9 @@ class Games extends Component<Props, State> {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <MoreInfo results={this.state.results} open={this.state.openMoreInfo} onClose={() => this.setState({openMoreInfo: false})}/>
+                            <Button onClick={() => this.props.openMoreInfo()}>
+                                More Info
+                            </Button>
                         </CardActions>
                     </Card>
                 </Grid>

@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import './MoreInfo.css';
-import ReviewsByGame from '../../Reviews/ReviewsByGame';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -30,10 +29,12 @@ interface Props extends WithStyles<typeof styles> {
   onClose: () => void;
   open: boolean;
   results: any;
+  token: string | null;
+  openReviews: () => void;
+  handleClose: () => void;
 }
 
 interface State {
-    open: boolean;
     results: any
 }
 
@@ -41,32 +42,21 @@ class MoreInfo extends Component<Props, State> {
     constructor(props: Props){
         super(props)
         this.state=({
-            open: false,
             results: this.props.results
         })
     }
 
-    handleClickOpen = () => {
-        this.setState({
-            open: true
-        })
-    }
-
-    handleClose = () => {
-        this.setState({
-            open: false,
-        })
+    toggleViews = () => {
+        this.props.openReviews();
+        this.props.onClose();
     }
 
     render(){
         return(
             <div>
-                <Button onClick={this.handleClickOpen}>
-                    More Info
-                    </Button>
-                    <Dialog onClose={this.handleClose} aria-labelledby="customized-dialog-title" open={this.state.open}>
+                 <Dialog onClose={this.props.onClose} aria-labelledby="customized-dialog-title" open={this.props.open}>
                         <DialogTitle id="customized-dialog-title">
-                            {this.state.results.name}
+                            <strong>{this.state.results.name}</strong>
                         </DialogTitle>
                             <Grid id='infoBar'>
                                 <Typography gutterBottom>
@@ -85,14 +75,14 @@ class MoreInfo extends Component<Props, State> {
                         </Typography>
                         </DialogContent>
                         <DialogActions id='moreInfoButtons'>
-                        <Button id='reviewsB'>
-                            <ReviewsByGame results={this.state.results}/> 
+                        <Button onClick={() => this.toggleViews()} id='reviewsB'>
+                            <strong>Reviews</strong>
                         </Button>
-                        <Button onClick={this.handleClose} id='wtpB'>
-                            Add To Want To Play
+                        <Button onClick={this.props.onClose} id='wtpB'>
+                            <strong>Add To Want To Play</strong>
                         </Button>
-                        <Button onClick={this.handleClose} id='libraryB'>
-                            Add To Library
+                        <Button onClick={this.props.onClose} id='libraryB'>
+                            <strong>Add To Library</strong>
                         </Button>
                         </DialogActions>
                 </Dialog>

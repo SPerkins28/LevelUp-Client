@@ -1,0 +1,8 @@
+#backButton, #submitButton {
+    font-family: 'gameOver';
+    font-size: 20px;
+}
+
+.reviewFields {
+    color: white !important;
+}

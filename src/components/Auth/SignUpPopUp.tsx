@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core";
-import './SignUpPopUp.css';
+import "./SignUpPopUp.css";
 
 interface Props {
   openSnackBar: (severity: "success" | "error", message: string) => void;
@@ -80,11 +80,13 @@ class SignUpPopUp extends Component<Props, State> {
     return (
       <div>
         <Button onClick={this.handleClickOpen} id="signupBut">
-          <strong>Sign Up</strong>
+          <strong>SIGN UP</strong>
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose}>
-          <DialogTitle id="dialogTitle"><strong>Sign Up</strong></DialogTitle>
-          <DialogContent id='signupForm'>
+          <DialogTitle id="dialogTitle">
+            <strong>SIGN UP</strong>
+          </DialogTitle>
+          <DialogContent id="signupForm">
             <TextField
               autoFocus
               margin="dense"
@@ -93,7 +95,7 @@ class SignUpPopUp extends Component<Props, State> {
               fullWidth
               onChange={(e) => this.setState({ firstName: e.target.value })}
               InputLabelProps={{
-                  className: 'signupFields'
+                className: "signupFields",
               }}
             />
             <TextField
@@ -104,8 +106,8 @@ class SignUpPopUp extends Component<Props, State> {
               fullWidth
               onChange={(e) => this.setState({ lastName: e.target.value })}
               InputLabelProps={{
-                className: 'signupFields'
-            }}
+                className: "signupFields",
+              }}
             />
             <TextField
               autoFocus
@@ -115,8 +117,8 @@ class SignUpPopUp extends Component<Props, State> {
               fullWidth
               onChange={(e) => this.setState({ email: e.target.value })}
               InputLabelProps={{
-                className: 'signupFields'
-            }}
+                className: "signupFields",
+              }}
             />
             <TextField
               autoFocus
@@ -126,16 +128,16 @@ class SignUpPopUp extends Component<Props, State> {
               fullWidth
               onChange={(e) => this.setState({ username: e.target.value })}
               InputLabelProps={{
-                className: 'signupFields'
-            }}
+                className: "signupFields",
+              }}
             />
             <TextField
               error={
-                this.state.password.length > 0 && this.state.password.length < 6
+                this.state.password.length > 0 && this.state.password.length < 8
               }
               helperText={
-                this.state.password.length > 0 && this.state.password.length < 6
-                  ? "Password must be 6 characters long"
+                this.state.password.length > 0 && this.state.password.length < 8
+                  ? "Password must be 8 characters long"
                   : null
               }
               autoFocus
@@ -145,13 +147,17 @@ class SignUpPopUp extends Component<Props, State> {
               fullWidth
               onChange={(e) => this.setState({ password: e.target.value })}
               InputLabelProps={{
-                className: 'signupFields'
-            }}
+                className: "signupFields",
+              }}
             />
           </DialogContent>
-          <DialogActions id='signupButtons'>
-            <Button onClick={this.handleClose} id='signupButton'><strong>Cancel</strong></Button>
-            <Button onClick={this.handleSubmit} id='cancelButton'><strong>Sign Up</strong></Button>
+          <DialogActions id="signupButtons">
+            <Button onClick={this.handleClose} id="signupButton">
+              <strong>Cancel</strong>
+            </Button>
+            <Button onClick={this.handleSubmit} id="cancelButton">
+              <strong>Sign Up</strong>
+            </Button>
           </DialogActions>
         </Dialog>
       </div>

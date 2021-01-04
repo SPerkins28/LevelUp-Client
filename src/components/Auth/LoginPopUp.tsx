@@ -68,10 +68,10 @@ class LoginPopUp extends Component<Props, State> {
         return(
             <div>
                 <Button onClick={this.handleClickOpen} id='loginBut'>
-                   <strong>Login</strong>
+                   <strong>LOGIN</strong>
                 </Button>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle id="loginTitle"><strong>Login</strong></DialogTitle>
+                    <DialogTitle id="lOGINTitle"><strong>LOGIN</strong></DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus

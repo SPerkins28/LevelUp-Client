@@ -1,0 +1,8 @@
+#backButton, #deleteButton {
+    font-family: 'gameOver';
+    font-size: 20px;
+}
+
+#alertNotice {
+    color: white !important;
+}
