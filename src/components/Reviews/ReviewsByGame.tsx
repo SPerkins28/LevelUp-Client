@@ -12,9 +12,26 @@ import ReviewUpdate from "../Reviews/Modals/ReviewUpdate";
 import ReviewDelete from "../Reviews/Modals/ReviewDelete";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import {
+  WithStyles,
+  Theme,
+  createStyles,
+  withStyles,
+} from "@material-ui/core/styles";
 import "./ReviewsByGame.css";
 
-interface Props {
+const styles = createStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: "100%",
+      "& > * + *": {
+        marginTop: theme.spacing(2),
+      },
+    },
+  })
+);
+
+interface Props extends WithStyles<typeof styles> {
   results: any;
   token: string | null;
   open: boolean;
@@ -39,7 +56,7 @@ interface State {
   openReviewDelete: boolean;
   openSnackBar: boolean;
   responseMessage: string;
-  severity: "success" | "error";
+  severity: "success" | "error" | "warning";
 }
 
 class ReviewsByGame extends Component<Props, State> {
@@ -95,7 +112,10 @@ class ReviewsByGame extends Component<Props, State> {
       });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -163,7 +183,7 @@ class ReviewsByGame extends Component<Props, State> {
                       </Grid>
                       <Grid item xs={12} md={1} id="reviewActions">
                         <Button
-                        id="updateReview"
+                          id="updateReview"
                           onClick={() =>
                             this.setState({
                               openReviewUpdate: true,
@@ -174,7 +194,7 @@ class ReviewsByGame extends Component<Props, State> {
                           Update
                         </Button>
                         <Button
-                        id="deleteReview"
+                          id="deleteReview"
                           onClick={() =>
                             this.setState({
                               openReviewDelete: true,
@@ -195,10 +215,23 @@ class ReviewsByGame extends Component<Props, State> {
             <Button onClick={this.toggleViewsBack} id="reviewBack">
               <strong>Back</strong>
             </Button>
-            {/* Link to review create modal & maybe add button for add to wtp or library */}
-            <Button onClick={this.toggleViews} id="addReview">
-              <strong>Add a Review</strong>
-            </Button>
+            {this.props.token ? (
+              <Button onClick={this.toggleViews} id="addReview">
+                <strong>Add a Review</strong>
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  this.handleOpenSnackBar(
+                    "warning",
+                    "Please Login or Sign Up to add a review!"
+                  )
+                }
+                id="warningButton"
+              >
+                <strong>Add a Review</strong>
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
         {this.state.openReviewUpdate && (
@@ -242,4 +275,4 @@ class ReviewsByGame extends Component<Props, State> {
   }
 }
 
-export default ReviewsByGame;
+export default withStyles(styles)(ReviewsByGame);

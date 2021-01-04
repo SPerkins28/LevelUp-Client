@@ -12,6 +12,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar"
+import Alert from "@material-ui/lab/Alert";
 import "./MoreInfo.css";
 
 const styles = (theme: Theme) =>
@@ -42,7 +44,7 @@ interface Props extends WithStyles<typeof styles> {
 
 interface State {
   results: any;
-  severity: "success" | "error";
+  severity: "success" | "error" | "warning";
   responseMessage: string;
   openSnackBar: boolean;
 }
@@ -63,11 +65,20 @@ class MoreInfo extends Component<Props, State> {
     this.props.onClose();
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (severity: "success" | "error" | "warning", message: string) => {
     this.setState({
       severity: severity,
       responseMessage: message,
       openSnackBar: true,
+    });
+  };
+
+  handleCloseSnackBar = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({
+      openSnackBar: false,
     });
   };
 
@@ -165,14 +176,56 @@ class MoreInfo extends Component<Props, State> {
             <Button onClick={() => this.toggleViews()} id="reviewsB">
               <strong>Reviews</strong>
             </Button>
-            <Button onClick={(event) => this.addWTP(event)} id="wtpB">
+            {this.props.token ?
+            (<Button onClick={(event) => this.addWTP(event)} id="wtpB">
               <strong>Add To Want To Play</strong>
-            </Button>
-            <Button onClick={(event) => this.addToLibrary(event)} id="libraryB">
+            </Button>) :
+            (
+              <Button
+                onClick={() =>
+                  this.handleOpenSnackBar(
+                    "warning",
+                    "Please Login or Sign Up to add this to your Want To Play List"
+                  )
+                }
+                id="wtpWarning"
+              >
+                <strong>Add To Want To Play</strong>
+              </Button>
+            )}
+            {this.props.token ?
+            (<Button onClick={(event) => this.addToLibrary(event)} id="libraryB">
               <strong>Add To Library</strong>
-            </Button>
+            </Button>) :
+            (
+              <Button
+                onClick={() =>
+                  this.handleOpenSnackBar(
+                    "warning",
+                    "Please Login or Sign Up to add this to your Library"
+                  )
+                }
+                id="libraryWarning"
+              >
+                <strong>Add To Library</strong>
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
+        <Snackbar
+          open={this.state.openSnackBar}
+          autoHideDuration={4000}
+          onClose={this.handleCloseSnackBar}
+        >
+          <Alert
+            onClose={this.handleCloseSnackBar}
+            elevation={6}
+            severity={this.state.severity}
+            variant="filled"
+          >
+            {this.state.responseMessage}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

@@ -42,6 +42,12 @@
   color: white;
 }
 
+#warningButton {
+  font-family: "gameOver";
+  font-size: 20px;
+  color: white;
+}
+
 #reviewButtons {
   display: flex;
   justify-content: space-around;
