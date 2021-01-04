@@ -3,26 +3,14 @@
     src: url('../../assets/fonts/rainyhearts.ttf');
 }
 
-.MuiToolbar-root {
-    background-color: #282828;
+#loginTitle {
     font-family: 'gameOver';
     font-size: 20px;
+    color: white;
 }
 
-#drawerButton {
-    display: flex;
-    justify-content: flex-start;
-}
-
-#title {
-    display: flex;
-    justify-content: flex-end;
-}
-
-#signupBut {
-   font-family: 'gameOver';
-   font-size: 20px;
-   color: white;
+.loginFields {
+    color: white !important;
 }
 
 #loginBut {
@@ -31,7 +19,12 @@
     color: white;
 }
 
-#logoutBut {
+#loginButtons {
+    display: flex;
+    justify-content: space-around;
+}
+
+#cancelButton, #loginButton {
     font-family: 'gameOver';
     font-size: 20px;
     color: white;

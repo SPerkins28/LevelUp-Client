@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Grid from "@material-ui/core/Grid";
+import Games from '../Games/Games';
 import "./SearchBar.css";
 
 type FetchState = {
@@ -43,10 +44,10 @@ class SearchBar extends Component<Props, FetchState> {
     super(props);
     this.state = {
       searchTerm: "",
-      results: [],
+      results: {},
     };
   }
-
+  
   fetchResults = () => {
     const baseURL = "https://api.rawg.io/api/games/";
     const key = "7a9b89045e734eec9136810c89a04da4";
@@ -56,22 +57,21 @@ class SearchBar extends Component<Props, FetchState> {
 
     fetch(URL)
       .then((res) => res.json())
-      .then((game) => {
+      .then((games) => {
         this.setState({
-          results: game,
+          results: games,
         });
-        console.log(game);
+        console.log(games);
       });
   };
 
   handleSubmit = (e: any) => {
     e.preventDefault();
     this.setState({
-      results: [],
+      results: {},
     });
     this.fetchResults();
   };
-
   render() {
     const { classes } = this.props;
     return (
@@ -94,6 +94,7 @@ class SearchBar extends Component<Props, FetchState> {
             </IconButton>
           </Paper>
         </Grid>
+        {this.state.results.name && <Games results={this.state.results}/>}
       </Grid>
     );
   }
