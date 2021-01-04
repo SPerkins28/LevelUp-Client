@@ -20,21 +20,13 @@ class App extends Component<{}, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      token: "",
+      token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
       results: {},
       searchTerm: "",
       userId: 0,
       role: 'user',
     };
   }
-
-  componentDidMount = () => {
-    if (localStorage.getItem("token")) {
-      this.setState({
-        token: localStorage.getItem("token"),
-      });
-    }
-  };
 
   updateToken = (newToken: string, userId: number, role: 'user' | 'admin') => {
     localStorage.setItem("token", newToken);
@@ -97,7 +89,7 @@ class App extends Component<{}, State> {
               <WantToPlay token={this.state.token} />
             </Route>
             <Route exact path="/library">
-              <Library />
+              <Library token={this.state.token} />
             </Route>
           </Switch>
         </Router>

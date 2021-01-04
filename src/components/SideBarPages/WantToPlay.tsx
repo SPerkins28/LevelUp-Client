@@ -12,7 +12,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import WantToPlayDelete from "./WantToPlayDelete";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import "./WantToPlay.css";
 
 const styles = (theme: any) =>
@@ -42,7 +41,7 @@ interface State {
   responseMessage: string;
   severity: "success" | "error";
   openRemoveWTP: boolean;
-  userWTP: any;
+  game: any;
 }
 
 class WantToPlay extends Component<Props, State> {
@@ -54,7 +53,7 @@ class WantToPlay extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveWTP: false,
-      userWTP: {},
+      game: {},
     };
   }
 
@@ -86,16 +85,16 @@ class WantToPlay extends Component<Props, State> {
     })
       .then((res: any) => res.json())
       .then((userWantToPlay: any) => {
+        console.log(userWantToPlay);
         if (!userWantToPlay) {
           this.handleOpenSnackBar("error", userWantToPlay.message);
         } else {
           this.setState({
-            userWantToPlay: userWantToPlay.userWantToPlay,
+            userWantToPlay: userWantToPlay.userWantToPlay
           });
           const message = userWantToPlay.message;
           this.handleOpenSnackBar("success", message);
         }
-        console.log(userWantToPlay.userWantToPlay);
       });
   };
 
@@ -103,7 +102,6 @@ class WantToPlay extends Component<Props, State> {
     event.preventDefault();
     const wtpId = game.id;
     const played = game.played;
-    console.log(wtpId);
     fetch(`http://localhost:4321/wanttoplay/${wtpId}`, {
       method: "PUT",
       body: JSON.stringify({ played: !played }),
@@ -114,12 +112,12 @@ class WantToPlay extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((userWantToPlay) => {
-        if (!userWantToPlay.updated) {
+        if (!userWantToPlay.updatedList) {
           this.handleOpenSnackBar("error", userWantToPlay.message);
         } else {
           this.setState({
-            userWantToPlay: userWantToPlay.userWantToPlay,
-          });
+            userWantToPlay: userWantToPlay.updatedList
+          })
           const message = userWantToPlay.message;
           this.handleOpenSnackBar("success", message);
         }
@@ -131,8 +129,13 @@ class WantToPlay extends Component<Props, State> {
     this.fetchWTP();
   };
 
+  setUserWantToPlay = (updatedList: any) => {
+    this.setState({
+      userWantToPlay: updatedList
+    })
+  }
+
   render() {
-    console.log(this.state.userWantToPlay);
     const { classes } = this.props;
     return (
       <>
@@ -179,7 +182,7 @@ class WantToPlay extends Component<Props, State> {
                         onClick={() =>
                           this.setState({
                             openRemoveWTP: true,
-                            userWTP: userWTP,
+                            game: userWTP,
                           })
                         }
                         id="remove"
@@ -214,7 +217,8 @@ class WantToPlay extends Component<Props, State> {
             token={this.props.token}
             open={this.state.openRemoveWTP}
             onClose={() => this.setState({ openRemoveWTP: false })}
-            game={this.state.userWTP}
+            game={this.state.game}
+            setUserWantToPlay={this.setUserWantToPlay}
           />
         )}
       </>

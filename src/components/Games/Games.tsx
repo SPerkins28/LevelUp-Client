@@ -24,6 +24,7 @@ interface Props extends WithStyles<typeof styles> {
   results: any;
   token: string | null;
   openMoreInfo: () => void;
+  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
 }
 
 interface State {

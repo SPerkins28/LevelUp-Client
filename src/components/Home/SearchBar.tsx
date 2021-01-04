@@ -10,33 +10,32 @@ import Games from "../Games/Games";
 import MoreInfo from "../Games/Modals/MoreInfo";
 import ReviewsByGame from "../Reviews/ReviewsByGame";
 import ReviewCreate from "../Reviews/Modals/ReviewCreate";
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import "./SearchBar.css";
 
-
 const styles = (theme: any) =>
-createStyles({
-  root: {
-    marginTop: "3em",
-    marginBottom: "1em",
-    padding: "2px 4px",
-    display: "flex",
-    alignItems: "center",
-    width: 400,
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-});
+  createStyles({
+    root: {
+      marginTop: "3em",
+      marginBottom: "1em",
+      padding: "2px 4px",
+      display: "flex",
+      alignItems: "center",
+      width: 400,
+    },
+    input: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+    },
+    iconButton: {
+      padding: 10,
+    },
+    divider: {
+      height: 28,
+      margin: 4,
+    },
+  });
 
 interface Props extends WithStyles<typeof styles> {
   token: string | null;
@@ -140,7 +139,7 @@ class SearchBar extends Component<Props, FetchState> {
             >
               <InputBase
                 className={classes.input}
-                id='searchTerm'
+                id="searchTerm"
                 value={this.props.searchTerm}
                 placeholder="Game Name"
                 onChange={(e) => this.props.setSearchTerm(e.target.value)}
@@ -160,6 +159,7 @@ class SearchBar extends Component<Props, FetchState> {
               openMoreInfo={() => this.setState({ openMoreInfo: true })}
               token={this.props.token}
               results={this.props.results}
+              handleOpenSnackBar={this.handleOpenSnackBar}
             />
           )}
         </Grid>
@@ -171,12 +171,13 @@ class SearchBar extends Component<Props, FetchState> {
             handleClose={() => this.setState({ openMoreInfo: false })}
             results={this.props.results}
             token={this.props.token}
+            handleOpenSnackBar={this.handleOpenSnackBar}
           />
         )}
         {this.state.openReviews && (
           <ReviewsByGame
             openReviewCreate={this.handleClickOpenReviewCreate}
-            openMoreInfo={() => this.setState({openMoreInfo: true})}
+            openMoreInfo={() => this.setState({ openMoreInfo: true })}
             showReviews={() => this.setState({ openReviews: true })}
             open={this.state.openReviews}
             token={this.props.token}
@@ -192,7 +193,7 @@ class SearchBar extends Component<Props, FetchState> {
             open={this.state.openReviewCreate}
             onClose={() => this.setState({ openReviewCreate: false })}
             handleClose={() => this.setState({ openReviews: false })}
-            openReviews={() => this.setState({openReviews: true})}
+            openReviews={() => this.setState({ openReviews: true })}
             showReviewCreate={() => this.setState({ openReviewCreate: true })}
             handleOpenSnackBar={this.handleOpenSnackBar}
           />

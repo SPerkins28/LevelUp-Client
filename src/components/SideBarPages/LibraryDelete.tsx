@@ -12,7 +12,7 @@ interface Props {
     open: boolean;
     onClose: () => void;
     game: any;
-    setUserWantToPlay: (updatedList: any) => void
+    setLibrary: (updatedList: any) => void
 }
 
 interface State {
@@ -22,7 +22,7 @@ interface State {
     severity: "success" | "error";
 }
 
-class WantToPlayDelete extends Component<Props, State> {
+class LibraryDelete extends Component<Props, State> {
     constructor (props: any) {
         super(props)
         this.state=({
@@ -39,10 +39,10 @@ class WantToPlayDelete extends Component<Props, State> {
         })
     }
 
-    removeWTP = (event: any, game: any) => {
+    removeFromLibrary = (event: any, game: any) => {
         event.preventDefault();
-        const wtpId = game.id;
-        fetch(`http://localhost:4321/wanttoplay/delete/${wtpId}`, {
+        const gameId = game.id;
+        fetch(`http://localhost:4321/library/delete/${gameId}`, {
           method: "DELETE",
           headers: new Headers({
             "Content-Type": "application/json",
@@ -51,16 +51,16 @@ class WantToPlayDelete extends Component<Props, State> {
         })
           .then((response) => response.json())
           .then((data) => {
-            if (!data.updatedList) {
+            if (!data.removedGame) {
               this.props.handleOpenSnackBar("error", data.message);
             } else {
-              this.props.setUserWantToPlay(data.updatedList.filter((deletedGame: any) => deletedGame.id !== wtpId));
+              this.props.setLibrary(data.removedGame.filter((deletedGame: any) => deletedGame.id !== gameId))
               const message = data.message;
               this.props.handleOpenSnackBar("success", message);
               this.props.onClose();
             }
           });
-      };
+    };
 
 
     render() {
@@ -75,14 +75,14 @@ class WantToPlayDelete extends Component<Props, State> {
               <DialogTitle id="alertTitle"><strong>Are you sure?</strong></DialogTitle>
               <DialogContent>
                 <DialogContentText id="alertNotice">
-                  {`Are you sure you want to remove ${this.props.game.title} from your Want To Play List?`}
+                  {`Are you sure you want to remove ${this.props.game.title} from your Library?`}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.props.onClose} id="backButton">
                   <strong>Cancel</strong>
                 </Button>
-                <Button onClick={(event) => this.removeWTP(event, this.props.game)} id="deleteButton" autoFocus>
+                <Button onClick={(event) => this.removeFromLibrary(event, this.props.game)} id="deleteButton" autoFocus>
                   <strong>Delete</strong>
                 </Button>
               </DialogActions>
@@ -92,4 +92,4 @@ class WantToPlayDelete extends Component<Props, State> {
       }
 }
 
-export default WantToPlayDelete;
+export default LibraryDelete;
