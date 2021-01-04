@@ -1,47 +1,14 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import Grid from "@material-ui/core/Grid";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Button,
-} from "@material-ui/core";
+import { Button, TextField, Typography, Box } from "@material-ui/core";
+import Rating from "@material-ui/lab/Rating";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import UserReviewUpdate from "./Modals/UserReviewUpdate";
+import "./MyAccount.css";
+import UserReviewDelete from "./Modals/UserReviewDelete";
 
-const styles = (theme: any) =>
-  createStyles({
-    root: {
-      marginTop: "3em",
-      marginBottom: "1em",
-      padding: "2px 4px",
-      display: "flex",
-      alignItems: "center",
-      width: 400,
-    },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
-    },
-    iconButton: {
-      padding: 10,
-    },
-    divider: {
-      height: 28,
-      margin: 4,
-    },
-  });
-
-interface Props extends WithStyles<typeof styles> {
+interface Props {
   token: string | null;
 }
 
@@ -52,6 +19,9 @@ interface State {
   responseMessage: string;
   severity: "success" | "error";
   userReviews: any;
+  userReview: any;
+  openUserReviewUpdate: boolean;
+  openUserReviewDelete: boolean;
 }
 
 class MyAccount extends Component<Props, State> {
@@ -64,6 +34,9 @@ class MyAccount extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       userReviews: [],
+      userReview: {},
+      openUserReviewUpdate: false,
+      openUserReviewDelete: false,
     };
   }
 
@@ -179,91 +152,151 @@ class MyAccount extends Component<Props, State> {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <Grid container>
-          <Grid item xs={12} id="usernameInput">
-            <Paper component="form" className={classes.root} id="usernameInput">
-              <InputBase
-                className={classes.input}
-                id="username"
-                value={this.state.usernameInput}
-                placeholder="Enter New Username"
-                onChange={(e) => this.setUsername(e.target.value)}
-              />
-              <Divider className={classes.divider} orientation="vertical" />
-              <IconButton
-                type="submit"
-                className={classes.iconButton}
-                onClick={this.handleSubmitUsername}
-              >
-                <PlayArrowIcon id="playIcon" />
-              </IconButton>
-            </Paper>
+          <Grid item xs={12}>
+            <Typography variant="h3" id="accountHeading">
+              <strong>MY ACCOUNT</strong>
+            </Typography>
           </Grid>
         </Grid>
-        <Grid container>
-          <Grid item xs={12} id="passwordInput">
-            <Paper component="form" className={classes.root} id="passwordInput">
-              <InputBase
-                className={classes.input}
-                id="password"
-                value={this.state.passwordInput}
-                placeholder="Enter New Password"
-                onChange={(e) => this.setPassword(e.target.value)}
-              />
-              <Divider className={classes.divider} orientation="vertical" />
-              <IconButton
-                type="submit"
-                className={classes.iconButton}
-                onClick={this.handleSubmitPassword}
-              >
-                <PlayArrowIcon id="playIcon" />
-              </IconButton>
-            </Paper>
+        <Grid container id="usernameUpdate">
+          <Grid item xs={12} md={5} id="usernameInput">
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Change Username"
+              type="text"
+              variant="filled"
+              onChange={(e) => this.setState({ usernameInput: e.target.value })}
+              InputLabelProps={{
+                className: "updateFields",
+              }}
+            />
+            <Button
+              id="updateUButton"
+              variant="contained"
+              onClick={this.handleSubmitUsername}
+            >
+              <strong>Update</strong>
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={5} id="passwordInput">
+            <TextField
+              error={
+                this.state.passwordInput.length > 0 &&
+                this.state.passwordInput.length < 6
+              }
+              helperText={
+                this.state.passwordInput.length > 0 &&
+                this.state.passwordInput.length < 6
+                  ? "Password must be 6 characters long"
+                  : null
+              }
+              autoFocus
+              margin="dense"
+              label="Change Password"
+              type="password"
+              variant="filled"
+              onChange={(e) => this.setState({ passwordInput: e.target.value })}
+              InputLabelProps={{
+                className: "updateFields",
+              }}
+            />
+            <Button
+              id="updatePButton"
+              variant="contained"
+              onClick={this.handleSubmitPassword}
+            >
+              <strong>Update</strong>
+            </Button>
           </Grid>
         </Grid>
+        <br />
+        <br />
         <Grid container>
-          <Grid item xs={12} md={8}>
-            <TableContainer>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">
-                      <strong>Title</strong>
-                    </TableCell>
-                    <TableCell align="left">
-                      <strong>Entry</strong>
-                    </TableCell>
-                    <TableCell align="left">
-                      <strong>date</strong>
-                    </TableCell>
-                    <TableCell align="left">
-                      <strong>Rating</strong>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.userReviews.length > 0 &&
-                    this.state.userReviews.map((myReview: any, index: any) => {
-                      return (
-                        <TableRow key={index}>
-                          <TableCell align="left">{myReview.title}</TableCell>
-                          <TableCell align="left">{myReview.entry}</TableCell>
-                          <TableCell align="left">{new Date(myReview.date).toLocaleDateString()}</TableCell>
-                          <TableCell align="left">{myReview.rating}</TableCell>
-                          <TableCell align="right">
-                            <Button id="updateReview">Update</Button>
-                            <Button id="deleteReview">Delete</Button>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
+          <Grid item xs={12}>
+            <Typography variant="h3" id="reviewHeading">
+              <strong>MY REVIEWS</strong>
+            </Typography>
+            <br />
+            <br />
           </Grid>
+        </Grid>
+        <Grid container spacing={2} justify="center">
+          {this.state.userReviews.length > 0 &&
+            this.state.userReviews.map((myReviews: any, index: any) => {
+              return (
+                <Grid container id="userReviews" key={index}>
+                  <Grid item xs={12} md={2}>
+                    <Typography id="reviewTitle">
+                      <strong>{myReviews.title}</strong>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={3}>
+                    <Typography id="entryText">{myReviews.entry}</Typography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <Typography id="dateText">
+                      {new Date(myReviews.createdAt).toLocaleDateString()}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <Rating
+                      id="rating"
+                      defaultValue={myReviews.rating}
+                      readOnly
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={1} id="reviewActions">
+                    <Button
+                      id="updateUserReview"
+                      onClick={() =>
+                        this.setState({
+                          openUserReviewUpdate: true,
+                          userReview: myReviews,
+                        })
+                      }
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      id="deleteUserReview"
+                      onClick={() =>
+                        this.setState({
+                          openUserReviewDelete: true,
+                          userReview: myReviews,
+                        })
+                      }
+                    >
+                      Delete
+                    </Button>
+                  </Grid>
+                  <br />
+                </Grid>
+              );
+            })}
+          {this.state.openUserReviewUpdate && (
+            <UserReviewUpdate
+              token={this.props.token}
+              open={this.state.openUserReviewUpdate}
+              onClose={() => this.setState({ openUserReviewUpdate: false })}
+              updateReviews={this.fetchUserReviews}
+              review={this.state.userReview}
+              handleOpenSnackBar={this.handleOpenSnackBar}
+            />
+          )}
+          {this.state.openUserReviewDelete && (
+            <UserReviewDelete
+              token={this.props.token}
+              open={this.state.openUserReviewDelete}
+              onClose={() => this.setState({ openUserReviewDelete: false })}
+              updateReviews={this.fetchUserReviews}
+              review={this.state.userReview}
+              handleOpenSnackBar={this.handleOpenSnackBar}
+            />
+          )}
         </Grid>
         <Snackbar
           open={this.state.openSnackBar}
@@ -284,4 +317,4 @@ class MyAccount extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(MyAccount);
+export default MyAccount;

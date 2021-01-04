@@ -1,12 +1,13 @@
-#backButton, #submitButton {
-    font-family: 'gameOver';
-    font-size: 20px;
+#backButton,
+#submitButton {
+  font-family: "gameOver";
+  font-size: 20px;
 }
 
 .reviewFields {
-    color: white !important;
+  color: white !important;
 }
 
 .MuiInputBase-root {
-    color: white !important;
+  color: white !important;
 }

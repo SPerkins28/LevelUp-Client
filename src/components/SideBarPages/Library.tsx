@@ -130,9 +130,9 @@ class Library extends Component<Props, State> {
 
   setLibrary = (updatedList: any) => {
     this.setState({
-      userLibrary: updatedList
-    })
-  }
+      userLibrary: updatedList,
+    });
+  };
 
   render() {
     console.log(this.state.userLibrary);
@@ -165,7 +165,9 @@ class Library extends Component<Props, State> {
                       <Button
                         fullWidth={true}
                         id="played"
-                        onClick={(event) => this.updateLibrary(event, userLibrary)}
+                        onClick={(event) =>
+                          this.updateLibrary(event, userLibrary)
+                        }
                       >
                         <strong>
                           {userLibrary.finished ? (

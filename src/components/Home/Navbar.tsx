@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Grid,
-  Snackbar,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Button, Grid, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import Drawer from "./Drawer";
 import SignUpPopUp from "../Auth/SignUpPopUp";
@@ -27,7 +21,11 @@ const styles = (theme: any) =>
 interface Props extends WithStyles<typeof styles> {
   token: string | null;
   clickLogout: () => void;
-  updateToken: (newToken: string, userId: number, role: 'user' | 'admin') => void;
+  updateToken: (
+    newToken: string,
+    userId: number,
+    role: "user" | "admin"
+  ) => void;
 }
 
 interface State {
@@ -102,24 +100,24 @@ class Navbar extends Component<Props, State> {
         <AppBar position="fixed">
           <Toolbar>
             <Grid item xs={6} id="drawerButton">
-                <Drawer />
+              <Drawer />
             </Grid>
             <Grid item xs={6} id="title">
-                {!this.props.token && (
-                  <SignUpPopUp
-                    openSnackBar={this.handleOpenSnackBar}
-                    updateToken={this.props.updateToken}
-                  />
-                )}
+              {!this.props.token && (
+                <SignUpPopUp
+                  openSnackBar={this.handleOpenSnackBar}
+                  updateToken={this.props.updateToken}
+                />
+              )}
               {this.props.token ? (
                 <Button id="logoutBut" onClick={this.props.clickLogout}>
                   <strong>Logout</strong>
                 </Button>
               ) : (
-                  <LoginPopUp
-                    openSnackBar={this.handleOpenSnackBar}
-                    updateToken={this.props.updateToken}
-                  />
+                <LoginPopUp
+                  openSnackBar={this.handleOpenSnackBar}
+                  updateToken={this.props.updateToken}
+                />
               )}
             </Grid>
           </Toolbar>

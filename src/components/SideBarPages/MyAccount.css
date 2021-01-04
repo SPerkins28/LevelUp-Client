@@ -1,0 +1,96 @@
+@font-face {
+  font-family: "gameOver";
+  src: url("../../assets/fonts/rainyhearts.ttf");
+}
+
+#accountHeading {
+  margin-top: 1.5em;
+  font-family: "gameOver";
+  font-size: 5em;
+  color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#usernameUpdate {
+  margin-top: 2em;
+  display: flex;
+  justify-content: center;
+}
+
+#usernameInput,
+#passwordInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#updateUButton,
+#updatePButton {
+  margin-top: 0.3em;
+  margin-left: 1em;
+  background-color: #282828;
+  font-family: "gameOver";
+  max-height: 40px;
+}
+
+#reviewHeading {
+  font-family: "gameOver";
+  font-size: 4em;
+  color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#userReviews {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+  padding: 1em;
+  background-color: #343434;
+  border-radius: 5px;
+  max-width: 80%;
+}
+
+.MuiTableCell-root {
+  color: white !important;
+}
+
+.MuiTableCell-root.MuiTableCell-head {
+  font-family: "gameOver";
+  font-size: 18px;
+}
+
+.updateFields {
+  color: #202020 !important;
+}
+
+.MuiFilledInput-underline {
+  background-color: #85868a !important;
+  opacity: 20%;
+}
+
+#reviewActions {
+  display: flex;
+  flex-direction: column;
+}
+
+#updateUserReview {
+  background-color: #282828;
+  font-family: "gameOver";
+  max-height: 40px;
+  margin-bottom: 0.3em;
+  max-width: 70px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+#deleteUserReview {
+  background-color: #282828;
+  font-family: "gameOver";
+  max-height: 40px;
+  max-width: 70px;
+  margin-top: 0.3em;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}

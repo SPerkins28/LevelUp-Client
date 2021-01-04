@@ -8,10 +8,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Rating from "@material-ui/lab/Rating";
-import ReviewUpdate from '../Reviews/Modals/ReviewUpdate';
-import ReviewDelete from '../Reviews/Modals/ReviewDelete'
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
+import ReviewUpdate from "../Reviews/Modals/ReviewUpdate";
+import ReviewDelete from "../Reviews/Modals/ReviewDelete";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import "./ReviewsByGame.css";
 
 interface Props {
@@ -89,10 +89,11 @@ class ReviewsByGame extends Component<Props, State> {
           const message = reviews.message;
           this.handleOpenSnackBar("success", message);
           this.setState({
-          reviews: reviews.reviews,
-        })};
+            reviews: reviews.reviews,
+          });
+        }
       });
-  }
+  };
 
   handleOpenSnackBar = (severity: "success" | "error", message: string) => {
     this.setState({
@@ -161,8 +162,28 @@ class ReviewsByGame extends Component<Props, State> {
                         />
                       </Grid>
                       <Grid item xs={12} md={1} id="reviewActions">
-                        <Button onClick={() => this.setState({openReviewUpdate: true, review: review})}>Update</Button>
-                        <Button onClick={() => this.setState({openReviewDelete: true, review: review})}>Delete</Button>
+                        <Button
+                        id="updateReview"
+                          onClick={() =>
+                            this.setState({
+                              openReviewUpdate: true,
+                              review: review,
+                            })
+                          }
+                        >
+                          Update
+                        </Button>
+                        <Button
+                        id="deleteReview"
+                          onClick={() =>
+                            this.setState({
+                              openReviewDelete: true,
+                              review: review,
+                            })
+                          }
+                        >
+                          Delete
+                        </Button>
                       </Grid>
                     </Grid>
                   </React.Fragment>
@@ -192,7 +213,7 @@ class ReviewsByGame extends Component<Props, State> {
           />
         )}
         {this.state.openReviewDelete && (
-          <ReviewDelete 
+          <ReviewDelete
             token={this.props.token}
             results={this.props.results}
             open={this.state.openReviewDelete}

@@ -11,7 +11,11 @@ import "./SignUpPopUp.css";
 
 interface Props {
   openSnackBar: (severity: "success" | "error", message: string) => void;
-  updateToken: (newToken: string, userId: number, role: 'user' | 'admin') => void;
+  updateToken: (
+    newToken: string,
+    userId: number,
+    role: "user" | "admin"
+  ) => void;
 }
 
 interface State {
