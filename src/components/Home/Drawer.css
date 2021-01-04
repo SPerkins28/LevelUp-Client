@@ -1,21 +1,21 @@
 .MuiPaper-root {
-    background-color: #343434;
-    color: white;
+  background-color: #343434;
+  color: white;
 }
 
 .MuiDrawer-paper {
-    background-color: #343434 !important;
-    color: white !important;
+  background-color: #343434 !important;
+  color: white !important;
 }
 
 .drawerIcons .MuiSvgIcon-root {
-    color: white
+  color: white;
 }
 
 .links {
-    display: flex;
-    flex-direction: row;
-    color: white;
-    text-decoration: none;
-    padding-left: 2em;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  text-decoration: none;
+  padding-left: 2em;
 }

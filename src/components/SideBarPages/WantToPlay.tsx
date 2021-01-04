@@ -90,7 +90,7 @@ class WantToPlay extends Component<Props, State> {
           this.handleOpenSnackBar("error", userWantToPlay.message);
         } else {
           this.setState({
-            userWantToPlay: userWantToPlay.userWantToPlay
+            userWantToPlay: userWantToPlay.userWantToPlay,
           });
           const message = userWantToPlay.message;
           this.handleOpenSnackBar("success", message);
@@ -116,8 +116,8 @@ class WantToPlay extends Component<Props, State> {
           this.handleOpenSnackBar("error", userWantToPlay.message);
         } else {
           this.setState({
-            userWantToPlay: userWantToPlay.updatedList
-          })
+            userWantToPlay: userWantToPlay.updatedList,
+          });
           const message = userWantToPlay.message;
           this.handleOpenSnackBar("success", message);
         }
@@ -131,9 +131,9 @@ class WantToPlay extends Component<Props, State> {
 
   setUserWantToPlay = (updatedList: any) => {
     this.setState({
-      userWantToPlay: updatedList
-    })
-  }
+      userWantToPlay: updatedList,
+    });
+  };
 
   render() {
     const { classes } = this.props;

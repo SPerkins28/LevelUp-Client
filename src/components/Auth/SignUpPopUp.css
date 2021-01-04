@@ -1,29 +1,30 @@
 @font-face {
-    font-family: 'gameOver';
-    src: url('../../assets/fonts/rainyhearts.ttf');
+  font-family: "gameOver";
+  src: url("../../assets/fonts/rainyhearts.ttf");
 }
 
 #signupBut {
-    font-family: 'gameOver';
-    font-size: 20px;
-    color: white;
+  font-family: "gameOver";
+  font-size: 20px;
+  color: white;
 }
 
 #dialogTitle {
-    font-family: 'gameOver';
-    font-size: 20px;
+  font-family: "gameOver";
+  font-size: 20px;
 }
 
 .signupFields {
-    color: white !important;
+  color: white !important;
 }
 
 #signupButtons {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
-#signupButton, #cancelButton {
-    font-family: 'gameOver';
-    font-size: 20px;
+#signupButton,
+#cancelButton {
+  font-family: "gameOver";
+  font-size: 20px;
 }

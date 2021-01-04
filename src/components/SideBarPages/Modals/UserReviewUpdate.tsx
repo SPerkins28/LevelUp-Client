@@ -9,16 +9,13 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
-import "./ReviewCreate.css";
 
 interface Props {
   token: string | null;
-  results: any;
   open: boolean;
+  review: any;
   onClose: () => void;
-  openReviews: () => void;
-  showReviewCreate: () => void;
-  handleClose: () => void;
+  updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
 }
 
@@ -32,77 +29,40 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
-  results: any;
 }
 
-class ReviewCreate extends Component<Props, State> {
+class UserReviewUpdate extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      title: "",
-      date: "",
+      title: this.props.review.title,
+      date: new Date(this.props.review.date).toLocaleDateString(),
       gameId: 0,
-      entry: "",
-      rating: 0,
+      entry: this.props.review.entry,
+      rating: this.props.review.rating,
       open: false,
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
-      results: this.props.results,
     };
   }
 
-  toggleViews = () => {
-    this.props.handleClose();
-    this.props.showReviewCreate();
-  };
-
-  toggleViewsBack = () => {
-    this.props.onClose();
-    this.props.openReviews();
-  };
-
-  handleClickOpenReviewCreate = () => {
-    this.setState({
-      open: true,
-    });
-  };
-
-  handleCloseReviewCreate = () => {
+  handleCloseUserReviewUpdate = () => {
     this.setState({
       open: false,
-    });
-  };
-
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
-    this.setState({
-      severity: severity,
-      responseMessage: message,
-      openSnackBar: true,
-    });
-  };
-
-  handleCloseSnackBar = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    this.setState({
-      openSnackBar: false,
     });
   };
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    fetch("http://localhost:4321/review/create", {
-      method: "POST",
+    const reviewId = this.props.review.id;
+    console.log(reviewId);
+    fetch(`http://localhost:4321/review/${reviewId}`, {
+      method: "PUT",
       body: JSON.stringify({
-        review: {
-          title: this.state.title,
-          date: this.state.date,
-          entry: this.state.entry,
-          rating: this.state.rating,
-          gameId: this.props.results.id,
-        },
+        title: this.state.title,
+        entry: this.state.entry,
+        rating: this.state.rating,
       }),
       headers: new Headers({
         "Content-Type": "application/json",
@@ -111,26 +71,31 @@ class ReviewCreate extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.review) {
+        if (!data.editedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
-          this.toggleViewsBack();
+          this.props.onClose();
         }
       });
+    this.props.updateReviews();
   };
 
   render() {
     return (
       <div>
-        <Dialog open={this.props.open} onClose={this.handleCloseReviewCreate}>
+        <Dialog
+          open={this.props.open}
+          onClose={this.handleCloseUserReviewUpdate}
+        >
           <DialogTitle id="dialogTitle">
-            <strong>ADD A REVIEW</strong>
+            <strong>UPDATE REVIEW</strong>
           </DialogTitle>
           <DialogContent id="signupForm">
             <TextField
               autoFocus
+              value={this.state.title}
               margin="dense"
               label="Title"
               type="text"
@@ -143,17 +108,7 @@ class ReviewCreate extends Component<Props, State> {
             />
             <TextField
               autoFocus
-              margin="dense"
-              type="date"
-              fullWidth
-              onChange={(e) => this.setState({ date: e.target.value })}
-              variant="outlined"
-              InputLabelProps={{
-                className: "reviewFields",
-              }}
-            />
-            <TextField
-              autoFocus
+              value={this.state.entry}
               margin="dense"
               label="entry"
               type="text"
@@ -182,11 +137,11 @@ class ReviewCreate extends Component<Props, State> {
             </Box>
           </DialogContent>
           <DialogActions id="reviewButtons">
-            <Button onClick={this.toggleViewsBack} id="backButton">
+            <Button onClick={this.props.onClose} id="backButton">
               <strong>Back</strong>
             </Button>
             <Button onClick={this.handleSubmit} id="submitButton">
-              <strong>Submit Review</strong>
+              <strong>Submit Update</strong>
             </Button>
           </DialogActions>
         </Dialog>
@@ -195,4 +150,4 @@ class ReviewCreate extends Component<Props, State> {
   }
 }
 
-export default ReviewCreate;
+export default UserReviewUpdate;

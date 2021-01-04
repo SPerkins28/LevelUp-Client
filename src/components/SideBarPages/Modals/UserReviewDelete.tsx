@@ -5,14 +5,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import "./ReviewDelete.css";
 
 interface Props {
   token: string | null;
-  results: any;
   open: boolean;
-  onClose: () => void;
   review: any;
+  onClose: () => void;
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
 }
@@ -24,7 +22,7 @@ interface State {
   severity: "success" | "error";
 }
 
-class ReviewDelete extends Component<Props, State> {
+class UserReviewDelete extends Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -96,4 +94,4 @@ class ReviewDelete extends Component<Props, State> {
   }
 }
 
-export default ReviewDelete;
+export default UserReviewDelete;

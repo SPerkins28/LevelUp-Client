@@ -1,39 +1,39 @@
 @font-face {
-    font-family: 'gameOver';
-    src: url('../../assets/fonts/rainyhearts.ttf');
+  font-family: "gameOver";
+  src: url("../../assets/fonts/rainyhearts.ttf");
 }
 
 #gameResults {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin-right: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: none;
 }
 
 .MuiCardContent-root {
-    padding: .5em !important;
-    margin-bottom: 0;
-    background-color: #343434;
+  padding: 0.5em !important;
+  margin-bottom: 0;
+  background-color: #343434;
 }
 
 #gameName {
-    padding: .1em;
-    margin-bottom: 0;
-    font-size: 1.5em;
-    color: white;
+  padding: 0.1em;
+  margin-bottom: 0;
+  font-size: 1.5em;
+  color: white;
 }
 
 .MuiCardActions-root {
-    display: flex;
-    justify-content: center;
-    background-color: #282828;
+  display: flex;
+  justify-content: center;
+  background-color: #282828;
 }
 
 .MuiButton-label {
-    color: white;
+  color: white;
 }
 
 #moreInfo {
-    font-family: 'gameOver';
+  font-family: "gameOver";
 }

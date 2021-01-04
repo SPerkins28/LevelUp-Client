@@ -10,9 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AccountBox, PlaylistPlay, Games, Home } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import "./Drawer.css";

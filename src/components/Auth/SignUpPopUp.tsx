@@ -11,7 +11,11 @@ import "./SignUpPopUp.css";
 
 interface Props {
   openSnackBar: (severity: "success" | "error", message: string) => void;
-  updateToken: (newToken: string, userId: number, role: 'user' | 'admin') => void;
+  updateToken: (
+    newToken: string,
+    userId: number,
+    role: "user" | "admin"
+  ) => void;
 }
 
 interface State {
@@ -133,11 +137,11 @@ class SignUpPopUp extends Component<Props, State> {
             />
             <TextField
               error={
-                this.state.password.length > 0 && this.state.password.length < 8
+                this.state.password.length > 0 && this.state.password.length < 6
               }
               helperText={
-                this.state.password.length > 0 && this.state.password.length < 8
-                  ? "Password must be 8 characters long"
+                this.state.password.length > 0 && this.state.password.length < 6
+                  ? "Password must be 6 characters long"
                   : null
               }
               autoFocus
