@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import './MoreInfo.css';
+import ReviewsByGame from '../../Reviews/ReviewsByGame';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -75,7 +76,7 @@ class MoreInfo extends Component<Props, State> {
                                     <strong>Genre:</strong>{' '} {this.state.results.genres[1].name}
                                 </Typography>
                                 <Typography gutterBottom>
-                                    <strong>Release:</strong>{' '} {this.state.results.released}
+                                    <strong>Release:</strong>{' '} {new Date(this.state.results.released).toLocaleDateString()}
                                 </Typography>
                             </Grid>
                         <DialogContent dividers>
@@ -84,8 +85,8 @@ class MoreInfo extends Component<Props, State> {
                         </Typography>
                         </DialogContent>
                         <DialogActions id='moreInfoButtons'>
-                        <Button onClick={this.handleClose} id='reviewsB'>
-                            Reviews
+                        <Button id='reviewsB'>
+                            <ReviewsByGame results={this.state.results}/> 
                         </Button>
                         <Button onClick={this.handleClose} id='wtpB'>
                             Add To Want To Play
