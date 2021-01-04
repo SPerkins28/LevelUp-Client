@@ -51,6 +51,11 @@ class MoreInfo extends Component<Props, State> {
         this.props.onClose();
     }
 
+    // addWTP = (event: any) => {
+    //     event.preventDefault();
+
+    // }
+
     render(){
         return(
             <div>

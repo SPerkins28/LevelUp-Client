@@ -10,6 +10,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
+import {
+  Link,
+} from "react-router-dom";
 import { AccountBox, PlaylistPlay, Games, Home } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import "./Drawer.css";
@@ -32,9 +35,7 @@ const styles = (theme: any) =>
 
 type Anchor = "left";
 
-interface Props extends WithStyles<typeof styles> {
-  token: string | null,
-}
+interface Props extends WithStyles<typeof styles> {}
 
 interface State {
   left: boolean;
@@ -71,39 +72,47 @@ class SideDrawer extends Component<Props, State> {
       onKeyDown={this.toggleDrawer(anchor, false)}
     >
       <List>
-          <ListItem button>
-            <ListItemIcon className='drawerIcons'>
-            <Home />
+        <ListItem button id="searchBarLink">
+          <Link to="/" className="links">
+            <ListItemIcon className="drawerIcons">
+              <Home />
             </ListItemIcon>
-            <ListItemText primary='Home' />
-          </ListItem>
+            <ListItemText primary="Home" />
+          </Link>
+        </ListItem>
       </List>
       <Divider />
       <List>
-          <ListItem button>
-            <ListItemIcon className='drawerIcons'>
+        <ListItem button id="myAccountLink">
+          <Link to="/myaccount" className="links">
+            <ListItemIcon className="drawerIcons">
               <AccountBox />
             </ListItemIcon>
-            <ListItemText primary='My Account' />
-          </ListItem>
+            <ListItemText primary="My Account" />
+          </Link>
+        </ListItem>
       </List>
       <Divider />
       <List>
-          <ListItem button>
-            <ListItemIcon className='drawerIcons'>
+        <ListItem button id="wantToPlayLink">
+          <Link to="/wanttoplay" className="links">
+            <ListItemIcon className="drawerIcons">
               <PlaylistPlay />
             </ListItemIcon>
-            <ListItemText primary='Want To Play' />
-          </ListItem>
+            <ListItemText primary="Want To Play" />
+          </Link>
+        </ListItem>
       </List>
       <Divider />
       <List>
-          <ListItem button>
-            <ListItemIcon className='drawerIcons'>
+        <ListItem button id="libraryLink">
+          <Link to="/library" className="links">
+            <ListItemIcon className="drawerIcons">
               <Games />
             </ListItemIcon>
-            <ListItemText primary='Library' />
-          </ListItem>
+            <ListItemText primary="Library" />
+          </Link>
+        </ListItem>
       </List>
     </div>
   );
@@ -113,7 +122,10 @@ class SideDrawer extends Component<Props, State> {
       <div>
         {(["left"] as Anchor[]).map((anchor: any) => (
           <React.Fragment key={anchor}>
-            <IconButton onClick={this.toggleDrawer(anchor, true)} className='drawerIcons'>
+            <IconButton
+              onClick={this.toggleDrawer(anchor, true)}
+              className="drawerIcons"
+            >
               <MenuIcon />
             </IconButton>
             <SwipeableDrawer
@@ -121,7 +133,6 @@ class SideDrawer extends Component<Props, State> {
               open={this.state.left}
               onClose={this.toggleDrawer(anchor, false)}
               onOpen={this.toggleDrawer(anchor, true)}
-
             >
               {this.list(anchor)}
             </SwipeableDrawer>

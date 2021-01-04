@@ -33,3 +33,7 @@
 .MuiButton-label {
     color: white;
 }
+
+#moreInfo {
+    font-family: 'gameOver';
+}

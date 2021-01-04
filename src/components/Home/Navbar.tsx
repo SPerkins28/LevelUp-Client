@@ -3,7 +3,6 @@ import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import {
   AppBar,
   Toolbar,
-  IconButton,
   Button,
   Grid,
   Snackbar,
@@ -22,12 +21,13 @@ const styles = (theme: any) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    // toolbar: theme.mixins.toolbar,
   });
 
 interface Props extends WithStyles<typeof styles> {
   token: string | null;
   clickLogout: () => void;
-  updateToken: (newToken: string) => void;
+  updateToken: (newToken: string, userId: number, role: 'user' | 'admin') => void;
 }
 
 interface State {
@@ -37,6 +37,7 @@ interface State {
   openLogin: boolean;
   responseMessage: string;
   severity: "success" | "error"; //@ <--- how to use ENUM in a state
+  left: boolean;
 }
 
 class Navbar extends Component<Props, State> {
@@ -49,6 +50,7 @@ class Navbar extends Component<Props, State> {
       openLogin: false,
       responseMessage: "",
       severity: "success",
+      left: false,
     };
   }
 
@@ -100,35 +102,24 @@ class Navbar extends Component<Props, State> {
         <AppBar position="fixed">
           <Toolbar>
             <Grid item xs={6} id="drawerButton">
-              <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="menu"
-              >
-                <Drawer token={this.props.token} />
-              </IconButton>
+                <Drawer />
             </Grid>
             <Grid item xs={6} id="title">
-              <Button id="signupBut">
                 {!this.props.token && (
                   <SignUpPopUp
                     openSnackBar={this.handleOpenSnackBar}
                     updateToken={this.props.updateToken}
                   />
                 )}
-              </Button>
               {this.props.token ? (
                 <Button id="logoutBut" onClick={this.props.clickLogout}>
                   <strong>Logout</strong>
                 </Button>
               ) : (
-                <Button id="loginBut">
                   <LoginPopUp
                     openSnackBar={this.handleOpenSnackBar}
                     updateToken={this.props.updateToken}
                   />
-                </Button>
               )}
             </Grid>
           </Toolbar>

@@ -11,3 +11,11 @@
 .drawerIcons .MuiSvgIcon-root {
     color: white
 }
+
+.links {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    text-decoration: none;
+    padding-left: 2em;
+}
