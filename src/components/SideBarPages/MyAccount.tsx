@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
-import { Button, TextField, Typography, Box } from "@material-ui/core";
+import { Button, TextField, Typography } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import UserReviewUpdate from "./Modals/UserReviewUpdate";
-import "./MyAccount.css";
 import UserReviewDelete from "./Modals/UserReviewDelete";
+import "./MyAccount.css";
 
 interface Props {
   token: string | null;
