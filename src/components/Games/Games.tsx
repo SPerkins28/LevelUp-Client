@@ -64,7 +64,7 @@ class Games extends Component<Props, State> {
             </CardActionArea>
             <CardActions>
               <Button onClick={() => this.props.openMoreInfo()} id="moreInfo">
-                <strong>More Info</strong>
+                <strong>Game Info</strong>
               </Button>
             </CardActions>
           </Card>
