@@ -12,6 +12,7 @@ import ReviewUpdate from "../Reviews/Modals/ReviewUpdate";
 import ReviewDelete from "../Reviews/Modals/ReviewDelete";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import Box from "@material-ui/core/Box";
 import {
   WithStyles,
   Theme,
@@ -48,6 +49,8 @@ interface State {
   results: any;
   reviews: any;
   review: any;
+  ratingsArr: any;
+  averageRating: number;
   title: string;
   date: string;
   entry: string;
@@ -67,6 +70,8 @@ class ReviewsByGame extends Component<Props, State> {
       myRef: React.createRef(),
       results: this.props.results,
       reviews: [],
+      ratingsArr: [],
+      averageRating: 0,
       title: "",
       date: "",
       entry: "",
@@ -108,6 +113,25 @@ class ReviewsByGame extends Component<Props, State> {
           this.setState({
             reviews: reviews.reviews,
           });
+          let gameReviews = this.state.reviews;
+          let ratingsArr = this.state.ratingsArr;
+          gameReviews.forEach((review: any) => {
+            ratingsArr.push(review.rating);
+            this.setState({
+              ratingsArr: ratingsArr,
+            });
+          });
+          let total = 0;
+          for (let i = 0; i < ratingsArr.length; i++) {
+            total += ratingsArr[i];
+          }
+          let avgRating = total / ratingsArr.length;
+          this.setState({
+            averageRating: Math.round((avgRating + Number.EPSILON) * 100) / 100,
+          });
+          console.log(this.state.ratingsArr);
+          console.log(Math.round((avgRating + Number.EPSILON) * 100) / 100);
+          console.log(this.state.averageRating);
         }
       });
   };
@@ -146,6 +170,10 @@ class ReviewsByGame extends Component<Props, State> {
         >
           <DialogTitle id="reviewHead">
             <strong>REVIEWS</strong>
+            <Box id='avgRatingBox'>
+              <Typography component="legend" id='avgRating'><strong>AVERAGE RATING :</strong></Typography>
+              <Rating id="avgRatingStars" value={this.state.averageRating} size='small' readOnly />
+            </Box>
           </DialogTitle>
           <DialogContent
             dividers={this.state.scroll === "paper"}

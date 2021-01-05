@@ -14,9 +14,25 @@
 }
 
 .MuiTypography-h6 {
+  display: flex;
+  justify-content: space-between;
   font-family: "gameOver" !important;
   font-size: 20px;
   color: white;
+}
+
+#avgRatingBox {
+  display: flex;
+}
+
+#avgRating {
+  font-family: "gameOver" !important;
+  font-size: 20px;
+}
+
+#avgRatingStars {
+  margin-left: .5em;
+  padding-top: .25em;
 }
 
 #reviewTitle,
