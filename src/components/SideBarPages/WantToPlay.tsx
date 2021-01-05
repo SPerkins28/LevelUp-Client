@@ -143,7 +143,12 @@ class WantToPlay extends Component<Props, State> {
     return (
       <>
         {this.props.token ? (
-          <Grid container justify="space-evenly">
+          <Grid container justify="center">
+            <Grid item xs={12} id="wtpGrid">
+              <Typography variant="h3" id="wtpHeading">
+                <strong>WANT TO PLAY</strong>
+              </Typography>
+            </Grid>
             {setTimeout(this.state.userWantToPlay.length, 800) &&
               this.state.userWantToPlay.map((userWTP: any, index: number) => {
                 return (

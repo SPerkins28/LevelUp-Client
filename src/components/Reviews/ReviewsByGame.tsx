@@ -269,6 +269,7 @@ class ReviewsByGame extends Component<Props, State> {
             open={this.state.openReviewUpdate}
             onClose={() => this.setState({ openReviewUpdate: false })}
             review={this.state.review}
+            reviews={this.state.reviews}
             updateReviews={this.fetchReviews}
             handleOpenSnackBar={this.handleOpenSnackBar}
           />

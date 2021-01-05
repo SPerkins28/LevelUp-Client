@@ -145,7 +145,12 @@ class Library extends Component<Props, State> {
     return (
       <>
         {this.props.token ? (
-          <Grid container justify="space-evenly">
+          <Grid container justify="center">
+            <Grid item xs={12} id="libraryGrid">
+              <Typography variant="h3" id="libraryHeading">
+                <strong>MY LIBRARY</strong>
+              </Typography>
+            </Grid>
             {setTimeout(this.state.userLibrary.length, 800) &&
               this.state.userLibrary.map((userLibrary: any, index: number) => {
                 return (

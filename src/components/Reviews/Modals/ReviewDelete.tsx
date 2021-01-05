@@ -51,6 +51,9 @@ class ReviewDelete extends Component<Props, State> {
       .then((response) => response.json())
       .then((data) => {
         const errorMessage = data.error;
+        console.log("userId:", userId);
+        console.log(localStorage.getItem('userId'));
+        console.log(userRole);
         if (userId !== localStorage.getItem("userId") || userRole !== "admin") {
           this.props.handleOpenSnackBar("error", errorMessage);
         } else if (!data.deletedReview) {

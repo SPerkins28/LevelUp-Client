@@ -16,6 +16,7 @@ import "./ReviewUpdate.css";
 interface Props {
   token: string | null;
   results: any;
+  reviews: any;
   review: any;
   open: boolean;
   onClose: () => void;

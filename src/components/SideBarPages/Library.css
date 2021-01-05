@@ -2,11 +2,26 @@
   font-family: "gameOver";
   src: url("../../assets/fonts/rainyhearts.ttf");
 }
+#libraryGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#libraryHeading {
+  font-family: 'gameOver';
+  font-size: 5em;
+  margin-top: 2em;
+  color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+  black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
 
 #wtpresults {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 1em;
 }
 
 #wtpActions {

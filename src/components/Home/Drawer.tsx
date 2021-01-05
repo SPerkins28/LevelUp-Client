@@ -68,6 +68,7 @@ class SideDrawer extends Component<Props, State> {
       role="presentation"
       onClick={this.toggleDrawer(anchor, false)}
       onKeyDown={this.toggleDrawer(anchor, false)}
+      id="drawer"
     >
       <List>
         <ListItem button id="searchBarLink">
