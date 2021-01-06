@@ -234,6 +234,7 @@ class ReviewsByGame extends Component<Props, State> {
                       <Grid item xs={12} md={2}>
                         <Rating
                           id="rating"
+                          size="small"
                           defaultValue={review.rating}
                           precision={0.5}
                           readOnly

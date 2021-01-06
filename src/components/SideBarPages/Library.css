@@ -9,12 +9,12 @@
 }
 
 #libraryHeading {
-  font-family: 'gameOver';
+  font-family: "gameOver";
   font-size: 5em;
   margin-top: 2em;
   color: white;
   text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
-  black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
 }
 
 #wtpresults {
@@ -50,7 +50,7 @@
 }
 
 #libraryMessage {
-  font-family: 'gameOver';
+  font-family: "gameOver";
   color: white;
   font-size: 5em;
   background-color: black;

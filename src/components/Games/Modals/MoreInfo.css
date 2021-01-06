@@ -34,7 +34,10 @@
   font-size: 16px;
 }
 
-#wtpWarning, #libraryWarning, #wtpB, #libraryB {
+#wtpWarning,
+#libraryWarning,
+#wtpB,
+#libraryB {
   font-family: "gameOver";
   white-space: normal;
   max-width: 125px;

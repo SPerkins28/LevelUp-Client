@@ -10,7 +10,7 @@
 }
 
 #wtpHeading {
-  font-family: 'gameOver';
+  font-family: "gameOver";
   font-size: 5em;
   margin-top: 2em;
   margin-bottom: 1em;
@@ -57,7 +57,7 @@
 }
 
 #wtpMessage {
-  font-family: 'gameOver';
+  font-family: "gameOver";
   color: white;
   font-size: 5em;
   background-color: black;

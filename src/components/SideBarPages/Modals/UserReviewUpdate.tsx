@@ -9,11 +9,12 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import UserReviewInterface from "../../../Interfaces/UserReview";
 
 interface Props {
   token: string | null;
   open: boolean;
-  review: any;
+  review: UserReviewInterface;
   onClose: () => void;
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
@@ -32,7 +33,7 @@ interface State {
 }
 
 class UserReviewUpdate extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       title: this.props.review.title,
@@ -53,7 +54,7 @@ class UserReviewUpdate extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);

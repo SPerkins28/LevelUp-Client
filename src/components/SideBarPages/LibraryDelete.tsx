@@ -5,14 +5,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import LibraryInterface from "../../Interfaces/LibraryInterface";
+import UserLibraryGame from "../../Interfaces/UserLibraryInterface";
 
 interface Props {
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
   token: string | null;
   open: boolean;
   onClose: () => void;
-  game: any;
-  setLibrary: (updatedList: any) => void;
+  game: LibraryInterface;
+  setLibrary: (updatedList: Array<UserLibraryGame>) => void;
 }
 
 interface State {
@@ -41,7 +43,7 @@ class LibraryDelete extends Component<Props, State> {
 
   removeFromLibrary = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    game: any
+    game: LibraryInterface
   ) => {
     event.preventDefault();
     const gameId = game.id;
@@ -59,7 +61,7 @@ class LibraryDelete extends Component<Props, State> {
         } else {
           this.props.setLibrary(
             data.removedGame.filter(
-              (deletedGame: any) => deletedGame.id !== gameId
+              (deletedGame: UserLibraryGame) => deletedGame.id !== gameId
             )
           );
           const message = data.message;

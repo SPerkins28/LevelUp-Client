@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, Theme, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -13,7 +18,10 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import LibraryDelete from "./LibraryDelete";
-import UserLibrary from '../../Interfaces/UserLibraryInterface'
+import LibraryInterface from "../../Interfaces/LibraryInterface";
+import UserLibraryGame, {
+  UserLibrary,
+} from "../../Interfaces/UserLibraryInterface";
 import "./Library.css";
 
 const styles = (theme: Theme) =>
@@ -38,12 +46,12 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-  userLibrary: Array<[]>;
+  userLibrary: UserLibraryGame[];
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
   openRemoveLibrary: boolean;
-  game: {};
+  game: LibraryInterface;
 }
 
 class Library extends Component<Props, State> {
@@ -55,7 +63,15 @@ class Library extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveLibrary: false,
-      game: {},
+      game: {
+        id: 0,
+        title: "",
+        gameId: 0,
+        gameImg: "",
+        releaseDate: "",
+        finished: false,
+        uniqueCheck: "",
+      },
     };
   }
 
@@ -87,11 +103,11 @@ class Library extends Component<Props, State> {
       }),
     })
       .then((res) => res.json())
-      .then((userLibrary: any) => {
+      .then((userLibrary: UserLibrary) => {
         if (!token) {
           this.handleOpenSnackBar("error", userLibrary.message);
-        }else if (!userLibrary) {
-          this.handleOpenSnackBar("error", userLibrary.message);
+        } else if (!userLibrary) {
+          this.handleOpenSnackBar("error", userLibrary);
         } else {
           this.setState({
             userLibrary: userLibrary.userLibrary,
@@ -102,7 +118,10 @@ class Library extends Component<Props, State> {
       });
   };
 
-  updateLibrary = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, game: any) => {
+  updateLibrary = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: LibraryInterface
+  ) => {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
@@ -135,7 +154,7 @@ class Library extends Component<Props, State> {
     this.fetchLibrary();
   };
 
-  setLibrary = (updatedList: any) => {
+  setLibrary = (updatedList: Array<UserLibraryGame>) => {
     this.setState({
       userLibrary: updatedList,
     });
@@ -153,61 +172,70 @@ class Library extends Component<Props, State> {
               </Typography>
             </Grid>
             {this.state.userLibrary.length &&
-              this.state.userLibrary.map((userLibrary: any, index: number) => {
-                return (
-                  <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
-                    <Card className={classes.root}>
-                      <CardActionArea>
-                        <CardMedia
-                          className={classes.media}
-                          image={userLibrary.gameImg}
-                          title={"Game Image"}
-                        />
-                        <CardContent>
-                          <Typography
-                            variant="h6"
-                            component="h2"
-                            id="wtpGameName"
+              this.state.userLibrary.map(
+                (userLibrary: UserLibraryGame, index: number) => {
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      id="wtpresults"
+                      key={index}
+                    >
+                      <Card className={classes.root}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            image={userLibrary.gameImg}
+                            title={"Game Image"}
+                          />
+                          <CardContent>
+                            <Typography
+                              variant="h6"
+                              component="h2"
+                              id="wtpGameName"
+                            >
+                              <strong>{userLibrary.title}</strong>
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions id="wtpActions">
+                          <Button
+                            fullWidth={true}
+                            id="played"
+                            onClick={(event) =>
+                              this.updateLibrary(event, userLibrary)
+                            }
                           >
-                            <strong>{userLibrary.title}</strong>
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                      <CardActions id="wtpActions">
-                        <Button
-                          fullWidth={true}
-                          id="played"
-                          onClick={(event) =>
-                            this.updateLibrary(event, userLibrary)
-                          }
-                        >
-                          <strong>
-                            {userLibrary.finished ? (
-                              <span id="playedIndicator">
-                                Completed <CheckIcon id="check" />
-                              </span>
-                            ) : (
-                              "Not Completed"
-                            )}
-                          </strong>
-                        </Button>
-                        <Button
-                          fullWidth={true}
-                          onClick={() =>
-                            this.setState({
-                              openRemoveLibrary: true,
-                              game: userLibrary,
-                            })
-                          }
-                          id="remove"
-                        >
-                          <strong>Remove from library</strong>
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                );
-              })}
+                            <strong>
+                              {userLibrary.finished ? (
+                                <span id="playedIndicator">
+                                  Completed <CheckIcon id="check" />
+                                </span>
+                              ) : (
+                                "Not Completed"
+                              )}
+                            </strong>
+                          </Button>
+                          <Button
+                            fullWidth={true}
+                            onClick={() =>
+                              this.setState({
+                                openRemoveLibrary: true,
+                                game: userLibrary,
+                              })
+                            }
+                            id="remove"
+                          >
+                            <strong>Remove from library</strong>
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
+                }
+              )}
           </Grid>
         ) : (
           <Paper id="wtpMessage">

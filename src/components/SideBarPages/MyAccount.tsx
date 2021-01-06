@@ -6,6 +6,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import UserReviewUpdate from "./Modals/UserReviewUpdate";
 import UserReviewDelete from "./Modals/UserReviewDelete";
+import UserReview from "../../Interfaces/UserReviewInterface";
+import UserReviewInterface from "../../Interfaces/UserReview";
 import "./MyAccount.css";
 
 interface Props {
@@ -18,14 +20,14 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
-  userReviews: any;
-  userReview: any;
+  userReviews: UserReview[];
+  userReview: UserReviewInterface;
   openUserReviewUpdate: boolean;
   openUserReviewDelete: boolean;
 }
 
 class MyAccount extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       passwordInput: "",
@@ -34,7 +36,14 @@ class MyAccount extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       userReviews: [],
-      userReview: {},
+      userReview: {
+        id: 0,
+        title: "",
+        date: "",
+        gameId: 0,
+        entry: "",
+        rating: 0,
+      },
       openUserReviewUpdate: false,
       openUserReviewDelete: false,
     };
@@ -143,12 +152,16 @@ class MyAccount extends Component<Props, State> {
     this.fetchUserReviews();
   };
 
-  handleSubmitUsername = (e: any) => {
+  handleSubmitUsername = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     this.updateUsername();
   };
 
-  handleSubmitPassword = (e: any) => {
+  handleSubmitPassword = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     this.updatePassword();
   };
@@ -234,59 +247,61 @@ class MyAccount extends Component<Props, State> {
             </Grid>
             <Grid container spacing={2} justify="center">
               {this.state.userReviews.length > 0 &&
-                this.state.userReviews.map((myReviews: any, index: any) => {
-                  return (
-                    <Grid container id="userReviews" key={index}>
-                      <Grid item xs={12} md={2}>
-                        <Typography id="reviewTitle">
-                          <strong>{myReviews.title}</strong>
-                        </Typography>
+                this.state.userReviews.map(
+                  (myReviews: UserReview, index: number) => {
+                    return (
+                      <Grid container id="userReviews" key={index}>
+                        <Grid item xs={12} md={2}>
+                          <Typography id="reviewTitle">
+                            <strong>{myReviews.title}</strong>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <Typography id="entryText">
+                            {myReviews.entry}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Typography id="dateText">
+                            {new Date(myReviews.createdAt).toLocaleDateString()}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Rating
+                            id="rating"
+                            defaultValue={myReviews.rating}
+                            readOnly
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={1} id="reviewActions">
+                          <Button
+                            id="updateUserReview"
+                            onClick={() =>
+                              this.setState({
+                                openUserReviewUpdate: true,
+                                userReview: myReviews,
+                              })
+                            }
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            id="deleteUserReview"
+                            onClick={() =>
+                              this.setState({
+                                openUserReviewDelete: true,
+                                userReview: myReviews,
+                              })
+                            }
+                          >
+                            Delete
+                          </Button>
+                        </Grid>
+                        <br />
                       </Grid>
-                      <Grid item xs={12} md={3}>
-                        <Typography id="entryText">
-                          {myReviews.entry}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Typography id="dateText">
-                          {new Date(myReviews.createdAt).toLocaleDateString()}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Rating
-                          id="rating"
-                          defaultValue={myReviews.rating}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={1} id="reviewActions">
-                        <Button
-                          id="updateUserReview"
-                          onClick={() =>
-                            this.setState({
-                              openUserReviewUpdate: true,
-                              userReview: myReviews,
-                            })
-                          }
-                        >
-                          Update
-                        </Button>
-                        <Button
-                          id="deleteUserReview"
-                          onClick={() =>
-                            this.setState({
-                              openUserReviewDelete: true,
-                              userReview: myReviews,
-                            })
-                          }
-                        >
-                          Delete
-                        </Button>
-                      </Grid>
-                      <br />
-                    </Grid>
-                  );
-                })}
+                    );
+                  }
+                )}
               {this.state.openUserReviewUpdate && (
                 <UserReviewUpdate
                   token={this.props.token}

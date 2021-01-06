@@ -18,6 +18,10 @@ import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import WantToPlayDelete from "./WantToPlayDelete";
+import UserWTPInterface from "../../Interfaces/UserWTPInterface";
+import UserWantToPlayGame, {
+  UserWantToPlay,
+} from "../../Interfaces/WTPInterface";
 import "./WantToPlay.css";
 
 const styles = (theme: Theme) =>
@@ -42,12 +46,12 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-  userWantToPlay: any;
+  userWantToPlay: UserWantToPlayGame[];
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
   openRemoveWTP: boolean;
-  game: any;
+  game: UserWTPInterface;
 }
 
 class WantToPlay extends Component<Props, State> {
@@ -59,7 +63,15 @@ class WantToPlay extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveWTP: false,
-      game: {},
+      game: {
+        id: 0,
+        title: "",
+        gameId: 0,
+        gameImg: "",
+        releaseDate: "",
+        played: false,
+        uniqueCheck: "",
+      },
     };
   }
 
@@ -91,11 +103,11 @@ class WantToPlay extends Component<Props, State> {
       }),
     })
       .then((res) => res.json())
-      .then((userWantToPlay: any) => {
+      .then((userWantToPlay: UserWantToPlay) => {
         if (!token) {
           this.handleOpenSnackBar("error", userWantToPlay.message);
         } else if (!userWantToPlay) {
-          this.handleOpenSnackBar("error", userWantToPlay.message);
+          this.handleOpenSnackBar("error", userWantToPlay);
         } else {
           this.setState({
             userWantToPlay: userWantToPlay.userWantToPlay,
@@ -108,7 +120,7 @@ class WantToPlay extends Component<Props, State> {
 
   updateWTP = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    game: any
+    game: UserWTPInterface
   ) => {
     event.preventDefault();
     const wtpId = game.id;
@@ -140,7 +152,7 @@ class WantToPlay extends Component<Props, State> {
     this.fetchWTP();
   };
 
-  setUserWantToPlay = (updatedList: any) => {
+  setUserWantToPlay = (updatedList: Array<UserWantToPlayGame>) => {
     this.setState({
       userWantToPlay: updatedList,
     });
@@ -157,60 +169,69 @@ class WantToPlay extends Component<Props, State> {
                 <strong>WANT TO PLAY</strong>
               </Typography>
             </Grid>
-            {setTimeout(this.state.userWantToPlay.length, 800) &&
-              this.state.userWantToPlay.map((userWTP: any, index: number) => {
-                return (
-                  <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
-                    <Card className={classes.root}>
-                      <CardActionArea>
-                        <CardMedia
-                          className={classes.media}
-                          image={userWTP.gameImg}
-                          title={"Game Image"}
-                        />
-                        <CardContent>
-                          <Typography
-                            variant="h6"
-                            component="h2"
-                            id="wtpGameName"
+            {this.state.userWantToPlay.length &&
+              this.state.userWantToPlay.map(
+                (userWTP: UserWantToPlayGame, index: number) => {
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      id="wtpresults"
+                      key={index}
+                    >
+                      <Card className={classes.root}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            image={userWTP.gameImg}
+                            title={"Game Image"}
+                          />
+                          <CardContent>
+                            <Typography
+                              variant="h6"
+                              component="h2"
+                              id="wtpGameName"
+                            >
+                              <strong>{userWTP.title}</strong>
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions id="wtpActions">
+                          <Button
+                            fullWidth={true}
+                            id="played"
+                            onClick={(event) => this.updateWTP(event, userWTP)}
                           >
-                            <strong>{userWTP.title}</strong>
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                      <CardActions id="wtpActions">
-                        <Button
-                          fullWidth={true}
-                          id="played"
-                          onClick={(event) => this.updateWTP(event, userWTP)}
-                        >
-                          <strong>
-                            {userWTP.played ? (
-                              <span id="playedIndicator">
-                                Played <CheckIcon id="check" />
-                              </span>
-                            ) : (
-                              "Not Played"
-                            )}
-                          </strong>
-                        </Button>
-                        <Button
-                          fullWidth={true}
-                          onClick={() =>
-                            this.setState({
-                              openRemoveWTP: true,
-                              game: userWTP,
-                            })
-                          }
-                          id="remove"
-                        >
-                          <strong>Remove from list</strong>
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                );
-              })}
+                            <strong>
+                              {userWTP.played ? (
+                                <span id="playedIndicator">
+                                  Played <CheckIcon id="check" />
+                                </span>
+                              ) : (
+                                "Not Played"
+                              )}
+                            </strong>
+                          </Button>
+                          <Button
+                            fullWidth={true}
+                            onClick={() =>
+                              this.setState({
+                                openRemoveWTP: true,
+                                game: userWTP,
+                              })
+                            }
+                            id="remove"
+                          >
+                            <strong>Remove from list</strong>
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
+                }
+              )}
           </Grid>
         ) : (
           <Paper id="wtpMessage">
