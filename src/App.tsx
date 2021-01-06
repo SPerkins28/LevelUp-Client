@@ -6,21 +6,24 @@ import MyAccount from "./components/SideBarPages/MyAccount";
 import Library from "./components/SideBarPages/Library";
 import WantToPlay from "./components/SideBarPages/WantToPlay";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import APIResponse from './Interfaces/APIResponse';
 
 interface State {
   token: string | null;
-  results: any;
+  results: APIResponse | undefined;
   searchTerm: string;
   userId: number;
   role: "user" | "admin";
 }
 
+interface Props{}
+
 class App extends Component<{}, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       token: localStorage.getItem("token") ? localStorage.getItem("token") : "",
-      results: {},
+      results: undefined,
       searchTerm: "",
       userId: 0,
       role: "user",
@@ -38,7 +41,7 @@ class App extends Component<{}, State> {
     });
   };
 
-  setResults = (results: any) => {
+  setResults = (results: APIResponse | undefined) => {
     this.setState({
       results: results,
       searchTerm: "",
@@ -55,7 +58,7 @@ class App extends Component<{}, State> {
     localStorage.clear();
     this.setState({
       token: "",
-      results: {},
+      results: undefined,
       searchTerm: "",
     });
   };

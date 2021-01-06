@@ -9,10 +9,19 @@ import "./ReviewDelete.css";
 
 interface Props {
   token: string | null;
-  results: any;
   open: boolean;
   onClose: () => void;
-  review: any;
+  review: {
+    id: number;
+    title: string;
+    date: string;
+    gameId: number;
+    entry: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+  };
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
 }
@@ -25,7 +34,7 @@ interface State {
 }
 
 class ReviewDelete extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -35,10 +44,11 @@ class ReviewDelete extends Component<Props, State> {
     };
   }
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
-    const userId = this.props.review.userId;
+    const reviewUserId = this.props.review.userId;
+    const localUserId = Number(localStorage.getItem("userId"));
     const userRole = localStorage.getItem("role");
     console.log(reviewId);
     fetch(`http://localhost:4321/review/${reviewId}`, {
@@ -51,10 +61,10 @@ class ReviewDelete extends Component<Props, State> {
       .then((response) => response.json())
       .then((data) => {
         const errorMessage = data.error;
-        console.log("userId:", userId);
-        console.log(localStorage.getItem('userId'));
+        console.log("userId:", reviewUserId);
+        console.log(localStorage.getItem("userId"));
         console.log(userRole);
-        if (userId !== localStorage.getItem("userId") || userRole !== "admin") {
+        if (reviewUserId !== localUserId || userRole !== "admin") {
           this.props.handleOpenSnackBar("error", errorMessage);
         } else if (!data.deletedReview) {
           this.props.handleOpenSnackBar("error", data.message);

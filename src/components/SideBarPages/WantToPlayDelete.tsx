@@ -23,7 +23,7 @@ interface State {
 }
 
 class WantToPlayDelete extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -39,7 +39,10 @@ class WantToPlayDelete extends Component<Props, State> {
     });
   };
 
-  removeWTP = (event: any, game: any) => {
+  removeWTP = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: any
+  ) => {
     event.preventDefault();
     const wtpId = game.id;
     fetch(`http://localhost:4321/wanttoplay/delete/${wtpId}`, {

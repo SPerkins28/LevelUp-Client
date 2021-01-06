@@ -23,7 +23,7 @@ interface State {
 }
 
 class LibraryDelete extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -39,7 +39,10 @@ class LibraryDelete extends Component<Props, State> {
     });
   };
 
-  removeFromLibrary = (event: any, game: any) => {
+  removeFromLibrary = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: any
+  ) => {
     event.preventDefault();
     const gameId = game.id;
     fetch(`http://localhost:4321/library/delete/${gameId}`, {

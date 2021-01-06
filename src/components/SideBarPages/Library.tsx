@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { createStyles, withStyles, Theme, WithStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -13,9 +13,10 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import LibraryDelete from "./LibraryDelete";
+import UserLibrary from '../../Interfaces/UserLibraryInterface'
 import "./Library.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       maxWidth: 345,
@@ -37,16 +38,16 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-  userLibrary: any;
+  userLibrary: Array<[]>;
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
   openRemoveLibrary: boolean;
-  game: any;
+  game: {};
 }
 
 class Library extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       userLibrary: [],
@@ -85,7 +86,7 @@ class Library extends Component<Props, State> {
         Authorization: `${this.props.token}`,
       }),
     })
-      .then((res: any) => res.json())
+      .then((res) => res.json())
       .then((userLibrary: any) => {
         if (!token) {
           this.handleOpenSnackBar("error", userLibrary.message);
@@ -101,7 +102,7 @@ class Library extends Component<Props, State> {
       });
   };
 
-  updateLibrary = (event: any, game: any) => {
+  updateLibrary = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, game: any) => {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
@@ -151,7 +152,7 @@ class Library extends Component<Props, State> {
                 <strong>MY LIBRARY</strong>
               </Typography>
             </Grid>
-            {setTimeout(this.state.userLibrary.length, 800) &&
+            {this.state.userLibrary.length &&
               this.state.userLibrary.map((userLibrary: any, index: number) => {
                 return (
                   <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>

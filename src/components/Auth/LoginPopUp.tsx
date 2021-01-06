@@ -25,7 +25,7 @@ interface State {
 }
 
 class LoginPopUp extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       username: "",
@@ -46,7 +46,7 @@ class LoginPopUp extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     fetch("http://localhost:4321/user/login", {
       method: "POST",

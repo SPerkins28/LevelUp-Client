@@ -20,6 +20,9 @@ import {
   withStyles,
 } from "@material-ui/core/styles";
 import "./ReviewsByGame.css";
+import APIResponse from "../../Interfaces/APIResponse";
+import Reviews from "../../Interfaces/Reviews";
+import Review from "../../Interfaces/Review";
 
 const styles = createStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +36,7 @@ const styles = createStyles((theme: Theme) =>
 );
 
 interface Props extends WithStyles<typeof styles> {
-  results: any;
+  results: APIResponse;
   token: string | null;
   open: boolean;
   onClose: () => void;
@@ -45,11 +48,21 @@ interface Props extends WithStyles<typeof styles> {
 
 interface State {
   scroll: DialogProps["scroll"];
-  myRef: any;
-  results: any;
-  reviews: any;
-  review: any;
-  ratingsArr: any;
+  myRef: React.RefObject<HTMLInputElement>;
+  results: APIResponse;
+  reviews: Review[];
+  review: {
+    id: number;
+    title: string;
+    date: string;
+    gameId: number;
+    entry: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+  };
+  ratingsArr: number[];
   averageRating: number;
   title: string;
   date: string;
@@ -63,7 +76,7 @@ interface State {
 }
 
 class ReviewsByGame extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       scroll: "paper",
@@ -78,7 +91,17 @@ class ReviewsByGame extends Component<Props, State> {
       rating: 0,
       openReviewUpdate: false,
       openReviewDelete: false,
-      review: {},
+      review: {
+        id: 0,
+        title: "",
+        date: "",
+        gameId: 0,
+        entry: "",
+        rating: 0,
+        createdAt: "",
+        updatedAt: "",
+        userId: 0,
+      },
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
@@ -103,19 +126,17 @@ class ReviewsByGame extends Component<Props, State> {
         "Content-Type": "application/json",
       }),
     })
-      .then((res: any) => res.json())
-      .then((reviews: any) => {
+      .then((response) => response.json())
+      .then((reviews: Reviews) => {
         if (!reviews) {
-          this.handleOpenSnackBar("error", reviews.message);
+          this.handleOpenSnackBar("error", reviews);
         } else {
-          const message = reviews.message;
-          this.handleOpenSnackBar("success", message);
           this.setState({
             reviews: reviews.reviews,
           });
           let gameReviews = this.state.reviews;
           let ratingsArr = this.state.ratingsArr;
-          gameReviews.forEach((review: any) => {
+          gameReviews.forEach((review: Review) => {
             ratingsArr.push(review.rating);
             this.setState({
               ratingsArr: ratingsArr,
@@ -170,9 +191,17 @@ class ReviewsByGame extends Component<Props, State> {
         >
           <DialogTitle id="reviewHead">
             <strong>REVIEWS</strong>
-            <Box id='avgRatingBox'>
-              <Typography component="legend" id='avgRating'><strong>AVERAGE RATING :</strong></Typography>
-              <Rating id="avgRatingStars" value={this.state.averageRating} size='small' readOnly />
+            <Box id="avgRatingBox">
+              <Typography component="legend" id="avgRating">
+                <strong>AVERAGE RATING :</strong>
+              </Typography>
+              <Rating
+                id="avgRatingStars"
+                value={this.state.averageRating}
+                precision={0.5}
+                size="small"
+                readOnly
+              />
             </Box>
           </DialogTitle>
           <DialogContent
@@ -180,7 +209,7 @@ class ReviewsByGame extends Component<Props, State> {
             id="dialogBody"
           >
             <DialogContentText tabIndex={-1} component={"span"}>
-              {this.state.reviews.map((review: any) => {
+              {this.state.reviews.map((review: Review) => {
                 return (
                   <React.Fragment key={review.id}>
                     <Grid container spacing={2} id="titleBox">
@@ -206,6 +235,7 @@ class ReviewsByGame extends Component<Props, State> {
                         <Rating
                           id="rating"
                           defaultValue={review.rating}
+                          precision={0.5}
                           readOnly
                         />
                       </Grid>
@@ -265,7 +295,6 @@ class ReviewsByGame extends Component<Props, State> {
         {this.state.openReviewUpdate && (
           <ReviewUpdate
             token={this.props.token}
-            results={this.props.results}
             open={this.state.openReviewUpdate}
             onClose={() => this.setState({ openReviewUpdate: false })}
             review={this.state.review}
@@ -277,7 +306,6 @@ class ReviewsByGame extends Component<Props, State> {
         {this.state.openReviewDelete && (
           <ReviewDelete
             token={this.props.token}
-            results={this.props.results}
             open={this.state.openReviewDelete}
             onClose={() => this.setState({ openReviewDelete: false })}
             review={this.state.review}

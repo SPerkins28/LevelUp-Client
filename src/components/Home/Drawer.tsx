@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import clsx from "clsx";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles,
+} from "@material-ui/core/styles";
 import {
   SwipeableDrawer,
   IconButton,
@@ -15,7 +20,7 @@ import { AccountBox, PlaylistPlay, Games, Home } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import "./Drawer.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -40,7 +45,7 @@ interface State {
 }
 
 class SideDrawer extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       left: false,
@@ -119,7 +124,7 @@ class SideDrawer extends Component<Props, State> {
   render() {
     return (
       <div>
-        {(["left"] as Anchor[]).map((anchor: any) => (
+        {(["left"] as Anchor[]).map((anchor) => (
           <React.Fragment key={anchor}>
             <IconButton
               onClick={this.toggleDrawer(anchor, true)}

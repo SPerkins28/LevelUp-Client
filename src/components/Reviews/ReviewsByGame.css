@@ -39,6 +39,8 @@
 #usernameText,
 #dateText {
   color: white;
+  display: flex;
+  justify-content: center;
 }
 
 #entryText {
@@ -76,6 +78,7 @@
 #reviewActions {
   padding-top: 0;
   padding-left: 0;
+  padding-right: 0;
 }
 
 #updateReview {

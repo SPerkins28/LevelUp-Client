@@ -11,13 +11,23 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import Alert from "@material-ui/lab/Alert";
+import Review from "../../../Interfaces/Review";
 import "./ReviewUpdate.css";
 
 interface Props {
   token: string | null;
-  results: any;
-  reviews: any;
-  review: any;
+  reviews: Review[];
+  review: {
+    id: number;
+    title: string;
+    date: string;
+    gameId: number;
+    entry: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+  };
   open: boolean;
   onClose: () => void;
   updateReviews: () => void;
@@ -34,11 +44,10 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
-  results: any;
 }
 
 class ReviewUpdate extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       title: this.props.review.title,
@@ -50,7 +59,6 @@ class ReviewUpdate extends Component<Props, State> {
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
-      results: this.props.results,
     };
   }
 
@@ -77,7 +85,7 @@ class ReviewUpdate extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
@@ -103,7 +111,7 @@ class ReviewUpdate extends Component<Props, State> {
           this.props.onClose();
         }
       });
-      this.props.updateReviews();
+    this.props.updateReviews();
   };
 
   render() {

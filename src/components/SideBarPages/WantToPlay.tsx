@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -15,7 +20,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import WantToPlayDelete from "./WantToPlayDelete";
 import "./WantToPlay.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       maxWidth: 345,
@@ -46,7 +51,7 @@ interface State {
 }
 
 class WantToPlay extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       userWantToPlay: [],
@@ -85,7 +90,7 @@ class WantToPlay extends Component<Props, State> {
         Authorization: `${this.props.token}`,
       }),
     })
-      .then((res: any) => res.json())
+      .then((res) => res.json())
       .then((userWantToPlay: any) => {
         if (!token) {
           this.handleOpenSnackBar("error", userWantToPlay.message);
@@ -101,7 +106,10 @@ class WantToPlay extends Component<Props, State> {
       });
   };
 
-  updateWTP = (event: any, game: any) => {
+  updateWTP = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: any
+  ) => {
     event.preventDefault();
     const wtpId = game.id;
     const played = game.played;

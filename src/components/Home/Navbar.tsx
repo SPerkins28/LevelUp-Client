@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import { AppBar, Toolbar, Button, Grid, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import Drawer from "./Drawer";
@@ -7,7 +12,7 @@ import SignUpPopUp from "../Auth/SignUpPopUp";
 import LoginPopUp from "../Auth/LoginPopUp";
 import "./Navbar.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -39,7 +44,7 @@ interface State {
 }
 
 class Navbar extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,

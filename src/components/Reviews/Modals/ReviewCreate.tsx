@@ -9,11 +9,12 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import APIResponse from "../../../Interfaces/APIResponse";
 import "./ReviewCreate.css";
 
 interface Props {
   token: string | null;
-  results: any;
+  results: APIResponse;
   open: boolean;
   onClose: () => void;
   openReviews: () => void;
@@ -32,11 +33,11 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
-  results: any;
+  results: APIResponse;
 }
 
 class ReviewCreate extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       title: "",
@@ -91,7 +92,7 @@ class ReviewCreate extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     fetch("http://localhost:4321/review/create", {
       method: "POST",
