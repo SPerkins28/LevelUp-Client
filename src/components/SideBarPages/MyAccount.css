@@ -23,6 +23,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #202020 !important
+}
+
+.MuiInputBase-input {
+  color: #202020 !important;
 }
 
 #updateUButton,

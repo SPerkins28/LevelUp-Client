@@ -125,8 +125,6 @@ class Library extends Component<Props, State> {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
-    const token = this.props.token;
-    console.log(token);
     fetch(`http://localhost:4321/library/${gameId}`, {
       method: "PUT",
       body: JSON.stringify({ finished: !finished }),

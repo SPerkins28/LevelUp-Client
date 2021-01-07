@@ -91,7 +91,7 @@ class MyAccount extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.usernameChanged) {
+        if (!data.updatedUsername) {
           this.handleOpenSnackBar("error", data.message);
         } else {
           const message = data.message;
@@ -113,7 +113,7 @@ class MyAccount extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.passwordChanged) {
+        if (!data.updatedPassword) {
           this.handleOpenSnackBar("error", data.message);
         } else {
           const message = data.message;
