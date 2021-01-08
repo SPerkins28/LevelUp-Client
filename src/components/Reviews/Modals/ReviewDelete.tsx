@@ -5,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Review from "../../../Interfaces/Review";
 import "./ReviewDelete.css";
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
   };
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  updatedReviews: (updatedReviews: Review[]) => void;
 }
 
 interface State {
@@ -51,7 +53,7 @@ class ReviewDelete extends Component<Props, State> {
     const localUserId = Number(localStorage.getItem("userId"));
     const userRole = localStorage.getItem("role");
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`http://localhost:4321/review/game/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -69,12 +71,13 @@ class ReviewDelete extends Component<Props, State> {
         } else if (!data.deletedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();
         }
       });
-    this.props.updateReviews();
+    // this.props.updateReviews();
   };
 
   handleClose = () => {

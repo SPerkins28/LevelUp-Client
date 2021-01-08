@@ -32,6 +32,7 @@ interface Props {
   onClose: () => void;
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  updatedReviews: (updatedReviews: Review[]) => void;
 }
 
 interface State {
@@ -44,6 +45,7 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
+  reviews: Review[];
 }
 
 class ReviewUpdate extends Component<Props, State> {
@@ -59,6 +61,7 @@ class ReviewUpdate extends Component<Props, State> {
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
+      reviews: this.props.reviews,
     };
   }
 
@@ -89,7 +92,7 @@ class ReviewUpdate extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`http://localhost:4321/review/game/${reviewId}`, {
       method: "PUT",
       body: JSON.stringify({
         title: this.state.title,
@@ -106,12 +109,13 @@ class ReviewUpdate extends Component<Props, State> {
         if (!data.editedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();
         }
       });
-    this.props.updateReviews();
+    // this.props.updateReviews();
   };
 
   render() {

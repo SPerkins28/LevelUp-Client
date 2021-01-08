@@ -148,6 +148,12 @@ class MyAccount extends Component<Props, State> {
       });
   };
 
+  getUpdatedReviews = (updatedReviews: UserReview[]) => {
+    this.setState({
+      userReviews: updatedReviews,
+    });
+  };
+
   componentDidMount = () => {
     this.fetchUserReviews();
   };
@@ -307,6 +313,7 @@ class MyAccount extends Component<Props, State> {
                   token={this.props.token}
                   open={this.state.openUserReviewUpdate}
                   onClose={() => this.setState({ openUserReviewUpdate: false })}
+                  updatedReviews={this.getUpdatedReviews}
                   updateReviews={this.fetchUserReviews}
                   review={this.state.userReview}
                   handleOpenSnackBar={this.handleOpenSnackBar}
@@ -317,6 +324,7 @@ class MyAccount extends Component<Props, State> {
                   token={this.props.token}
                   open={this.state.openUserReviewDelete}
                   onClose={() => this.setState({ openUserReviewDelete: false })}
+                  updatedReviews={this.getUpdatedReviews}
                   updateReviews={this.fetchUserReviews}
                   review={this.state.userReview}
                   handleOpenSnackBar={this.handleOpenSnackBar}

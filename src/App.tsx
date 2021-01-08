@@ -6,7 +6,7 @@ import MyAccount from "./components/SideBarPages/MyAccount";
 import Library from "./components/SideBarPages/Library";
 import WantToPlay from "./components/SideBarPages/WantToPlay";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import APIResponse from './Interfaces/APIResponse';
+import APIResponse from "./Interfaces/APIResponse";
 
 interface State {
   token: string | null;
@@ -16,7 +16,7 @@ interface State {
   role: "user" | "admin";
 }
 
-interface Props{}
+interface Props {}
 
 class App extends Component<{}, State> {
   constructor(props: Props) {

@@ -6,6 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import UserReviewInterface from "../../../Interfaces/UserReview";
+import UserReview from "../../../Interfaces/UserReviewInterface";
 
 interface Props {
   token: string | null;
@@ -14,6 +15,7 @@ interface Props {
   onClose: () => void;
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  updatedReviews: (updatedReviews: UserReview[]) => void;
 }
 
 interface State {
@@ -38,7 +40,7 @@ class UserReviewDelete extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`http://localhost:4321/review/user/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -50,6 +52,7 @@ class UserReviewDelete extends Component<Props, State> {
         if (!data.deletedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();

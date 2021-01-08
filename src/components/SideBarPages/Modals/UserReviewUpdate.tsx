@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import UserReviewInterface from "../../../Interfaces/UserReview";
+import UserReview from "../../../Interfaces/UserReviewInterface";
 
 interface Props {
   token: string | null;
@@ -18,6 +19,7 @@ interface Props {
   onClose: () => void;
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  updatedReviews: (updatedReviews: UserReview[]) => void;
 }
 
 interface State {
@@ -58,7 +60,7 @@ class UserReviewUpdate extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`http://localhost:4321/review/user/${reviewId}`, {
       method: "PUT",
       body: JSON.stringify({
         title: this.state.title,
@@ -75,6 +77,7 @@ class UserReviewUpdate extends Component<Props, State> {
         if (!data.editedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();

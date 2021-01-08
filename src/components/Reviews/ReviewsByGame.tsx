@@ -157,6 +157,12 @@ class ReviewsByGame extends Component<Props, State> {
       });
   };
 
+  getUpdatedReviews = (updatedReviews: Review[]) => {
+    this.setState({
+      reviews: updatedReviews,
+    });
+  };
+
   handleOpenSnackBar = (
     severity: "success" | "error" | "warning",
     message: string
@@ -182,6 +188,7 @@ class ReviewsByGame extends Component<Props, State> {
   };
 
   render() {
+    console.log(this.state.reviews);
     return (
       <>
         <Dialog
@@ -209,65 +216,65 @@ class ReviewsByGame extends Component<Props, State> {
             id="dialogBody"
           >
             <DialogContentText tabIndex={-1} component={"span"}>
-              {this.state.reviews.map((review: Review) => {
-                return (
-                  <React.Fragment key={review.id}>
-                    <Grid container spacing={2} id="titleBox">
-                      <Grid item xs={12} md={2}>
-                        <Typography id="reviewTitle">
-                          <strong>{review.title}</strong>
-                        </Typography>
+              {this.state.reviews.length &&
+                this.state.reviews.map((review: Review) => {
+                  return (
+                    <React.Fragment key={review.id}>
+                      <Grid container spacing={2} id="titleBox">
+                        <Grid item xs={12} md={2}>
+                          <Typography id="reviewTitle">
+                            <strong>{review.title}</strong>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Typography id="usernameText">
+                            {review.user.username}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <Typography id="entryText">{review.entry}</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Typography id="dateText">
+                            {new Date(review.createdAt).toLocaleDateString()}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Rating
+                            id="rating"
+                            size="small"
+                            defaultValue={review.rating}
+                            readOnly
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={1} id="reviewActions">
+                          <Button
+                            id="updateReview"
+                            onClick={() =>
+                              this.setState({
+                                openReviewUpdate: true,
+                                review: review,
+                              })
+                            }
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            id="deleteReview"
+                            onClick={() =>
+                              this.setState({
+                                openReviewDelete: true,
+                                review: review,
+                              })
+                            }
+                          >
+                            Delete
+                          </Button>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Typography id="usernameText">
-                          {review.user.username}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={3}>
-                        <Typography id="entryText">{review.entry}</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Typography id="dateText">
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Rating
-                          id="rating"
-                          size="small"
-                          defaultValue={review.rating}
-                          precision={0.5}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={1} id="reviewActions">
-                        <Button
-                          id="updateReview"
-                          onClick={() =>
-                            this.setState({
-                              openReviewUpdate: true,
-                              review: review,
-                            })
-                          }
-                        >
-                          Update
-                        </Button>
-                        <Button
-                          id="deleteReview"
-                          onClick={() =>
-                            this.setState({
-                              openReviewDelete: true,
-                              review: review,
-                            })
-                          }
-                        >
-                          Delete
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </React.Fragment>
-                );
-              })}
+                    </React.Fragment>
+                  );
+                })}
             </DialogContentText>
           </DialogContent>
           <DialogActions id="reviewButtons">
@@ -299,6 +306,7 @@ class ReviewsByGame extends Component<Props, State> {
             open={this.state.openReviewUpdate}
             onClose={() => this.setState({ openReviewUpdate: false })}
             review={this.state.review}
+            updatedReviews={this.getUpdatedReviews}
             reviews={this.state.reviews}
             updateReviews={this.fetchReviews}
             handleOpenSnackBar={this.handleOpenSnackBar}
@@ -310,6 +318,7 @@ class ReviewsByGame extends Component<Props, State> {
             open={this.state.openReviewDelete}
             onClose={() => this.setState({ openReviewDelete: false })}
             review={this.state.review}
+            updatedReviews={this.getUpdatedReviews}
             updateReviews={this.fetchReviews}
             handleOpenSnackBar={this.handleOpenSnackBar}
           />
