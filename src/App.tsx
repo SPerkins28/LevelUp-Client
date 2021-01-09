@@ -13,7 +13,7 @@ interface State {
   results: APIResponse | undefined;
   searchTerm: string;
   userId: number;
-  role: "user" | "admin";
+  role: "user" | "admin" | "banned";
 }
 
 interface Props {}
@@ -30,7 +30,7 @@ class App extends Component<{}, State> {
     };
   }
 
-  updateToken = (newToken: string, userId: number, role: "user" | "admin") => {
+  updateToken = (newToken: string, userId: number, role: "user" | "admin" | "banned") => {
     localStorage.setItem("token", newToken);
     localStorage.setItem("userId", String(userId));
     localStorage.setItem("role", role);
@@ -60,6 +60,7 @@ class App extends Component<{}, State> {
       token: "",
       results: undefined,
       searchTerm: "",
+      role: "user"
     });
   };
 
@@ -72,6 +73,7 @@ class App extends Component<{}, State> {
               token={this.state.token}
               clickLogout={this.clearToken}
               updateToken={this.updateToken}
+              role={this.state.role}
             />
           </header>
           <Switch>

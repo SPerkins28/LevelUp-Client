@@ -52,7 +52,8 @@ class ReviewDelete extends Component<Props, State> {
     const reviewUserId = this.props.review.userId;
     const localUserId = Number(localStorage.getItem("userId"));
     const userRole = localStorage.getItem("role");
-    console.log(reviewId);
+    console.log(reviewUserId, localUserId);
+    console.log(userRole)
     fetch(`http://localhost:4321/review/game/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
@@ -63,21 +64,19 @@ class ReviewDelete extends Component<Props, State> {
       .then((response) => response.json())
       .then((data) => {
         const errorMessage = data.error;
-        console.log("userId:", reviewUserId);
-        console.log(localStorage.getItem("userId"));
-        console.log(userRole);
-        if (reviewUserId !== localUserId || userRole !== "admin") {
+        if (reviewUserId !== localUserId && userRole !== "admin") {
+          console.log(`data${data}`)
           this.props.handleOpenSnackBar("error", errorMessage);
-        } else if (!data.deletedReview) {
+        } else if (!data.updatedReviews) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          console.log(`This is data: ${data}`);
           this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();
         }
       });
-    // this.props.updateReviews();
   };
 
   handleClose = () => {

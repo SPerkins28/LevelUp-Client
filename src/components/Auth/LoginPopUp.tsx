@@ -10,7 +10,7 @@ import {
 import "./LoginPopUp.css";
 
 interface Props {
-  openSnackBar: (severity: "success" | "error", message: string) => void;
+  openSnackBar: (severity: "success" | "error" | "warning", message: string) => void;
   updateToken: (
     newToken: string,
     userId: number,
@@ -62,6 +62,11 @@ class LoginPopUp extends Component<Props, State> {
       .then((data) => {
         if (!data.sessionToken) {
           this.props.openSnackBar("error", data.message);
+        } else if (localStorage.getItem('role') === 'banned') {
+          const bannedMessage = data.message;
+          this.props.openSnackBar("warning", bannedMessage);
+          this.props.updateToken(data.sessionToken, data.userId, data.role);
+          this.handleClose();
         } else {
           const message = data.message;
           this.props.openSnackBar("success", message);

@@ -38,7 +38,9 @@ const styles = (theme: Theme) =>
 
 type Anchor = "left";
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  role: "user" | "admin" | "banned"
+}
 
 interface State {
   left: boolean;
@@ -86,38 +88,42 @@ class SideDrawer extends Component<Props, State> {
         </ListItem>
       </List>
       <Divider />
-      <List>
-        <ListItem button id="myAccountLink">
-          <Link to="/myaccount" className="links">
-            <ListItemIcon className="drawerIcons">
-              <AccountBox />
-            </ListItemIcon>
-            <ListItemText primary="My Account" />
-          </Link>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button id="wantToPlayLink">
-          <Link to="/wanttoplay" className="links">
-            <ListItemIcon className="drawerIcons">
-              <PlaylistPlay />
-            </ListItemIcon>
-            <ListItemText primary="Want To Play" />
-          </Link>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button id="libraryLink">
-          <Link to="/library" className="links">
-            <ListItemIcon className="drawerIcons">
-              <Games />
-            </ListItemIcon>
-            <ListItemText primary="Library" />
-          </Link>
-        </ListItem>
-      </List>
+      {this.props.role !== "banned" ? (
+        <>
+          <List>
+            <ListItem button id="myAccountLink">
+              <Link to="/myaccount" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <AccountBox />
+                </ListItemIcon>
+                <ListItemText primary="My Account" />
+              </Link>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button id="wantToPlayLink">
+              <Link to="/wanttoplay" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <PlaylistPlay />
+                </ListItemIcon>
+                <ListItemText primary="Want To Play" />
+              </Link>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button id="libraryLink">
+              <Link to="/library" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <Games />
+                </ListItemIcon>
+                <ListItemText primary="Library" />
+              </Link>
+            </ListItem>
+          </List>
+        </>
+      ) : null}
     </div>
   );
 

@@ -150,9 +150,6 @@ class ReviewsByGame extends Component<Props, State> {
           this.setState({
             averageRating: Math.round((avgRating + Number.EPSILON) * 100) / 100,
           });
-          console.log(this.state.ratingsArr);
-          console.log(Math.round((avgRating + Number.EPSILON) * 100) / 100);
-          console.log(this.state.averageRating);
         }
       });
   };
@@ -188,7 +185,6 @@ class ReviewsByGame extends Component<Props, State> {
   };
 
   render() {
-    console.log(this.state.reviews);
     return (
       <>
         <Dialog

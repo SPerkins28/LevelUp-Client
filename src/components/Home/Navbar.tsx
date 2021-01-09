@@ -31,6 +31,7 @@ interface Props extends WithStyles<typeof styles> {
     userId: number,
     role: "user" | "admin"
   ) => void;
+  role: "user" | "admin" | "banned"
 }
 
 interface State {
@@ -39,7 +40,7 @@ interface State {
   openSignUp: boolean;
   openLogin: boolean;
   responseMessage: string;
-  severity: "success" | "error"; //@ <--- how to use ENUM in a state
+  severity: "success" | "error" | "warning"; //@ <--- how to use ENUM in a state
   left: boolean;
 }
 
@@ -90,7 +91,7 @@ class Navbar extends Component<Props, State> {
     });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (severity: "success" | "error" | "warning", message: string) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -105,7 +106,7 @@ class Navbar extends Component<Props, State> {
         <AppBar position="fixed">
           <Toolbar>
             <Grid item xs={6} id="drawerButton">
-              <Drawer />
+              <Drawer role={this.props.role}/>
             </Grid>
             <Grid item xs={6} id="title">
               {!this.props.token && (

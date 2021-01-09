@@ -31,7 +31,10 @@ interface Props {
   open: boolean;
   onClose: () => void;
   updateReviews: () => void;
-  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  handleOpenSnackBar: (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => void;
   updatedReviews: (updatedReviews: Review[]) => void;
 }
 
@@ -106,7 +109,10 @@ class ReviewUpdate extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.editedReview) {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = data.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage);
+        } else if (!data.editedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
           this.props.updatedReviews(data.updatedReviews);

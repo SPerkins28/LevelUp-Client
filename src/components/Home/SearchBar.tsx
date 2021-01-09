@@ -58,7 +58,7 @@ type FetchState = {
   openReviewUpdate: boolean;
   openSnackBar: boolean;
   responseMessage: string;
-  severity: "success" | "error";
+  severity: "success" | "error" | "warning";
 };
 
 class SearchBar extends Component<Props, FetchState> {
@@ -114,7 +114,7 @@ class SearchBar extends Component<Props, FetchState> {
     });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (severity: "success" | "error" | "warning", message: string) => {
     this.setState({
       severity: severity,
       responseMessage: message,

@@ -20,7 +20,10 @@ interface Props {
   openReviews: () => void;
   showReviewCreate: () => void;
   handleClose: () => void;
-  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  handleOpenSnackBar: (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => void;
 }
 
 interface State {
@@ -32,7 +35,7 @@ interface State {
   open: boolean;
   openSnackBar: boolean;
   responseMessage: string;
-  severity: "success" | "error";
+  severity: "success" | "error" | "warning";
   results: APIResponse;
 }
 
@@ -75,7 +78,10 @@ class ReviewCreate extends Component<Props, State> {
     });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -112,7 +118,10 @@ class ReviewCreate extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.review) {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = data.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage);
+        } else if (!data.review) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
           const message = data.message;

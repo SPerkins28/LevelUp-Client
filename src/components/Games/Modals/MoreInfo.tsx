@@ -40,7 +40,7 @@ interface Props extends WithStyles<typeof styles> {
   token: string | null;
   openReviews: () => void;
   handleClose: () => void;
-  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  handleOpenSnackBar: (severity: "success" | "error" | "warning", message: string) => void;
 }
 
 interface State {
@@ -112,7 +112,10 @@ class MoreInfo extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((userWTP: WTP) => {
-        if (!userWTP) {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = userWTP.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage)
+        } else if (!userWTP) {
           this.props.handleOpenSnackBar("error", userWTP);
         } else {
           const message = userWTP.message;
@@ -143,7 +146,10 @@ class MoreInfo extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((userLibrary: WTP) => {
-        if (!userLibrary) {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = userLibrary.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage)
+        } else if (!userLibrary) {
           this.props.handleOpenSnackBar("error", userLibrary);
         } else {
           const message = userLibrary.message;
