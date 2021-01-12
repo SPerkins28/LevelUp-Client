@@ -62,7 +62,7 @@ class LoginPopUp extends Component<Props, State> {
       .then((data) => {
         if (!data.sessionToken) {
           this.props.openSnackBar("error", data.message);
-        } else if (localStorage.getItem('role') === 'banned') {
+        } else if (data.role === 'banned') {
           const bannedMessage = data.message;
           this.props.openSnackBar("warning", bannedMessage);
           this.props.updateToken(data.sessionToken, data.userId, data.role);
@@ -89,6 +89,7 @@ class LoginPopUp extends Component<Props, State> {
           <DialogContent>
             <TextField
               autoFocus
+              id="loginInput"
               margin="dense"
               label="username"
               type="text"
@@ -100,6 +101,7 @@ class LoginPopUp extends Component<Props, State> {
             />
             <TextField
               autoFocus
+              id="loginPasswordInput"
               margin="dense"
               label="Password"
               type="password"

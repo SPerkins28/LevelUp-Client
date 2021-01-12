@@ -93,6 +93,7 @@ class SignUpPopUp extends Component<Props, State> {
           <DialogContent id="signupForm">
             <TextField
               autoFocus
+              id="firstNameInput"
               margin="dense"
               label="First Name"
               type="text"
@@ -104,6 +105,7 @@ class SignUpPopUp extends Component<Props, State> {
             />
             <TextField
               autoFocus
+              id="lastNameInput"
               margin="dense"
               label="Last Name"
               type="text"
@@ -116,6 +118,7 @@ class SignUpPopUp extends Component<Props, State> {
             <TextField
               autoFocus
               margin="dense"
+              id="emailInput"
               label="Email"
               type="email"
               fullWidth
@@ -127,6 +130,7 @@ class SignUpPopUp extends Component<Props, State> {
             <TextField
               autoFocus
               margin="dense"
+              id="usernameInput"
               label="username"
               type="text"
               fullWidth
@@ -145,6 +149,7 @@ class SignUpPopUp extends Component<Props, State> {
                   : null
               }
               autoFocus
+              id="passwordInput"
               margin="dense"
               label="Password"
               type="password"

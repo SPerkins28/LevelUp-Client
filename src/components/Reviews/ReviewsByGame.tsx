@@ -150,6 +150,9 @@ class ReviewsByGame extends Component<Props, State> {
           this.setState({
             averageRating: Math.round((avgRating + Number.EPSILON) * 100) / 100,
           });
+          console.log(this.state.ratingsArr);
+          console.log(Math.round((avgRating + Number.EPSILON) * 100) / 100);
+          console.log(this.state.averageRating);
         }
       });
   };
@@ -244,6 +247,8 @@ class ReviewsByGame extends Component<Props, State> {
                           />
                         </Grid>
                         <Grid item xs={12} md={1} id="reviewActions">
+                          {(review.userId === Number(localStorage.getItem("userId")) || localStorage.getItem("role") ===  "admin") ?
+                          <>
                           <Button
                             id="updateReview"
                             onClick={() =>
@@ -266,6 +271,8 @@ class ReviewsByGame extends Component<Props, State> {
                           >
                             Delete
                           </Button>
+                          </>
+                         : null}
                         </Grid>
                       </Grid>
                     </React.Fragment>

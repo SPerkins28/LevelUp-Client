@@ -7,6 +7,16 @@
   font-family: "gameOver";
   font-size: 20px;
   color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#firstNameInput.MuiInputBase-input,
+#lastNameInput.MuiInputBase-input,
+#emailInput.MuiInputBase-input,
+#usernameInput.MuiInputBase-input,
+#passwordInput.MuiInputBase-input {
+  color: white !important;
 }
 
 #dialogTitle {

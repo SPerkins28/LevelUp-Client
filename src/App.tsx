@@ -5,6 +5,7 @@ import SearchBar from "./components/Home/SearchBar";
 import MyAccount from "./components/SideBarPages/MyAccount";
 import Library from "./components/SideBarPages/Library";
 import WantToPlay from "./components/SideBarPages/WantToPlay";
+import AdminPortal from "./components/SideBarPages/AdminPortal";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import APIResponse from "./Interfaces/APIResponse";
 
@@ -94,6 +95,9 @@ class App extends Component<{}, State> {
             </Route>
             <Route exact path="/library">
               <Library token={this.state.token} />
+            </Route>
+            <Route exact path="/admin">
+              <AdminPortal token={this.state.token} />
             </Route>
           </Switch>
         </Router>

@@ -16,7 +16,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { AccountBox, PlaylistPlay, Games, Home } from "@material-ui/icons";
+import { AccountBox, PlaylistPlay, Games, Home, SupervisorAccount } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import "./Drawer.css";
 
@@ -122,8 +122,23 @@ class SideDrawer extends Component<Props, State> {
               </Link>
             </ListItem>
           </List>
+          <Divider />
         </>
-      ) : null}
+          ) : null}
+          <>
+          {this.props.role === "admin" ? (
+          <List>
+            <ListItem button id="adminLink">
+              <Link to="/admin" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <SupervisorAccount />
+                </ListItemIcon>
+                <ListItemText primary="Admin" />
+              </Link>
+            </ListItem>
+          </List>
+          ): null}
+          </>
     </div>
   );
 
