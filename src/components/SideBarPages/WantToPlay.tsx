@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -9,12 +14,17 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
+import Paper from "@material-ui/core/Paper";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import WantToPlayDelete from "./WantToPlayDelete";
+import UserWTPInterface from "../../Interfaces/UserWTPInterface";
+import UserWantToPlayGame, {
+  UserWantToPlay,
+} from "../../Interfaces/WTPInterface";
 import "./WantToPlay.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       maxWidth: 345,
@@ -36,16 +46,16 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-  userWantToPlay: any;
+  userWantToPlay: UserWantToPlayGame[];
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
   openRemoveWTP: boolean;
-  game: any;
+  game: UserWTPInterface;
 }
 
 class WantToPlay extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       userWantToPlay: [],
@@ -53,7 +63,15 @@ class WantToPlay extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveWTP: false,
-      game: {},
+      game: {
+        id: 0,
+        title: "",
+        gameId: 0,
+        gameImg: "",
+        releaseDate: "",
+        played: false,
+        uniqueCheck: "",
+      },
     };
   }
 
@@ -76,6 +94,7 @@ class WantToPlay extends Component<Props, State> {
 
   fetchWTP = () => {
     const userId = localStorage.getItem("userId");
+    const token = this.props.token;
     fetch(`http://localhost:4321/wanttoplay/${userId}`, {
       method: "GET",
       headers: new Headers({
@@ -83,11 +102,12 @@ class WantToPlay extends Component<Props, State> {
         Authorization: `${this.props.token}`,
       }),
     })
-      .then((res: any) => res.json())
-      .then((userWantToPlay: any) => {
-        console.log(userWantToPlay);
-        if (!userWantToPlay) {
+      .then((res) => res.json())
+      .then((userWantToPlay: UserWantToPlay) => {
+        if (!token) {
           this.handleOpenSnackBar("error", userWantToPlay.message);
+        } else if (!userWantToPlay) {
+          this.handleOpenSnackBar("error", userWantToPlay);
         } else {
           this.setState({
             userWantToPlay: userWantToPlay.userWantToPlay,
@@ -98,7 +118,10 @@ class WantToPlay extends Component<Props, State> {
       });
   };
 
-  updateWTP = (event: any, game: any) => {
+  updateWTP = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: UserWTPInterface
+  ) => {
     event.preventDefault();
     const wtpId = game.id;
     const played = game.played;
@@ -129,7 +152,7 @@ class WantToPlay extends Component<Props, State> {
     this.fetchWTP();
   };
 
-  setUserWantToPlay = (updatedList: any) => {
+  setUserWantToPlay = (updatedList: Array<UserWantToPlayGame>) => {
     this.setState({
       userWantToPlay: updatedList,
     });
@@ -139,62 +162,84 @@ class WantToPlay extends Component<Props, State> {
     const { classes } = this.props;
     return (
       <>
-        <Grid container justify="space-evenly">
-          {setTimeout(this.state.userWantToPlay.length, 800) &&
-            this.state.userWantToPlay.map((userWTP: any, index: number) => {
-              return (
-                <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
-                  <Card className={classes.root}>
-                    <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
-                        image={userWTP.gameImg}
-                        title={"Game Image"}
-                      />
-                      <CardContent>
-                        <Typography
-                          variant="h6"
-                          component="h2"
-                          id="wtpGameName"
-                        >
-                          <strong>{userWTP.title}</strong>
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions id="wtpActions">
-                      <Button
-                        fullWidth={true}
-                        id="played"
-                        onClick={(event) => this.updateWTP(event, userWTP)}
-                      >
-                        <strong>
-                          {userWTP.played ? (
-                            <span id="playedIndicator">
-                              Played <CheckIcon id="check" />
-                            </span>
-                          ) : (
-                            "Not Played"
-                          )}
-                        </strong>
-                      </Button>
-                      <Button
-                        fullWidth={true}
-                        onClick={() =>
-                          this.setState({
-                            openRemoveWTP: true,
-                            game: userWTP,
-                          })
-                        }
-                        id="remove"
-                      >
-                        <strong>Remove from list</strong>
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
-        </Grid>
+        {this.props.token ? (
+          <Grid container justify="center">
+            <Grid item xs={12} id="wtpGrid">
+              <Typography variant="h3" id="wtpHeading">
+                <strong>WANT TO PLAY</strong>
+              </Typography>
+            </Grid>
+            {this.state.userWantToPlay.length &&
+              this.state.userWantToPlay.map(
+                (userWTP: UserWantToPlayGame, index: number) => {
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      id="wtpresults"
+                      key={index}
+                    >
+                      <Card className={classes.root}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            image={userWTP.gameImg}
+                            title={"Game Image"}
+                          />
+                          <CardContent>
+                            <Typography
+                              variant="h6"
+                              component="h2"
+                              id="wtpGameName"
+                            >
+                              <strong>{userWTP.title}</strong>
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions id="wtpActions">
+                          <Button
+                            fullWidth={true}
+                            id="played"
+                            onClick={(event) => this.updateWTP(event, userWTP)}
+                          >
+                            <strong>
+                              {userWTP.played ? (
+                                <span id="playedIndicator">
+                                  Played <CheckIcon id="check" />
+                                </span>
+                              ) : (
+                                "Not Played"
+                              )}
+                            </strong>
+                          </Button>
+                          <Button
+                            fullWidth={true}
+                            onClick={() =>
+                              this.setState({
+                                openRemoveWTP: true,
+                                game: userWTP,
+                              })
+                            }
+                            id="remove"
+                          >
+                            <strong>Remove from list</strong>
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
+                }
+              )}
+          </Grid>
+        ) : (
+          <Paper id="wtpMessage">
+            <strong>
+              Its pretty dark in here...Login or Sign Up to acquire the torch!
+            </strong>
+          </Paper>
+        )}
         {this.state.openSnackBar && (
           <Snackbar
             open={this.state.openSnackBar}

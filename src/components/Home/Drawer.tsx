@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import clsx from "clsx";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  Theme,
+  withStyles,
+  WithStyles,
+} from "@material-ui/core/styles";
 import {
   SwipeableDrawer,
   IconButton,
@@ -11,11 +16,11 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { AccountBox, PlaylistPlay, Games, Home } from "@material-ui/icons";
+import { AccountBox, PlaylistPlay, Games, Home, SupervisorAccount } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import "./Drawer.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -33,14 +38,16 @@ const styles = (theme: any) =>
 
 type Anchor = "left";
 
-interface Props extends WithStyles<typeof styles> {}
+interface Props extends WithStyles<typeof styles> {
+  role: "user" | "admin" | "banned"
+}
 
 interface State {
   left: boolean;
 }
 
 class SideDrawer extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       left: false,
@@ -68,6 +75,7 @@ class SideDrawer extends Component<Props, State> {
       role="presentation"
       onClick={this.toggleDrawer(anchor, false)}
       onKeyDown={this.toggleDrawer(anchor, false)}
+      id="drawer"
     >
       <List>
         <ListItem button id="searchBarLink">
@@ -80,45 +88,64 @@ class SideDrawer extends Component<Props, State> {
         </ListItem>
       </List>
       <Divider />
-      <List>
-        <ListItem button id="myAccountLink">
-          <Link to="/myaccount" className="links">
-            <ListItemIcon className="drawerIcons">
-              <AccountBox />
-            </ListItemIcon>
-            <ListItemText primary="My Account" />
-          </Link>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button id="wantToPlayLink">
-          <Link to="/wanttoplay" className="links">
-            <ListItemIcon className="drawerIcons">
-              <PlaylistPlay />
-            </ListItemIcon>
-            <ListItemText primary="Want To Play" />
-          </Link>
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button id="libraryLink">
-          <Link to="/library" className="links">
-            <ListItemIcon className="drawerIcons">
-              <Games />
-            </ListItemIcon>
-            <ListItemText primary="Library" />
-          </Link>
-        </ListItem>
-      </List>
+      {this.props.role !== "banned" ? (
+        <>
+          <List>
+            <ListItem button id="myAccountLink">
+              <Link to="/myaccount" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <AccountBox />
+                </ListItemIcon>
+                <ListItemText primary="My Account" />
+              </Link>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button id="wantToPlayLink">
+              <Link to="/wanttoplay" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <PlaylistPlay />
+                </ListItemIcon>
+                <ListItemText primary="Want To Play" />
+              </Link>
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button id="libraryLink">
+              <Link to="/library" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <Games />
+                </ListItemIcon>
+                <ListItemText primary="Library" />
+              </Link>
+            </ListItem>
+          </List>
+          <Divider />
+        </>
+          ) : null}
+          <>
+          {this.props.role === "admin" ? (
+          <List>
+            <ListItem button id="adminLink">
+              <Link to="/admin" className="links">
+                <ListItemIcon className="drawerIcons">
+                  <SupervisorAccount />
+                </ListItemIcon>
+                <ListItemText primary="Admin" />
+              </Link>
+            </ListItem>
+          </List>
+          ): null}
+          </>
     </div>
   );
 
   render() {
     return (
       <div>
-        {(["left"] as Anchor[]).map((anchor: any) => (
+        {(["left"] as Anchor[]).map((anchor) => (
           <React.Fragment key={anchor}>
             <IconButton
               onClick={this.toggleDrawer(anchor, true)}

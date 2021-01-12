@@ -11,16 +11,31 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import Alert from "@material-ui/lab/Alert";
+import Review from "../../../Interfaces/Review";
 import "./ReviewUpdate.css";
 
 interface Props {
   token: string | null;
-  results: any;
-  review: any;
+  reviews: Review[];
+  review: {
+    id: number;
+    title: string;
+    date: string;
+    gameId: number;
+    entry: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+  };
   open: boolean;
   onClose: () => void;
   updateReviews: () => void;
-  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  handleOpenSnackBar: (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => void;
+  updatedReviews: (updatedReviews: Review[]) => void;
 }
 
 interface State {
@@ -33,11 +48,11 @@ interface State {
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
-  results: any;
+  reviews: Review[];
 }
 
 class ReviewUpdate extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       title: this.props.review.title,
@@ -49,7 +64,7 @@ class ReviewUpdate extends Component<Props, State> {
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
-      results: this.props.results,
+      reviews: this.props.reviews,
     };
   }
 
@@ -76,11 +91,11 @@ class ReviewUpdate extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`http://localhost:4321/review/game/${reviewId}`, {
       method: "PUT",
       body: JSON.stringify({
         title: this.state.title,
@@ -94,15 +109,19 @@ class ReviewUpdate extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.editedReview) {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = data.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage);
+        } else if (!data.editedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();
         }
       });
-      this.props.updateReviews();
+    // this.props.updateReviews();
   };
 
   render() {

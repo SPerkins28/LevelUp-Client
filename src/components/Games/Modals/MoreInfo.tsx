@@ -12,6 +12,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import APIResponse from "../../../Interfaces/APIResponse";
 import "./MoreInfo.css";
 
 const styles = (theme: Theme) =>
@@ -33,18 +36,22 @@ interface Props extends WithStyles<typeof styles> {
   children?: React.ReactNode;
   onClose: () => void;
   open: boolean;
-  results: any;
+  results: APIResponse;
   token: string | null;
   openReviews: () => void;
   handleClose: () => void;
-  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  handleOpenSnackBar: (severity: "success" | "error" | "warning", message: string) => void;
 }
 
 interface State {
-  results: any;
-  severity: "success" | "error";
+  results: APIResponse;
+  severity: "success" | "error" | "warning";
   responseMessage: string;
   openSnackBar: boolean;
+}
+
+interface WTP {
+  message: string;
 }
 
 class MoreInfo extends Component<Props, State> {
@@ -63,7 +70,10 @@ class MoreInfo extends Component<Props, State> {
     this.props.onClose();
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -71,7 +81,16 @@ class MoreInfo extends Component<Props, State> {
     });
   };
 
-  addWTP = (event: any) => {
+  handleCloseSnackBar = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({
+      openSnackBar: false,
+    });
+  };
+
+  addWTP = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const userId = localStorage.getItem("userId");
     const gameId = this.state.results.id;
@@ -92,9 +111,12 @@ class MoreInfo extends Component<Props, State> {
       }),
     })
       .then((response) => response.json())
-      .then((userWTP: any) => {
-        if (!userWTP) {
-          this.props.handleOpenSnackBar("error", userWTP.message);
+      .then((userWTP: WTP) => {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = userWTP.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage)
+        } else if (!userWTP) {
+          this.props.handleOpenSnackBar("error", userWTP);
         } else {
           const message = userWTP.message;
           this.props.handleOpenSnackBar("success", message);
@@ -102,7 +124,7 @@ class MoreInfo extends Component<Props, State> {
       });
   };
 
-  addToLibrary = (event: any) => {
+  addToLibrary = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const userId = localStorage.getItem("userId");
     const gameId = this.state.results.id;
@@ -123,9 +145,12 @@ class MoreInfo extends Component<Props, State> {
       }),
     })
       .then((response) => response.json())
-      .then((userLibrary: any) => {
-        if (!userLibrary) {
-          this.props.handleOpenSnackBar("error", userLibrary.message);
+      .then((userLibrary: WTP) => {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = userLibrary.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage)
+        } else if (!userLibrary) {
+          this.props.handleOpenSnackBar("error", userLibrary);
         } else {
           const message = userLibrary.message;
           this.props.handleOpenSnackBar("success", message);
@@ -165,14 +190,59 @@ class MoreInfo extends Component<Props, State> {
             <Button onClick={() => this.toggleViews()} id="reviewsB">
               <strong>Reviews</strong>
             </Button>
-            <Button onClick={(event) => this.addWTP(event)} id="wtpB">
-              <strong>Add To Want To Play</strong>
-            </Button>
-            <Button onClick={(event) => this.addToLibrary(event)} id="libraryB">
-              <strong>Add To Library</strong>
-            </Button>
+            {this.props.token ? (
+              <Button onClick={(event) => this.addWTP(event)} id="wtpB">
+                <strong>Add To Want To Play</strong>
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  this.handleOpenSnackBar(
+                    "warning",
+                    "Please Login or Sign Up to add this to your Want To Play List"
+                  )
+                }
+                id="wtpWarning"
+              >
+                <strong>Add To Want To Play</strong>
+              </Button>
+            )}
+            {this.props.token ? (
+              <Button
+                onClick={(event) => this.addToLibrary(event)}
+                id="libraryB"
+              >
+                <strong>Add To Library</strong>
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  this.handleOpenSnackBar(
+                    "warning",
+                    "Please Login or Sign Up to add this to your Library"
+                  )
+                }
+                id="libraryWarning"
+              >
+                <strong>Add To Library</strong>
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
+        <Snackbar
+          open={this.state.openSnackBar}
+          autoHideDuration={4000}
+          onClose={this.handleCloseSnackBar}
+        >
+          <Alert
+            onClose={this.handleCloseSnackBar}
+            elevation={6}
+            severity={this.state.severity}
+            variant="filled"
+          >
+            {this.state.responseMessage}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

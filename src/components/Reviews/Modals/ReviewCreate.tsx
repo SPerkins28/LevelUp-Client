@@ -9,17 +9,21 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import APIResponse from "../../../Interfaces/APIResponse";
 import "./ReviewCreate.css";
 
 interface Props {
   token: string | null;
-  results: any;
+  results: APIResponse;
   open: boolean;
   onClose: () => void;
   openReviews: () => void;
   showReviewCreate: () => void;
   handleClose: () => void;
-  handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  handleOpenSnackBar: (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => void;
 }
 
 interface State {
@@ -31,12 +35,12 @@ interface State {
   open: boolean;
   openSnackBar: boolean;
   responseMessage: string;
-  severity: "success" | "error";
-  results: any;
+  severity: "success" | "error" | "warning";
+  results: APIResponse;
 }
 
 class ReviewCreate extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       title: "",
@@ -74,7 +78,10 @@ class ReviewCreate extends Component<Props, State> {
     });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -91,7 +98,7 @@ class ReviewCreate extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     fetch("http://localhost:4321/review/create", {
       method: "POST",
@@ -111,7 +118,10 @@ class ReviewCreate extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.review) {
+        if (localStorage.getItem("role") === "banned") {
+          const bannedMessage = data.message;
+          this.props.handleOpenSnackBar("warning", bannedMessage);
+        } else if (!data.review) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
           const message = data.message;

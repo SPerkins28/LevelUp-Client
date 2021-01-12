@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
@@ -12,9 +17,10 @@ import ReviewsByGame from "../Reviews/ReviewsByGame";
 import ReviewCreate from "../Reviews/Modals/ReviewCreate";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import APIResponse from "../../Interfaces/APIResponse";
 import "./SearchBar.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       marginTop: "3em",
@@ -39,9 +45,9 @@ const styles = (theme: any) =>
 
 interface Props extends WithStyles<typeof styles> {
   token: string | null;
-  results: any;
+  results: APIResponse | undefined;
   searchTerm: string;
-  setResults: (results: any) => void;
+  setResults: (results: APIResponse | undefined) => void;
   setSearchTerm: (searchTerm: string) => void;
 }
 
@@ -52,11 +58,11 @@ type FetchState = {
   openReviewUpdate: boolean;
   openSnackBar: boolean;
   responseMessage: string;
-  severity: "success" | "error";
+  severity: "success" | "error" | "warning";
 };
 
 class SearchBar extends Component<Props, FetchState> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       openMoreInfo: false,
@@ -84,9 +90,9 @@ class SearchBar extends Component<Props, FetchState> {
       });
   };
 
-  handleSubmit = (e: any) => {
+  handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    this.props.setResults({});
+    this.props.setResults(undefined);
     this.fetchResults();
   };
 
@@ -108,7 +114,7 @@ class SearchBar extends Component<Props, FetchState> {
     });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (severity: "success" | "error" | "warning", message: string) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -154,7 +160,7 @@ class SearchBar extends Component<Props, FetchState> {
               </IconButton>
             </Paper>
           </Grid>
-          {this.props.results.name && (
+          {this.props.results && (
             <Games
               openMoreInfo={() => this.setState({ openMoreInfo: true })}
               token={this.props.token}
@@ -163,7 +169,7 @@ class SearchBar extends Component<Props, FetchState> {
             />
           )}
         </Grid>
-        {this.props.results.name && (
+        {this.props.results && (
           <MoreInfo
             openReviews={this.handleClickOpen}
             open={this.state.openMoreInfo}
@@ -174,7 +180,7 @@ class SearchBar extends Component<Props, FetchState> {
             handleOpenSnackBar={this.handleOpenSnackBar}
           />
         )}
-        {this.state.openReviews && (
+        {this.props.results && this.state.openReviews && (
           <ReviewsByGame
             openReviewCreate={this.handleClickOpenReviewCreate}
             openMoreInfo={() => this.setState({ openMoreInfo: true })}
@@ -186,7 +192,7 @@ class SearchBar extends Component<Props, FetchState> {
             onClose={() => this.setState({ openReviews: false })}
           />
         )}
-        {this.state.openReviewCreate && (
+        {this.props.results && this.state.openReviewCreate && (
           <ReviewCreate
             token={this.props.token}
             results={this.props.results}

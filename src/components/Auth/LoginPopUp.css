@@ -7,6 +7,12 @@
   font-family: "gameOver";
   font-size: 20px;
   color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#loginInput.MuiInputBase-input, #loginPasswordInput.MuiInputBase-input {
+  color: white !important;
 }
 
 .loginFields {
@@ -17,6 +23,8 @@
   font-family: "gameOver";
   font-size: 20px;
   color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
 }
 
 #loginButtons {

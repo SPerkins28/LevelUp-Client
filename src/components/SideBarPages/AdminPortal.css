@@ -1,0 +1,66 @@
+#userListContainer {
+  margin-top: 5em;
+}
+
+#userHeading {
+  font-family: "gameOver";
+  font-size: 4em;
+  color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#userList,
+#userListHeading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+  padding: 1em;
+  background-color: #343434;
+  border-radius: 5px;
+  max-width: 80%;
+  color: white;
+  max-height: 125px;
+}
+
+#usernameHeading,
+#firstNameHeading,
+#lastNameHeading,
+#roleHeading {
+  font-family: "gameOver";
+  color: white;
+  font-size: 20px;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#userRoleSelect.MuiSelect-root {
+  color: white !important;
+}
+
+.MuiList-root{
+    background-color: #282828;
+    color: white;
+}
+
+#updateUserRole {
+  background-color: #282828;
+  font-family: "gameOver";
+  max-height: 60px;
+  margin-bottom: 0.3em;
+  max-width: 125px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+#adminMessage {
+  font-family: "gameOver";
+  color: white;
+  font-size: 5em;
+  padding: 1em;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

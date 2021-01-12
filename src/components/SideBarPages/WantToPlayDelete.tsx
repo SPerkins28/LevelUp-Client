@@ -5,14 +5,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import UserWTPInterface from "../../Interfaces/UserWTPInterface";
+import UserWantToPlayGame from "../../Interfaces/WTPInterface";
 
 interface Props {
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
   token: string | null;
   open: boolean;
   onClose: () => void;
-  game: any;
-  setUserWantToPlay: (updatedList: any) => void;
+  game: UserWTPInterface;
+  setUserWantToPlay: (updatedList: Array<UserWantToPlayGame>) => void;
 }
 
 interface State {
@@ -23,7 +25,7 @@ interface State {
 }
 
 class WantToPlayDelete extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -39,7 +41,10 @@ class WantToPlayDelete extends Component<Props, State> {
     });
   };
 
-  removeWTP = (event: any, game: any) => {
+  removeWTP = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: UserWTPInterface
+  ) => {
     event.preventDefault();
     const wtpId = game.id;
     fetch(`http://localhost:4321/wanttoplay/delete/${wtpId}`, {
@@ -56,7 +61,7 @@ class WantToPlayDelete extends Component<Props, State> {
         } else {
           this.props.setUserWantToPlay(
             data.updatedList.filter(
-              (deletedGame: any) => deletedGame.id !== wtpId
+              (deletedGame: UserWantToPlayGame) => deletedGame.id !== wtpId
             )
           );
           const message = data.message;

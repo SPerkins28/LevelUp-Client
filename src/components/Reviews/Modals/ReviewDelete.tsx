@@ -5,16 +5,27 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Review from "../../../Interfaces/Review";
 import "./ReviewDelete.css";
 
 interface Props {
   token: string | null;
-  results: any;
   open: boolean;
   onClose: () => void;
-  review: any;
+  review: {
+    id: number;
+    title: string;
+    date: string;
+    gameId: number;
+    entry: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+  };
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  updatedReviews: (updatedReviews: Review[]) => void;
 }
 
 interface State {
@@ -25,7 +36,7 @@ interface State {
 }
 
 class ReviewDelete extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -35,11 +46,15 @@ class ReviewDelete extends Component<Props, State> {
     };
   }
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
-    console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    const reviewUserId = this.props.review.userId;
+    const localUserId = Number(localStorage.getItem("userId"));
+    const userRole = localStorage.getItem("role");
+    console.log(reviewUserId, localUserId);
+    console.log(userRole)
+    fetch(`http://localhost:4321/review/game/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -48,15 +63,20 @@ class ReviewDelete extends Component<Props, State> {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!data.deletedReview) {
+        const errorMessage = data.error;
+        if (reviewUserId !== localUserId && userRole !== "admin") {
+          console.log(`data${data}`)
+          this.props.handleOpenSnackBar("error", errorMessage);
+        } else if (!data.updatedReviews) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          console.log(`This is data: ${data}`);
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();
         }
       });
-    this.props.updateReviews();
   };
 
   handleClose = () => {
