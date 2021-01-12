@@ -1,21 +1,31 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import LibraryDelete from "./LibraryDelete";
+import LibraryInterface from "../../Interfaces/LibraryInterface";
+import UserLibraryGame, {
+  UserLibrary,
+} from "../../Interfaces/UserLibraryInterface";
 import "./Library.css";
 import APIURL from "../../helpers/environment";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       maxWidth: 345,
@@ -37,16 +47,16 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 interface State {
-  userLibrary: any;
+  userLibrary: UserLibraryGame[];
   openSnackBar: boolean;
   responseMessage: string;
   severity: "success" | "error";
   openRemoveLibrary: boolean;
-  game: any;
+  game: LibraryInterface;
 }
 
 class Library extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       userLibrary: [],
@@ -54,7 +64,15 @@ class Library extends Component<Props, State> {
       responseMessage: "",
       severity: "success",
       openRemoveLibrary: false,
-      game: {},
+      game: {
+        id: 0,
+        title: "",
+        gameId: 0,
+        gameImg: "",
+        releaseDate: "",
+        finished: false,
+        uniqueCheck: "",
+      },
     };
   }
 
@@ -77,6 +95,7 @@ class Library extends Component<Props, State> {
 
   fetchLibrary = () => {
     const userId = localStorage.getItem("userId");
+    const token = this.props.token;
     fetch(`${APIURL}/library/${userId}`, {
       method: "GET",
       headers: new Headers({
@@ -84,10 +103,12 @@ class Library extends Component<Props, State> {
         Authorization: `${this.props.token}`,
       }),
     })
-      .then((res: any) => res.json())
-      .then((userLibrary: any) => {
-        if (!userLibrary) {
+      .then((res) => res.json())
+      .then((userLibrary: UserLibrary) => {
+        if (!token) {
           this.handleOpenSnackBar("error", userLibrary.message);
+        } else if (!userLibrary) {
+          this.handleOpenSnackBar("error", userLibrary);
         } else {
           this.setState({
             userLibrary: userLibrary.userLibrary,
@@ -98,7 +119,10 @@ class Library extends Component<Props, State> {
       });
   };
 
-  updateLibrary = (event: any, game: any) => {
+  updateLibrary = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    game: LibraryInterface
+  ) => {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
@@ -129,75 +153,96 @@ class Library extends Component<Props, State> {
     this.fetchLibrary();
   };
 
-  setLibrary = (updatedList: any) => {
+  setLibrary = (updatedList: Array<UserLibraryGame>) => {
     this.setState({
       userLibrary: updatedList,
     });
   };
 
   render() {
-    console.log(this.state.userLibrary);
     const { classes } = this.props;
     return (
       <>
-        <Grid container justify="space-evenly">
-          {setTimeout(this.state.userLibrary.length, 800) &&
-            this.state.userLibrary.map((userLibrary: any, index: number) => {
-              return (
-                <Grid item xs={12} sm={6} md={3} id="wtpresults" key={index}>
-                  <Card className={classes.root}>
-                    <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
-                        image={userLibrary.gameImg}
-                        title={"Game Image"}
-                      />
-                      <CardContent>
-                        <Typography
-                          variant="h6"
-                          component="h2"
-                          id="wtpGameName"
-                        >
-                          <strong>{userLibrary.title}</strong>
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions id="wtpActions">
-                      <Button
-                        fullWidth={true}
-                        id="played"
-                        onClick={(event) =>
-                          this.updateLibrary(event, userLibrary)
-                        }
-                      >
-                        <strong>
-                          {userLibrary.finished ? (
-                            <span id="playedIndicator">
-                              Completed <CheckIcon id="check" />
-                            </span>
-                          ) : (
-                            "Not Completed"
-                          )}
-                        </strong>
-                      </Button>
-                      <Button
-                        fullWidth={true}
-                        onClick={() =>
-                          this.setState({
-                            openRemoveLibrary: true,
-                            game: userLibrary,
-                          })
-                        }
-                        id="remove"
-                      >
-                        <strong>Remove from library</strong>
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
-        </Grid>
+        {this.props.token ? (
+          <Grid container justify="center">
+            <Grid item xs={12} id="libraryGrid">
+              <Typography variant="h3" id="libraryHeading">
+                <strong>MY LIBRARY</strong>
+              </Typography>
+            </Grid>
+            {this.state.userLibrary.length &&
+              this.state.userLibrary.map(
+                (userLibrary: UserLibraryGame, index: number) => {
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={3}
+                      id="wtpresults"
+                      key={index}
+                    >
+                      <Card className={classes.root}>
+                        <CardActionArea>
+                          <CardMedia
+                            className={classes.media}
+                            image={userLibrary.gameImg}
+                            title={"Game Image"}
+                          />
+                          <CardContent>
+                            <Typography
+                              variant="h6"
+                              component="h2"
+                              id="wtpGameName"
+                            >
+                              <strong>{userLibrary.title}</strong>
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions id="wtpActions">
+                          <Button
+                            fullWidth={true}
+                            id="played"
+                            onClick={(event) =>
+                              this.updateLibrary(event, userLibrary)
+                            }
+                          >
+                            <strong>
+                              {userLibrary.finished ? (
+                                <span id="playedIndicator">
+                                  Completed <CheckIcon id="check" />
+                                </span>
+                              ) : (
+                                "Not Completed"
+                              )}
+                            </strong>
+                          </Button>
+                          <Button
+                            fullWidth={true}
+                            onClick={() =>
+                              this.setState({
+                                openRemoveLibrary: true,
+                                game: userLibrary,
+                              })
+                            }
+                            id="remove"
+                          >
+                            <strong>Remove from library</strong>
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  );
+                }
+              )}
+          </Grid>
+        ) : (
+          <Paper id="wtpMessage">
+            <strong>
+              Its pretty dark in here...Login or Sign Up to acquire the torch!
+            </strong>
+          </Paper>
+        )}
         {this.state.openSnackBar && (
           <Snackbar
             open={this.state.openSnackBar}

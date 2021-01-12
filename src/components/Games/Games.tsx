@@ -8,6 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import APIResponse from "../../Interfaces/APIResponse";
 import "./Games.css";
 
 const styles = createStyles({
@@ -21,18 +22,18 @@ const styles = createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-  results: any;
+  results: APIResponse;
   token: string | null;
   openMoreInfo: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
 }
 
 interface State {
-  results: any;
+  results: APIResponse;
 }
 
 class Games extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       results: this.props.results,
@@ -64,7 +65,7 @@ class Games extends Component<Props, State> {
             </CardActionArea>
             <CardActions>
               <Button onClick={() => this.props.openMoreInfo()} id="moreInfo">
-                <strong>More Info</strong>
+                <strong>Game Info</strong>
               </Button>
             </CardActions>
           </Card>

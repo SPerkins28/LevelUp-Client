@@ -6,14 +6,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import APIURL from "../../../helpers/environment";
+import UserReviewInterface from "../../../Interfaces/UserReview";
+import UserReview from "../../../Interfaces/UserReviewInterface";
 
 interface Props {
   token: string | null;
   open: boolean;
-  review: any;
+  review: UserReviewInterface;
   onClose: () => void;
   updateReviews: () => void;
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
+  updatedReviews: (updatedReviews: UserReview[]) => void;
 }
 
 interface State {
@@ -24,7 +27,7 @@ interface State {
 }
 
 class UserReviewDelete extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -34,7 +37,7 @@ class UserReviewDelete extends Component<Props, State> {
     };
   }
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
@@ -50,6 +53,7 @@ class UserReviewDelete extends Component<Props, State> {
         if (!data.deletedReview) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
+          this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);
           this.props.onClose();

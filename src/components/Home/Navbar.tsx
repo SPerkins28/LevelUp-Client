@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  withStyles,
+  Theme,
+  WithStyles,
+} from "@material-ui/core/styles";
 import { AppBar, Toolbar, Button, Grid, Snackbar } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import Drawer from "./Drawer";
@@ -7,7 +12,7 @@ import SignUpPopUp from "../Auth/SignUpPopUp";
 import LoginPopUp from "../Auth/LoginPopUp";
 import "./Navbar.css";
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -26,6 +31,7 @@ interface Props extends WithStyles<typeof styles> {
     userId: number,
     role: "user" | "admin"
   ) => void;
+  role: "user" | "admin" | "banned"
 }
 
 interface State {
@@ -34,12 +40,12 @@ interface State {
   openSignUp: boolean;
   openLogin: boolean;
   responseMessage: string;
-  severity: "success" | "error"; //@ <--- how to use ENUM in a state
+  severity: "success" | "error" | "warning"; //@ <--- how to use ENUM in a state
   left: boolean;
 }
 
 class Navbar extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       open: false,
@@ -85,7 +91,7 @@ class Navbar extends Component<Props, State> {
     });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  handleOpenSnackBar = (severity: "success" | "error" | "warning", message: string) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -100,7 +106,7 @@ class Navbar extends Component<Props, State> {
         <AppBar position="fixed">
           <Toolbar>
             <Grid item xs={6} id="drawerButton">
-              <Drawer />
+              <Drawer role={this.props.role}/>
             </Grid>
             <Grid item xs={6} id="title">
               {!this.props.token && (

@@ -11,7 +11,7 @@ import "./LoginPopUp.css";
 import APIURL from '../../helpers/environment';
 
 interface Props {
-  openSnackBar: (severity: "success" | "error", message: string) => void;
+  openSnackBar: (severity: "success" | "error" | "warning", message: string) => void;
   updateToken: (
     newToken: string,
     userId: number,
@@ -26,7 +26,7 @@ interface State {
 }
 
 class LoginPopUp extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       username: "",
@@ -47,7 +47,7 @@ class LoginPopUp extends Component<Props, State> {
     });
   };
 
-  handleSubmit = (event: any) => {
+  handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     fetch(`${APIURL}/user/login`, {
       method: "POST",
@@ -63,6 +63,11 @@ class LoginPopUp extends Component<Props, State> {
       .then((data) => {
         if (!data.sessionToken) {
           this.props.openSnackBar("error", data.message);
+        } else if (data.role === 'banned') {
+          const bannedMessage = data.message;
+          this.props.openSnackBar("warning", bannedMessage);
+          this.props.updateToken(data.sessionToken, data.userId, data.role);
+          this.handleClose();
         } else {
           const message = data.message;
           this.props.openSnackBar("success", message);
@@ -85,6 +90,7 @@ class LoginPopUp extends Component<Props, State> {
           <DialogContent>
             <TextField
               autoFocus
+              id="loginInput"
               margin="dense"
               label="username"
               type="text"
@@ -96,6 +102,7 @@ class LoginPopUp extends Component<Props, State> {
             />
             <TextField
               autoFocus
+              id="loginPasswordInput"
               margin="dense"
               label="Password"
               type="password"

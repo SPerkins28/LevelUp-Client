@@ -12,11 +12,32 @@ import ReviewUpdate from "../Reviews/Modals/ReviewUpdate";
 import ReviewDelete from "../Reviews/Modals/ReviewDelete";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import Box from "@material-ui/core/Box";
+import {
+  WithStyles,
+  Theme,
+  createStyles,
+  withStyles,
+} from "@material-ui/core/styles";
 import "./ReviewsByGame.css";
 import APIURL from "../../helpers/environment";
+import APIResponse from "../../Interfaces/APIResponse";
+import Reviews from "../../Interfaces/Reviews";
+import Review from "../../Interfaces/Review";
 
-interface Props {
-  results: any;
+const styles = createStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: "100%",
+      "& > * + *": {
+        marginTop: theme.spacing(2),
+      },
+    },
+  })
+);
+
+interface Props extends WithStyles<typeof styles> {
+  results: APIResponse;
   token: string | null;
   open: boolean;
   onClose: () => void;
@@ -28,10 +49,22 @@ interface Props {
 
 interface State {
   scroll: DialogProps["scroll"];
-  myRef: any;
-  results: any;
-  reviews: any;
-  review: any;
+  myRef: React.RefObject<HTMLInputElement>;
+  results: APIResponse;
+  reviews: Review[];
+  review: {
+    id: number;
+    title: string;
+    date: string;
+    gameId: number;
+    entry: string;
+    rating: number;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+  };
+  ratingsArr: number[];
+  averageRating: number;
   title: string;
   date: string;
   entry: string;
@@ -40,24 +73,36 @@ interface State {
   openReviewDelete: boolean;
   openSnackBar: boolean;
   responseMessage: string;
-  severity: "success" | "error";
+  severity: "success" | "error" | "warning";
 }
 
 class ReviewsByGame extends Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       scroll: "paper",
       myRef: React.createRef(),
       results: this.props.results,
       reviews: [],
+      ratingsArr: [],
+      averageRating: 0,
       title: "",
       date: "",
       entry: "",
       rating: 0,
       openReviewUpdate: false,
       openReviewDelete: false,
-      review: {},
+      review: {
+        id: 0,
+        title: "",
+        date: "",
+        gameId: 0,
+        entry: "",
+        rating: 0,
+        createdAt: "",
+        updatedAt: "",
+        userId: 0,
+      },
       openSnackBar: false,
       responseMessage: "",
       severity: "success",
@@ -82,21 +127,47 @@ class ReviewsByGame extends Component<Props, State> {
         "Content-Type": "application/json",
       }),
     })
-      .then((res: any) => res.json())
-      .then((reviews: any) => {
+      .then((response) => response.json())
+      .then((reviews: Reviews) => {
         if (!reviews) {
-          this.handleOpenSnackBar("error", reviews.message);
+          this.handleOpenSnackBar("error", reviews);
         } else {
-          const message = reviews.message;
-          this.handleOpenSnackBar("success", message);
           this.setState({
             reviews: reviews.reviews,
           });
+          let gameReviews = this.state.reviews;
+          let ratingsArr = this.state.ratingsArr;
+          gameReviews.forEach((review: Review) => {
+            ratingsArr.push(review.rating);
+            this.setState({
+              ratingsArr: ratingsArr,
+            });
+          });
+          let total = 0;
+          for (let i = 0; i < ratingsArr.length; i++) {
+            total += ratingsArr[i];
+          }
+          let avgRating = total / ratingsArr.length;
+          this.setState({
+            averageRating: Math.round((avgRating + Number.EPSILON) * 100) / 100,
+          });
+          console.log(this.state.ratingsArr);
+          console.log(Math.round((avgRating + Number.EPSILON) * 100) / 100);
+          console.log(this.state.averageRating);
         }
       });
   };
 
-  handleOpenSnackBar = (severity: "success" | "error", message: string) => {
+  getUpdatedReviews = (updatedReviews: Review[]) => {
+    this.setState({
+      reviews: updatedReviews,
+    });
+  };
+
+  handleOpenSnackBar = (
+    severity: "success" | "error" | "warning",
+    message: string
+  ) => {
     this.setState({
       severity: severity,
       responseMessage: message,
@@ -127,88 +198,120 @@ class ReviewsByGame extends Component<Props, State> {
         >
           <DialogTitle id="reviewHead">
             <strong>REVIEWS</strong>
+            <Box id="avgRatingBox">
+              <Typography component="legend" id="avgRating">
+                <strong>AVERAGE RATING :</strong>
+              </Typography>
+              <Rating
+                id="avgRatingStars"
+                value={this.state.averageRating}
+                precision={0.5}
+                size="small"
+                readOnly
+              />
+            </Box>
           </DialogTitle>
           <DialogContent
             dividers={this.state.scroll === "paper"}
             id="dialogBody"
           >
             <DialogContentText tabIndex={-1} component={"span"}>
-              {this.state.reviews.map((review: any) => {
-                return (
-                  <React.Fragment key={review.id}>
-                    <Grid container spacing={2} id="titleBox">
-                      <Grid item xs={12} md={2}>
-                        <Typography id="reviewTitle">
-                          <strong>{review.title}</strong>
-                        </Typography>
+              {this.state.reviews.length &&
+                this.state.reviews.map((review: Review) => {
+                  return (
+                    <React.Fragment key={review.id}>
+                      <Grid container spacing={2} id="titleBox">
+                        <Grid item xs={12} md={2}>
+                          <Typography id="reviewTitle">
+                            <strong>{review.title}</strong>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Typography id="usernameText">
+                            {review.user.username}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <Typography id="entryText">{review.entry}</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Typography id="dateText">
+                            {new Date(review.createdAt).toLocaleDateString()}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                          <Rating
+                            id="rating"
+                            size="small"
+                            defaultValue={review.rating}
+                            readOnly
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={1} id="reviewActions">
+                          {(review.userId === Number(localStorage.getItem("userId")) || localStorage.getItem("role") ===  "admin") ?
+                          <>
+                          <Button
+                            id="updateReview"
+                            onClick={() =>
+                              this.setState({
+                                openReviewUpdate: true,
+                                review: review,
+                              })
+                            }
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            id="deleteReview"
+                            onClick={() =>
+                              this.setState({
+                                openReviewDelete: true,
+                                review: review,
+                              })
+                            }
+                          >
+                            Delete
+                          </Button>
+                          </>
+                         : null}
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Typography id="usernameText">
-                          {review.user.username}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={3}>
-                        <Typography id="entryText">{review.entry}</Typography>
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Typography id="dateText">
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={2}>
-                        <Rating
-                          id="rating"
-                          defaultValue={review.rating}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={1} id="reviewActions">
-                        <Button
-                        id="updateReview"
-                          onClick={() =>
-                            this.setState({
-                              openReviewUpdate: true,
-                              review: review,
-                            })
-                          }
-                        >
-                          Update
-                        </Button>
-                        <Button
-                        id="deleteReview"
-                          onClick={() =>
-                            this.setState({
-                              openReviewDelete: true,
-                              review: review,
-                            })
-                          }
-                        >
-                          Delete
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </React.Fragment>
-                );
-              })}
+                    </React.Fragment>
+                  );
+                })}
             </DialogContentText>
           </DialogContent>
           <DialogActions id="reviewButtons">
             <Button onClick={this.toggleViewsBack} id="reviewBack">
               <strong>Back</strong>
             </Button>
-            {/* Link to review create modal & maybe add button for add to wtp or library */}
-            <Button onClick={this.toggleViews} id="addReview">
-              <strong>Add a Review</strong>
-            </Button>
+            {this.props.token ? (
+              <Button onClick={this.toggleViews} id="addReview">
+                <strong>Add a Review</strong>
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  this.handleOpenSnackBar(
+                    "warning",
+                    "Please Login or Sign Up to add a review!"
+                  )
+                }
+                id="warningButton"
+              >
+                <strong>Add a Review</strong>
+              </Button>
+            )}
           </DialogActions>
         </Dialog>
         {this.state.openReviewUpdate && (
           <ReviewUpdate
             token={this.props.token}
-            results={this.props.results}
             open={this.state.openReviewUpdate}
             onClose={() => this.setState({ openReviewUpdate: false })}
             review={this.state.review}
+            updatedReviews={this.getUpdatedReviews}
+            reviews={this.state.reviews}
             updateReviews={this.fetchReviews}
             handleOpenSnackBar={this.handleOpenSnackBar}
           />
@@ -216,10 +319,10 @@ class ReviewsByGame extends Component<Props, State> {
         {this.state.openReviewDelete && (
           <ReviewDelete
             token={this.props.token}
-            results={this.props.results}
             open={this.state.openReviewDelete}
             onClose={() => this.setState({ openReviewDelete: false })}
             review={this.state.review}
+            updatedReviews={this.getUpdatedReviews}
             updateReviews={this.fetchReviews}
             handleOpenSnackBar={this.handleOpenSnackBar}
           />
@@ -243,4 +346,4 @@ class ReviewsByGame extends Component<Props, State> {
   }
 }
 
-export default ReviewsByGame;
+export default withStyles(styles)(ReviewsByGame);

@@ -3,10 +3,32 @@
   src: url("../../assets/fonts/rainyhearts.ttf");
 }
 
-#wtpresults {
+#wtpGrid {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#wtpHeading {
+  font-family: "gameOver";
+  font-size: 5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  color: white;
+  text-shadow: black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px,
+    black 0px 0px 3.5px, black 0px 0px 3.5px, black 0px 0px 3.5px;
+}
+
+#wtpGameName {
+  display: flex;
+  justify-content: center;
+}
+
+#wtpresults {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 1em;
 }
 
 #wtpActions {
@@ -32,4 +54,15 @@
 #check {
   margin-left: 0.2em;
   /* padding-bottom: .2em; */
+}
+
+#wtpMessage {
+  font-family: "gameOver";
+  color: white;
+  font-size: 5em;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em
 }
