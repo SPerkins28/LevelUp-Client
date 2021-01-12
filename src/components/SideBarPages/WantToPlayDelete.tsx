@@ -5,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import APIURL from "../../helpers/environment";
 
 interface Props {
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
@@ -42,7 +43,7 @@ class WantToPlayDelete extends Component<Props, State> {
   removeWTP = (event: any, game: any) => {
     event.preventDefault();
     const wtpId = game.id;
-    fetch(`http://localhost:4321/wanttoplay/delete/${wtpId}`, {
+    fetch(`${APIURL}/wanttoplay/delete/${wtpId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",

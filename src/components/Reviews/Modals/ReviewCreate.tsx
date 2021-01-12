@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
 import "./ReviewCreate.css";
+import APIURL from "../../../helpers/environment";
 
 interface Props {
   token: string | null;
@@ -93,7 +94,7 @@ class ReviewCreate extends Component<Props, State> {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    fetch("http://localhost:4321/review/create", {
+    fetch(`${APIURL}/review/create`, {
       method: "POST",
       body: JSON.stringify({
         review: {

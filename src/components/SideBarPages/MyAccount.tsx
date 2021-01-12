@@ -6,6 +6,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import UserReviewUpdate from "./Modals/UserReviewUpdate";
 import UserReviewDelete from "./Modals/UserReviewDelete";
+import APIURL from "../../helpers/environment";
 import "./MyAccount.css";
 
 interface Props {
@@ -72,7 +73,7 @@ class MyAccount extends Component<Props, State> {
   updateUsername = () => {
     const userId = localStorage.getItem("userId");
 
-    fetch(`http://localhost:4321/user/username/${userId}`, {
+    fetch(`${APIURL}/user/username/${userId}`, {
       method: "PUT",
       body: JSON.stringify({ username: this.state.usernameInput }),
       headers: new Headers({
@@ -94,7 +95,7 @@ class MyAccount extends Component<Props, State> {
   updatePassword = () => {
     const userId = localStorage.getItem("userId");
 
-    fetch(`http://localhost:4321/user/password/${userId}`, {
+    fetch(`${APIURL}/user/password/${userId}`, {
       method: "PUT",
       body: JSON.stringify({ password: this.state.passwordInput }),
       headers: new Headers({
@@ -116,7 +117,7 @@ class MyAccount extends Component<Props, State> {
   fetchUserReviews = () => {
     const userId = localStorage.getItem("userId");
 
-    fetch(`http://localhost:4321/review/user/${userId}`, {
+    fetch(`${APIURL}/review/user/${userId}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",

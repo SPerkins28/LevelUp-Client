@@ -12,6 +12,7 @@ import {
 import Rating from "@material-ui/lab/Rating";
 import Alert from "@material-ui/lab/Alert";
 import "./ReviewUpdate.css";
+import APIURL from "../../../helpers/environment";
 
 interface Props {
   token: string | null;
@@ -80,7 +81,7 @@ class ReviewUpdate extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`${APIURL}/review/${reviewId}`, {
       method: "PUT",
       body: JSON.stringify({
         title: this.state.title,

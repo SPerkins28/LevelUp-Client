@@ -9,6 +9,7 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import APIURL from "../../../helpers/environment";
 
 interface Props {
   token: string | null;
@@ -57,7 +58,7 @@ class UserReviewUpdate extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`${APIURL}/review/${reviewId}`, {
       method: "PUT",
       body: JSON.stringify({
         title: this.state.title,

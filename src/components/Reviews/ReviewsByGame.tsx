@@ -13,6 +13,7 @@ import ReviewDelete from "../Reviews/Modals/ReviewDelete";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import "./ReviewsByGame.css";
+import APIURL from "../../helpers/environment";
 
 interface Props {
   results: any;
@@ -75,7 +76,7 @@ class ReviewsByGame extends Component<Props, State> {
 
   fetchReviews = () => {
     const gameId = this.state.results.id;
-    fetch(`http://localhost:4321/review/games/${gameId}`, {
+    fetch(`${APIURL}/review/games/${gameId}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",

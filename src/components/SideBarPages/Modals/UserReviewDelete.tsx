@@ -5,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import APIURL from "../../../helpers/environment";
 
 interface Props {
   token: string | null;
@@ -37,7 +38,7 @@ class UserReviewDelete extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`http://localhost:4321/review/${reviewId}`, {
+    fetch(`${APIURL}/review/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",

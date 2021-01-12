@@ -5,6 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import APIURL from "../../helpers/environment";
 
 interface Props {
   handleOpenSnackBar: (severity: "success" | "error", message: string) => void;
@@ -42,7 +43,7 @@ class LibraryDelete extends Component<Props, State> {
   removeFromLibrary = (event: any, game: any) => {
     event.preventDefault();
     const gameId = game.id;
-    fetch(`http://localhost:4321/library/delete/${gameId}`, {
+    fetch(`${APIURL}/library/delete/${gameId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",

@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import "./SignUpPopUp.css";
+import APIURL from "../../helpers/environment";
 
 interface Props {
   openSnackBar: (severity: "success" | "error", message: string) => void;
@@ -54,7 +55,7 @@ class SignUpPopUp extends Component<Props, State> {
 
   handleSubmit = (event: any) => {
     event.preventDefault();
-    fetch("http://localhost:4321/user/register", {
+    fetch(`${APIURL}/user/register`, {
       method: "POST",
       body: JSON.stringify({
         firstName: this.state.firstName,

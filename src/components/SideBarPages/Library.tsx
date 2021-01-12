@@ -13,6 +13,7 @@ import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import LibraryDelete from "./LibraryDelete";
 import "./Library.css";
+import APIURL from "../../helpers/environment";
 
 const styles = (theme: any) =>
   createStyles({
@@ -76,7 +77,7 @@ class Library extends Component<Props, State> {
 
   fetchLibrary = () => {
     const userId = localStorage.getItem("userId");
-    fetch(`http://localhost:4321/library/${userId}`, {
+    fetch(`${APIURL}/library/${userId}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -101,7 +102,7 @@ class Library extends Component<Props, State> {
     event.preventDefault();
     const gameId = game.id;
     const finished = game.finished;
-    fetch(`http://localhost:4321/library/${gameId}`, {
+    fetch(`${APIURL}/library/${gameId}`, {
       method: "PUT",
       body: JSON.stringify({ finished: !finished }),
       headers: new Headers({

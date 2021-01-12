@@ -13,6 +13,7 @@ import Alert from "@material-ui/lab/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import WantToPlayDelete from "./WantToPlayDelete";
 import "./WantToPlay.css";
+import APIURL from "../../helpers/environment";
 
 const styles = (theme: any) =>
   createStyles({
@@ -76,7 +77,7 @@ class WantToPlay extends Component<Props, State> {
 
   fetchWTP = () => {
     const userId = localStorage.getItem("userId");
-    fetch(`http://localhost:4321/wanttoplay/${userId}`, {
+    fetch(`${APIURL}/wanttoplay/${userId}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -102,7 +103,7 @@ class WantToPlay extends Component<Props, State> {
     event.preventDefault();
     const wtpId = game.id;
     const played = game.played;
-    fetch(`http://localhost:4321/wanttoplay/${wtpId}`, {
+    fetch(`${APIURL}/wanttoplay/${wtpId}`, {
       method: "PUT",
       body: JSON.stringify({ played: !played }),
       headers: new Headers({

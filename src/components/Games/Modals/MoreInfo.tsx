@@ -13,6 +13,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import "./MoreInfo.css";
+import APIURL from "../../../helpers/environment";
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -75,7 +76,7 @@ class MoreInfo extends Component<Props, State> {
     event.preventDefault();
     const userId = localStorage.getItem("userId");
     const gameId = this.state.results.id;
-    fetch("http://localhost:4321/wanttoplay/", {
+    fetch(`${APIURL}/wanttoplay/`, {
       method: "POST",
       body: JSON.stringify({
         title: this.props.results.name,
@@ -106,7 +107,7 @@ class MoreInfo extends Component<Props, State> {
     event.preventDefault();
     const userId = localStorage.getItem("userId");
     const gameId = this.state.results.id;
-    fetch("http://localhost:4321/library/", {
+    fetch(`${APIURL}/library/`, {
       method: "POST",
       body: JSON.stringify({
         title: this.props.results.name,
