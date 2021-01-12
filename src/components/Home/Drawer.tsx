@@ -126,7 +126,7 @@ class SideDrawer extends Component<Props, State> {
         </>
           ) : null}
           <>
-          {this.props.role === "admin" ? (
+          {localStorage.getItem("role") === "admin" ? (
           <List>
             <ListItem button id="adminLink">
               <Link to="/admin" className="links">
