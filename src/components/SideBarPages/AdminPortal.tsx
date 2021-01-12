@@ -16,6 +16,7 @@ import {
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import User from "../../Interfaces/UserListInterface";
+import APIURL from "../../helpers/environment";
 import "./AdminPortal.css";
 
 const roles = [
@@ -97,7 +98,7 @@ class AdminPortal extends Component<Props, State> {
   };
 
   fetchAllUsers = () => {
-    fetch(`http://localhost:4321/user/userlist/`, {
+    fetch(`${APIURL}/user/userlist/`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -119,7 +120,7 @@ class AdminPortal extends Component<Props, State> {
   };
 
   updateUserRole = (userId: number) => {
-    fetch(`http://localhost:4321/user/role/${userId}`, {
+    fetch(`${APIURL}/user/role/${userId}`, {
       method: "PUT",
       body: JSON.stringify({ role: this.state.userRole }),
       headers: new Headers({

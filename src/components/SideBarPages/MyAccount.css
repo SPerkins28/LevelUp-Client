@@ -72,7 +72,7 @@
 
 .MuiFilledInput-underline {
   background-color: #85868a !important;
-  opacity: 20%;
+  /* opacity: 20%; */
 }
 
 #reviewActions {
