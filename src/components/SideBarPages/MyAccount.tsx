@@ -277,6 +277,7 @@ class MyAccount extends Component<Props, State> {
                         <Grid item xs={12} md={2}>
                           <Rating
                             id="rating"
+                            size="small"
                             defaultValue={myReviews.rating}
                             readOnly
                           />
