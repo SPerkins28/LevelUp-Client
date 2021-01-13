@@ -4,8 +4,7 @@
   /* background: url("./assets/controllerbackground.jpg");
   object-fit: cover; */
   min-height: auto;
-  display: flex;
-  justify-content: center;
+  
   margin-top: 3em;
   /* min-height: 100vh; */
 }
@@ -20,4 +19,6 @@
 body {
   background: url("./assets/controllerbackground.jpg");
   object-fit: cover;
+  display: flex;
+  justify-content: center;
 }

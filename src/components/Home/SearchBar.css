@@ -28,7 +28,7 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 12em;
+  /* margin-top: 12em; */
   margin-right: none;
 }
 
