@@ -1,18 +1,13 @@
 .App {
   text-align: center;
   -webkit-font-smoothing: antialiased;
-  /* background: url("./assets/controllerbackground.jpg");
-  object-fit: cover; */
   min-height: auto;
   
   margin-top: 3em;
-  /* min-height: 100vh; */
 }
 
 .App-header {
   display: flex;
-  /* flex-direction: column;
-  align-items: center; */
   justify-content: center;
 }
 
@@ -21,4 +16,5 @@ body {
   object-fit: cover;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
 }
