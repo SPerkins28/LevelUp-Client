@@ -264,7 +264,7 @@ class MyAccount extends Component<Props, State> {
                             <strong>{myReviews.title}</strong>
                           </Typography>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid item xs={12} md={3}>
                           <Typography id="entryText">
                             {myReviews.entry}
                           </Typography>
@@ -274,7 +274,7 @@ class MyAccount extends Component<Props, State> {
                             {new Date(myReviews.createdAt).toLocaleDateString()}
                           </Typography>
                         </Grid>
-                        <Grid item xs={12} md={2}>
+                        <Grid item xs={12} md={3}>
                           <Rating
                             id="rating"
                             size="small"

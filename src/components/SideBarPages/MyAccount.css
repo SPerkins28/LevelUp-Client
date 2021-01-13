@@ -54,7 +54,7 @@
   padding: 1em;
   background-color: #343434;
   border-radius: 5px;
-  max-width: 80%;
+  max-width: 900px;
 }
 
 .MuiTableCell-root {
@@ -111,4 +111,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
