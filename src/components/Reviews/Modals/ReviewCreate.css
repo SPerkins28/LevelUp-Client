@@ -7,3 +7,7 @@
 .reviewFields {
   color: white !important;
 }
+
+#titleText, #dateText, #entryText {
+  color: white !important;
+}

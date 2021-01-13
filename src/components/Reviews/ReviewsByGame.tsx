@@ -220,7 +220,7 @@ class ReviewsByGame extends Component<Props, State> {
                 this.state.reviews.map((review: Review) => {
                   return (
                     <React.Fragment key={review.id}>
-                      <Grid container spacing={2} id="titleBox">
+                      <Grid container spacing={4} id="titleBox">
                         <Grid item xs={12} md={2}>
                           <Typography id="reviewTitle">
                             <strong>{review.title}</strong>
@@ -231,10 +231,10 @@ class ReviewsByGame extends Component<Props, State> {
                             {review.user.username}
                           </Typography>
                         </Grid>
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={4}>
                           <Typography id="entryText">{review.entry}</Typography>
                         </Grid>
-                        <Grid item xs={12} md={2}>
+                        <Grid item xs={12} md={1}>
                           <Typography id="dateText">
                             {new Date(review.createdAt).toLocaleDateString()}
                           </Typography>

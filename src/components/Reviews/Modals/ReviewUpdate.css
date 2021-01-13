@@ -4,7 +4,7 @@
   font-size: 20px;
 }
 
-.reviewFields {
+.reviewFields, #updateTitle, #updateEntry {
   color: white !important;
 }
 

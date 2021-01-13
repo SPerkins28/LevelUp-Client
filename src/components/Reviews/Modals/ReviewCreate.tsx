@@ -142,6 +142,7 @@ class ReviewCreate extends Component<Props, State> {
           <DialogContent id="signupForm">
             <TextField
               autoFocus
+              id="titleText"
               margin="dense"
               label="Title"
               type="text"
@@ -154,6 +155,7 @@ class ReviewCreate extends Component<Props, State> {
             />
             <TextField
               autoFocus
+              id="dateText"
               margin="dense"
               type="date"
               fullWidth
@@ -165,6 +167,7 @@ class ReviewCreate extends Component<Props, State> {
             />
             <TextField
               autoFocus
+              id="entryText"
               margin="dense"
               label="entry"
               type="text"

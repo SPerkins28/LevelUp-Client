@@ -135,6 +135,7 @@ class ReviewUpdate extends Component<Props, State> {
           <DialogContent id="signupForm">
             <TextField
               autoFocus
+              id="updateTitle"
               value={this.state.title}
               margin="dense"
               label="Title"
@@ -148,6 +149,7 @@ class ReviewUpdate extends Component<Props, State> {
             />
             <TextField
               autoFocus
+              id="updateEntry"
               value={this.state.entry}
               margin="dense"
               label="entry"
