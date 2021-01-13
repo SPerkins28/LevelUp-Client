@@ -106,7 +106,7 @@ class Navbar extends Component<Props, State> {
         <AppBar position="fixed">
           <Toolbar>
             <Grid item xs={6} id="drawerButton">
-              <Drawer role={this.props.role}/>
+              <Drawer role={this.props.role} token={this.props.token}/>
             </Grid>
             <Grid item xs={6} id="title">
               {!this.props.token && (

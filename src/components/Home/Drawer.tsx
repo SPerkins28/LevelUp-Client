@@ -46,6 +46,7 @@ type Anchor = "left";
 
 interface Props extends WithStyles<typeof styles> {
   role: "user" | "admin" | "banned";
+  token: string | null
 }
 
 interface State {
@@ -94,7 +95,7 @@ class SideDrawer extends Component<Props, State> {
         </ListItem>
       </List>
       <Divider />
-      {localStorage.getItem("role") !== "banned" ? (
+      {this.props.token || localStorage.getItem("role") !== "banned" ? (
         <>
           <List>
             <ListItem button id="myAccountLink">
