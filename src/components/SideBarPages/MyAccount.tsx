@@ -258,13 +258,13 @@ class MyAccount extends Component<Props, State> {
                 this.state.userReviews.map(
                   (myReviews: UserReview, index: number) => {
                     return (
-                      <Grid container id="userReviews" key={index}>
+                      <Grid container spacing={4} id="userReviews" key={index}>
                         <Grid item xs={12} md={2}>
                           <Typography id="reviewTitle">
                             <strong>{myReviews.title}</strong>
                           </Typography>
                         </Grid>
-                        <Grid item xs={12} md={3}>
+                        <Grid item xs={12} md={4}>
                           <Typography id="entryText">
                             {myReviews.entry}
                           </Typography>
@@ -281,7 +281,7 @@ class MyAccount extends Component<Props, State> {
                             readOnly
                           />
                         </Grid>
-                        <Grid item xs={12} md={1} id="reviewActions">
+                        <Grid item xs={12} md={2} id="reviewActions">
                           <Button
                             id="updateUserReview"
                             onClick={() =>
