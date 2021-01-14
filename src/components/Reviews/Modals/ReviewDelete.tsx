@@ -72,7 +72,6 @@ class ReviewDelete extends Component<Props, State> {
         } else if (!data.updatedReviews) {
           this.props.handleOpenSnackBar("error", data.message);
         } else {
-          console.log(`This is data: ${data}`);
           this.props.updatedReviews(data.updatedReviews);
           const message = data.message;
           this.props.handleOpenSnackBar("success", message);

@@ -96,7 +96,7 @@ class ReviewUpdate extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`${APIURL}/review/${reviewId}`, {
+    fetch(`${APIURL}/review/game/${reviewId}`, {
       method: "PUT",
       body: JSON.stringify({
         title: this.state.title,

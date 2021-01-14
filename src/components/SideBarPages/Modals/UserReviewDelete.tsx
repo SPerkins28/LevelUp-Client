@@ -41,7 +41,7 @@ class UserReviewDelete extends Component<Props, State> {
     event.preventDefault();
     const reviewId = this.props.review.id;
     console.log(reviewId);
-    fetch(`${APIURL}/review/${reviewId}`, {
+    fetch(`${APIURL}/review/user/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
