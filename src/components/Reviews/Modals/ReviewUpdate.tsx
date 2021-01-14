@@ -104,7 +104,7 @@ class ReviewUpdate extends Component<Props, State> {
         rating: this.state.rating,
       }),
       headers: new Headers({
-        // "Content-Type": "application/json",
+        "Content-Type": "application/json",
         Authorization: `${this.props.token}`,
       }),
     })

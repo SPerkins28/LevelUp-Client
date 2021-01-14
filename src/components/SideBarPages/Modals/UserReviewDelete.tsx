@@ -44,7 +44,7 @@ class UserReviewDelete extends Component<Props, State> {
     fetch(`${APIURL}/review/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
-        // "Content-Type": "application/json",
+        "Content-Type": "application/json",
         Authorization: `${this.props.token}`,
       }),
     })

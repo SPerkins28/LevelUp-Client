@@ -95,7 +95,7 @@ class SideDrawer extends Component<Props, State> {
         </ListItem>
       </List>
       <Divider />
-      {this.props.token || localStorage.getItem("role") !== "banned" ? (
+      {this.props.token && localStorage.getItem("role") !== "banned" ? (
         <>
           <List>
             <ListItem button id="myAccountLink">
