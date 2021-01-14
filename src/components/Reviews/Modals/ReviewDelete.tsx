@@ -56,7 +56,7 @@ class ReviewDelete extends Component<Props, State> {
     const userRole = localStorage.getItem("role");
     console.log(reviewUserId, localUserId);
     console.log(userRole)
-    fetch(`${APIURL}/review/${reviewId}`, {
+    fetch(`${APIURL}/review/game/${reviewId}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
